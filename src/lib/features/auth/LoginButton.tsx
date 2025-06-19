@@ -16,6 +16,7 @@ export const LoginButton = () => {
         <Button
             variant={"outline"}
             size={'sm'}
+            disabled={mutation.isPending}
             onClick={() => {
                 signIn()
             }}>

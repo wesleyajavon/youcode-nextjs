@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ThemeToggle } from '../theme/ThemeToggle';
 import { Typography } from '../ui/typography';
 import { LoginButton } from '@/lib/features/auth/LoginButton';
+import { AuthButton } from '@/lib/features/auth/AuthButton';
 
 export function Header() {
     return (
@@ -27,7 +28,7 @@ export function Header() {
 
                 {/* Right side - nav / theme toggle */}
                 <nav className="flex items-center space-x-1">
-                    <LoginButton />
+                    <AuthButton />
                     <ThemeToggle />
                 </nav>
             </div>
