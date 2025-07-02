@@ -7,6 +7,7 @@ import {
     LayoutTitle,
 } from '@/components/layout/layout';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -29,11 +30,18 @@ export default async function AdminPage() {
             creatorId: session.user.id,
         },
     });
+    // const courses = await prisma.course.findMany();
 
     return (
         <Layout>
             <LayoutHeader>
-                <LayoutTitle>Courses</LayoutTitle>
+                <LayoutTitle>
+                    <Breadcrumbs
+                        breadcrumbs={[
+                            { label: 'Courses', href: '/admin/courses' },
+                        ]}
+                    />
+                </LayoutTitle>
             </LayoutHeader>
             <LayoutActions>
                 <Link
