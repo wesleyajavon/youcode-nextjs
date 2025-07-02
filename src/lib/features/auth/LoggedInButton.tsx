@@ -18,11 +18,12 @@ import {
     DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
-import { LogOut } from "lucide-react"
+import { LogOut, User } from "lucide-react"
 import { Session } from "next-auth"
 import { useMutation } from "@tanstack/react-query"
 import { signOut } from "next-auth/react"
 import { Loader } from "@/components/ui/loader"
+import { redirect } from "next/navigation"
 
 export type LoggedInButtonProps = {
     user: Session["user"]
@@ -55,6 +56,10 @@ export const LoggedInButton = (props: LoggedInButtonProps) => {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent>
+                    <DropdownMenuItem onSelect={() => redirect('/account')}>
+                        <User className="" size={12} />
+                        My account
+                    </DropdownMenuItem>
                     <DropdownMenuItem onSelect={() => setOpen(true)}>
                         <LogOut className="" size={12} />
                         Logout
@@ -64,7 +69,6 @@ export const LoggedInButton = (props: LoggedInButtonProps) => {
 
             <AlertDialog open={open} onOpenChange={setOpen}>
                 <AlertDialogContent>
-                    
                     <AlertDialogHeader>
                         <AlertDialogTitle>
                             Are you sure you want to log out?
