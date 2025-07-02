@@ -10,13 +10,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 
-interface CoursePageProps {
-    params: { id: string };
-}
 
-export default async function CoursePage({ params }: CoursePageProps) {
-    await getRequiredAuthSession();
+export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
+    const session = await getRequiredAuthSession();
+    const params = await props.params;
     const course = await getCourse(params.id);
+
+    if (!session) {
+        return (
+            <div className="p-8">
+                <h1 className="text-2xl font-bold">You must be logged in to view this page</h1>
+            </div>
+        );
+    }
 
     if (!course) {
         return (
