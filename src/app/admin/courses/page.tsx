@@ -9,11 +9,13 @@ export default async function CoursesPage() {
             creatorId: session.user.id
         }
     })
+
+    console.log(courses)
     
     return (
         <>
             <div>
-                {courses}
+                TODO
             </div>
         </>
     )
