@@ -1,11 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-    Layout,
-    LayoutActions,
-    LayoutContent,
-    LayoutHeader,
-    LayoutTitle,
-} from '@/components/layout/Layout';
+
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
 import { buttonVariants } from '@/components/ui/button';
 
 import Link from 'next/link';
