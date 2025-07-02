@@ -1,9 +1,25 @@
-import { getRequiredAuthSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+/* eslint-disable @next/next/no-img-element */
+import {
+    Layout,
+    LayoutActions,
+    LayoutContent,
+    LayoutHeader,
+    LayoutTitle,
+} from '@/components/layout/Layout';
+import { buttonVariants } from '@/components/ui/button';
 
-export default async function AdminPage() {
+import Link from 'next/link';
 
+export default async function CoursesPage() {
     return (
-        <div>TODO</div>
-    )
+        <Layout>
+            <LayoutHeader>
+                <LayoutTitle>Courses</LayoutTitle>
+            </LayoutHeader>
+            
+            <LayoutContent>
+                <Link href={'/admin/courses'}>Courses</Link>
+            </LayoutContent>
+        </Layout>
+    );
 }
