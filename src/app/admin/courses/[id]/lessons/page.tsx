@@ -1,4 +1,3 @@
-import { getCourse } from "../_actions/course.query";
 import { getRequiredAuthSession } from "@/lib/auth";
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
 import Link from "next/link";
@@ -9,12 +8,15 @@ import { Typography } from "@/components/ui/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { getCourse } from "../../_actions/course.query";
+import { getLessons } from "../../_actions/lesson.query";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
     const session = await getRequiredAuthSession();
     const params = await props.params;
-    const course = await getCourse(params.id);
+    const course = await getCourse(params.id)
+    const lessons = await getLessons(params.id);
 
     if (!session) {
         return (
@@ -32,6 +34,14 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
         );
     }
 
+    if (!lessons) {
+        return (
+            <div className="p-8">
+                <h1 className="text-2xl font-bold">Lessons not found</h1>
+            </div>
+        );
+    }
+
     return (
 
         <Layout>
@@ -43,6 +53,10 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                             {
                                 label: course.name,
                                 href: '/admin/courses/' + course.id,
+                            },
+                            {
+                                label: 'Lessons',
+                                href: '/admin/courses/' + course.id + '/lessons',
                                 active: true,
                             },
                         ]}
@@ -55,28 +69,21 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Users</TableHead>
                                     <TableHead>Name</TableHead>
-                                    <TableHead>Email</TableHead>
+                                    <TableHead>Rank</TableHead>
+                                    <TableHead>Content</TableHead>
+                                    <TableHead>State</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {course.users.map((user) => (
-                                    <TableRow key={user.id}>
-                                        <TableCell>
-                                            <Avatar className="rounded">
-                                                <AvatarFallback>{user.user.name}</AvatarFallback>
-                                                {user.user.image && (
-                                                    <AvatarImage src={user.user.image} alt={user.user.id} />
-                                                )}
-                                            </Avatar>
-                                        </TableCell>
+                                {lessons.map((lesson) => (
+                                    <TableRow key={lesson.id}>
                                         <TableCell>
                                             <Typography
                                                 variant="large"
                                                 className="font-semibold"
                                             >
-                                                {user.user.name}
+                                                {lesson.name}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
@@ -84,8 +91,20 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                                 variant="large"
                                                 className="font-semibold"
                                             >
-                                                {user.user.email}
+                                                {lesson.rank}
                                             </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography
+                                                variant="small"
+                                                className="font-normal"
+                                            >
+                                                {lesson.content}
+                                            </Typography>
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Badge className="w-fit">{lesson.state}</Badge>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -106,13 +125,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     <CardContent className="flex flex-col gap-3">
                         <Badge className="w-fit">{course.state}</Badge>
                         <Typography>{course.users?.length} users</Typography>
-
-                        <Link
-                            href={`/admin/courses/${course.id}/lessons`}
-                            className="text-blue-500 hover:underline">
-                            <Typography>{course.lessons?.length} lessons</Typography>
-
-                        </Link>
+                        <Typography>{course.lessons?.length} lessons</Typography>
                         <Typography>Created: {course.createdAt.toLocaleDateString()}</Typography>
                         <Link
                             href={`/admin/courses/${course.id}/edit`}
@@ -125,7 +138,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     </CardContent>
                 </Card>
             </LayoutContent>
-        </Layout >
+        </Layout>
     )
 
 }
