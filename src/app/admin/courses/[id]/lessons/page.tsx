@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { getCourse } from "../../_actions/course.query";
 import { getLessons } from "../../_actions/lesson.query";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
@@ -63,6 +64,16 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     />
                 </LayoutTitle>
             </LayoutHeader>
+            <LayoutActions>
+                <Link
+                    href={`/admin/courses/${course.id}/lessons/new`}
+                    className={buttonVariants({
+                        variant: 'secondary',
+                    })}
+                >
+                    New Lesson
+                </Link>
+            </LayoutActions>
             <LayoutContent className="flex flex-col gap-4 lg:flex-row">
                 <Card className="flex-[2]">
                     <CardContent className="mt-4">
@@ -73,6 +84,8 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                     <TableHead>Rank</TableHead>
                                     <TableHead>Content</TableHead>
                                     <TableHead>State</TableHead>
+                                    <TableHead></TableHead>
+
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -80,6 +93,8 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                     <TableRow key={lesson.id}>
                                         <TableCell>
                                             <Typography
+                                                as={Link}
+                                                href={`/admin/courses/${course.id}/lessons/${lesson.id}`}
                                                 variant="large"
                                                 className="font-semibold"
                                             >
@@ -99,12 +114,18 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                                 variant="small"
                                                 className="font-normal"
                                             >
-                                                {lesson.content}
+                                                {lesson.content.slice(0, 15)}...
                                             </Typography>
                                         </TableCell>
 
                                         <TableCell>
                                             <Badge className="w-fit">{lesson.state}</Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Link href={`/admin/courses/${course.id}/lessons/${lesson.id}/edit`}>
+                                                <PencilSquareIcon className="h-5 w-5"/>
+                                            </Link>
+
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -112,7 +133,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                         </Table>
                     </CardContent>
                 </Card>
-                <Card className="flex-1">
+                {/* <Card className="flex-1">
                     <CardHeader className="flex-row items-center gap-4 space-y-0">
                         <Avatar className="rounded">
                             <AvatarFallback>{course.name?.[0]}</AvatarFallback>
@@ -124,9 +145,17 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     </CardHeader>
                     <CardContent className="flex flex-col gap-3">
                         <Badge className="w-fit">{course.state}</Badge>
-                        <Typography>{course.users?.length} users</Typography>
-                        <Typography>{course.lessons?.length} lessons</Typography>
-                        <Typography>Created: {course.createdAt.toLocaleDateString()}</Typography>
+                        <Typography variant={'base'}>{course.users?.length} users</Typography>
+    
+                        <Typography variant={'lead'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
+                        <Link
+                            href={`/admin/courses/${course.id}/lessons`}
+                            className={buttonVariants({
+                                variant: 'secondary',
+                            })}
+                        >
+                            {course.lessons?.length} lessons
+                        </Link>{' '}
                         <Link
                             href={`/admin/courses/${course.id}/edit`}
                             className={buttonVariants({
@@ -136,7 +165,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                             Edit course
                         </Link>{' '}
                     </CardContent>
-                </Card>
+                </Card> */}
             </LayoutContent>
         </Layout>
     )

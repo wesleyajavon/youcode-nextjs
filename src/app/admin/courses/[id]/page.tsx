@@ -105,15 +105,17 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     </CardHeader>
                     <CardContent className="flex flex-col gap-3">
                         <Badge className="w-fit">{course.state}</Badge>
-                        <Typography>{course.users?.length} users</Typography>
-
+                        <Typography variant={'base'}>{course.users?.length} users</Typography>
+    
+                        <Typography variant={'lead'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
                         <Link
                             href={`/admin/courses/${course.id}/lessons`}
-                            className="text-blue-500 hover:underline">
-                            <Typography>{course.lessons?.length} lessons</Typography>
-
-                        </Link>
-                        <Typography>Created: {course.createdAt.toLocaleDateString()}</Typography>
+                            className={buttonVariants({
+                                variant: 'secondary',
+                            })}
+                        >
+                            {course.lessons?.length} lessons
+                        </Link>{' '}
                         <Link
                             href={`/admin/courses/${course.id}/edit`}
                             className={buttonVariants({

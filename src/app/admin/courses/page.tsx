@@ -26,9 +26,9 @@ import Link from 'next/link';
 export default async function AdminPage() {
     const session = await getRequiredAuthSession();
     const courses = await prisma.course.findMany({
-        where: {
-            creatorId: session.user.id,
-        },
+        // where: {
+        //     creatorId: session.user.id,
+        // },
     });
     // const courses = await prisma.course.findMany();
 
@@ -38,11 +38,12 @@ export default async function AdminPage() {
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses', href: '/admin/courses' },
                             {
-                                label: 'Create',
-                                href: '/admin/courses/new',
-                                active: true,
+                                label: 'Admin',
+                                href: '/admin/'
+                            },
+                            {
+                                label: 'Courses', href: '/admin/courses', active: true,
                             },
                         ]}
                     />

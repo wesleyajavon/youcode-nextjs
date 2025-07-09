@@ -52,12 +52,12 @@ export default async function AccountPage() {
           >
             Admin
           </Link>
-          <Link
+          {/* <Link
             href="/account/edit"
             className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
           >
             Update Profile
-          </Link>
+          </Link> */}
         </CardFooter>
       </Card>
     </div>

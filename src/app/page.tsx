@@ -177,14 +177,6 @@ export default async function Home() {
           BUILD YOUR FIRST COURSE
         </Link>
       </div>
-      <div className="my-8 flex flex-col items-center gap-4 lg:my-16 xl:my-24">
-        <Link
-          href="https://codelynx.dev/nextreact/courses"
-          className="text-xl font-bold underline"
-        >
-          Clique ici pour suivre une Formation NextJS gratuite et de qualité 🚀
-        </Link>
-      </div>
     </div>
   );
 }

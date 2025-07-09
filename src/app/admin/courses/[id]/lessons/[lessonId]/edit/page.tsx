@@ -9,28 +9,28 @@ import { Card, CardContent } from '@/components/ui/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import { CourseForm } from './CourseForm';
+import { LessonForm } from './LessonForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
-export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
+export default async function LessonPage(props: { params: Promise<{ lessonId: string }> }) {
     const session = await getRequiredAuthSession();
     const params = await props.params;
 
-    const course = await prisma.course.findUnique({
+    const lesson = await prisma.lesson.findUnique({
         where: {
-            id: params.id,
+            id: params.lessonId,
             // creatorId: session.user.id,
         },
         select: {
             id: true,
-            image: true,
             name: true,
-            presentation: true,
             state: true,
+            content: true,
+            courseId: true,
         },
     });
 
-    if (!course) {
+    if (!lesson) {
         notFound();
     }
 
@@ -40,14 +40,14 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses', href: '/admin/courses' },
+                            { label: 'Lessons', href: '/admin/lessons' },
                             {
-                                label: course.name,
-                                href: '/admin/courses/' + course.id,
+                                label: lesson.name,
+                                href: '/admin/lessons/' + lesson.id,
                             },
                             {
                                 label: 'Edit',
-                                href: '/admin/courses/' + course.id + '/edit',
+                                href: '/admin/lessons/' + lesson.id + '/edit',
                                 active: true,
                             },
                         ]}
@@ -57,7 +57,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
             <LayoutContent>
                 <Card className="flex-[2]">
                     <CardContent className="mt-6">
-                        <CourseForm defaultValue={course} />
+                        <LessonForm defaultValue={lesson} />
                     </CardContent>
                 </Card>
             </LayoutContent>

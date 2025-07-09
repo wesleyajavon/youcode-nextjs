@@ -40,3 +40,33 @@ export async function getUsersFromCourse(courseId: string): Promise<User[]> {
     // On extrait les vrais utilisateurs depuis la table de jointure
     return course?.users.map((u: any) => u.user) ?? [];
 }
+
+export async function getCoursesNumber(userId: string): Promise<number> {
+    const count = await prisma.course.count({
+        where: {
+            creatorId: userId,
+        },
+    });
+    return count;
+}
+
+export async function getUsersCountForUserCourses(userId: string): Promise<number> {
+    // Récupère tous les cours créés par l'utilisateur
+    const courses = await prisma.course.findMany({
+        where: { creatorId: userId },
+        select: { id: true },
+    });
+
+    const courseIds = courses.map(course => course.id);
+
+    if (courseIds.length === 0) return 0;
+
+    // Compte le nombre total d'utilisateurs inscrits à ces cours
+    const usersCount = await prisma.courseOnUser.count({
+        where: {
+            courseId: { in: courseIds },
+        },
+    });
+
+    return usersCount;
+}
