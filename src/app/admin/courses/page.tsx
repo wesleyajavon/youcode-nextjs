@@ -39,6 +39,11 @@ export default async function AdminPage() {
                     <Breadcrumbs
                         breadcrumbs={[
                             { label: 'Courses', href: '/admin/courses' },
+                            {
+                                label: 'Create',
+                                href: '/admin/courses/new',
+                                active: true,
+                            },
                         ]}
                     />
                 </LayoutTitle>
