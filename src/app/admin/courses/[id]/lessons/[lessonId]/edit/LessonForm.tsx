@@ -37,15 +37,6 @@ export type LessonFormProps = {
 
 export const LessonForm = ({ defaultValue }: LessonFormProps) => {
 
-    // Ajoute ce hook pour charger les cours (exemple avec fetch API)
-    const [courses, setCourses] = useState<{ id: string; name: string }[]>([]);
-
-    useEffect(() => {
-        fetch("/api/courses") // Crée une API route qui retourne la liste des cours
-            .then((res) => res.json())
-            .then((data) => setCourses(data));
-    }, []);
-
     const form = useZodForm({
         schema: LessonFormSchema,
         defaultValues: defaultValue,

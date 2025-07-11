@@ -40,14 +40,14 @@ export default async function LessonPage(props: { params: Promise<{ lessonId: st
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Lessons', href: '/admin/lessons' },
+                            { label: 'Lessons', href: `/admin/courses/${lesson.courseId}/lessons/` },
                             {
                                 label: lesson.name,
-                                href: '/admin/lessons/' + lesson.id,
+                                href: `/admin/courses/${lesson.courseId}/lessons/` + lesson.id,
                             },
                             {
                                 label: 'Edit',
-                                href: '/admin/lessons/' + lesson.id + '/edit',
+                                href: `/admin/courses/${lesson.courseId}/lessons/` + lesson.id + '/edit',
                                 active: true,
                             },
                         ]}

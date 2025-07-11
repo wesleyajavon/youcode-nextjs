@@ -21,14 +21,15 @@ import {
 import { Typography } from '@/components/ui/typography';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import Link from 'next/link';
 
 export default async function AdminPage() {
     const session = await getRequiredAuthSession();
     const courses = await prisma.course.findMany({
-        // where: {
-        //     creatorId: session.user.id,
-        // },
+        where: {
+            creatorId: session.user.id,
+        },
     });
     // const courses = await prisma.course.findMany();
 
@@ -67,6 +68,8 @@ export default async function AdminPage() {
                                 <TableRow>
                                     <TableHead>Image</TableHead>
                                     <TableHead>Name</TableHead>
+                                    <TableHead>Presentation</TableHead>
+                                    <TableHead></TableHead>
                                 </TableRow>
 
                             </TableHeader>
@@ -89,6 +92,21 @@ export default async function AdminPage() {
                                             >
                                                 {course.name}
                                             </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography
+                                                as={Link}
+                                                href={`/admin/courses/${course.id}`}
+                                                variant="small"
+                                            >
+                                                {course.presentation}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Link href={`/admin/courses/${course.id}/edit`}>
+                                                <PencilSquareIcon className="h-5 w-5" />
+                                            </Link>
+
                                         </TableCell>
                                     </TableRow>
                                 ))}

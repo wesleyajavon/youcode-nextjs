@@ -111,7 +111,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                         <Link
                             href={`/admin/courses/${course.id}/lessons`}
                             className={buttonVariants({
-                                variant: 'secondary',
+                                variant: 'outline',
                             })}
                         >
                             {course.lessons?.length} lessons

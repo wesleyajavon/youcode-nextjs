@@ -124,7 +124,7 @@ export default async function Home() {
             <Typography variant="large">
               Re-build this app from scratch in{" "}
               <Link
-                href="https://codelynx.dev/nextreact/courses"
+                href="https://codelynx.dev/nextfullstack"
                 className="underline"
               >
                 NextReact

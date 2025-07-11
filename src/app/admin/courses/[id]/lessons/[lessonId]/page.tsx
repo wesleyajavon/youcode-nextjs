@@ -3,9 +3,11 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { getLesson, getLessonContent } from '../../../_actions/lesson.query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Typography } from '@/components/ui/typography';
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -38,6 +40,16 @@ export default async function LessonPage(props: { params: Promise<{ lessonId: st
           />
         </LayoutTitle>
       </LayoutHeader>
+      <LayoutActions>
+        <Link
+          href={`/admin/courses/${lesson?.courseId}/lessons/${lesson?.id}/edit`}
+          className={buttonVariants({
+            variant: 'secondary',
+          })}
+        >
+          Edit
+        </Link>
+      </LayoutActions>
       <LayoutContent className="flex flex-col gap-2 ">
         <Card>
           <CardHeader>

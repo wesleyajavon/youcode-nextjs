@@ -19,7 +19,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
     const course = await prisma.course.findUnique({
         where: {
             id: params.id,
-            // creatorId: session.user.id,
+            creatorId: session.user.id,
         },
         select: {
             id: true,
