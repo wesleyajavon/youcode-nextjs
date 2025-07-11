@@ -6,7 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Typography } from '@/components/ui/typography';
 import { LessonForm } from '../[lessonId]/edit/LessonForm'; // adapte le chemin si besoin
 
-export default async function NewLessonPage({ params }: { params: { id: string } }) {
+
+interface PageProps {
+  params: { id: string }
+}
+
+export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   await getRequiredAuthSession();
 
   return (
