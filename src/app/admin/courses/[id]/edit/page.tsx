@@ -8,7 +8,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { CourseForm } from './CourseForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
@@ -30,9 +30,9 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
         },
     });
 
-    if (!course) {
-        notFound();
-    }
+  if (!course) {
+    redirect(`/admin/courses/`);
+  }
 
     return (
         <Layout>

@@ -11,8 +11,6 @@ import { CourseForm } from '../[id]/edit/CourseForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 export default async function CoursePage() {
-    await getRequiredAuthSession();
-
     return (
         <Layout>
             <LayoutHeader>

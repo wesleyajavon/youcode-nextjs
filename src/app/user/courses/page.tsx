@@ -24,14 +24,8 @@ import { prisma } from '@/lib/prisma';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import Link from 'next/link';
 
-export default async function AdminPage() {
-    const session = await getRequiredAuthSession();
-    const courses = await prisma.course.findMany({
-        where: {
-            creatorId: session.user.id,
-        },
-    });
-    // const courses = await prisma.course.findMany();
+export default async function CoursePage() {
+    const courses = await prisma.course.findMany();
 
     return (
         <Layout>
@@ -40,26 +34,16 @@ export default async function AdminPage() {
                     <Breadcrumbs
                         breadcrumbs={[
                             {
-                                label: 'Admin',
-                                href: '/admin/'
+                                label: 'User',
+                                href: '/user/'
                             },
                             {
-                                label: 'Courses', href: '/admin/courses', active: true,
+                                label: 'Courses', href: '/user/courses', active: true,
                             },
                         ]}
                     />
                 </LayoutTitle>
             </LayoutHeader>
-            <LayoutActions>
-                <Link
-                    href="/admin/courses/new"
-                    className={buttonVariants({
-                        variant: 'secondary',
-                    })}
-                >
-                    New Course
-                </Link>
-            </LayoutActions>
             <LayoutContent>
                 <Card>
                     <CardContent className="mt-4">
@@ -69,7 +53,6 @@ export default async function AdminPage() {
                                     <TableHead>Image</TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Presentation</TableHead>
-                                    <TableHead></TableHead>
                                 </TableRow>
 
                             </TableHeader>
@@ -88,7 +71,7 @@ export default async function AdminPage() {
                                             <Typography
                                                 as={Link}
                                                 variant="large"
-                                                href={`/admin/courses/${course.id}`}
+                                                href={`/user/courses/${course.id}`}
                                             >
                                                 {course.name}
                                             </Typography>
@@ -96,17 +79,11 @@ export default async function AdminPage() {
                                         <TableCell>
                                             <Typography
                                                 as={Link}
-                                                href={`/admin/courses/${course.id}`}
+                                                href={`/user/courses/${course.id}`}
                                                 variant="small"
                                             >
                                                 {course.presentation}
                                             </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Link href={`/admin/courses/${course.id}/edit`}>
-                                                <PencilSquareIcon className="h-5 w-5" />
-                                            </Link>
-
                                         </TableCell>
                                     </TableRow>
                                 ))}

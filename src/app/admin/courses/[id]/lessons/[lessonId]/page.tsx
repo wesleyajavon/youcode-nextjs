@@ -8,18 +8,22 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Typography } from '@/components/ui/typography';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
+import { redirect } from 'next/navigation';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
 // The lessonId is passed as a parameter in the URL
 // Example URL: /admin/courses/[id]/lessons/[lessonId]
 
-export default async function LessonPage(props: { params: Promise<{ lessonId: string }> }) {
-  const session = await getRequiredAuthSession();
+export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
   const params = await props.params;
   const lesson = await getLesson(params.lessonId);
-
   const markdown = await getLessonContent(params.lessonId);
+
+  if (!lesson) {
+    redirect(`/admin/courses/${params.id}/lessons`);
+  }
+
 
   return (
     <Layout>

@@ -40,6 +40,16 @@ export async function getLesson(lessonId: string) {
                     name: true,
                 },
             },
+            users: {
+                select: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+            },
         },
     });
 

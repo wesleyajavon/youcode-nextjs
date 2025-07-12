@@ -57,6 +57,12 @@ export default async function AccountPage() {
           >
             Admin
           </Link>)}
+          {session.user.role === 'USER' && (<Link
+            href="/user"
+            className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
+          >
+            User
+          </Link>)}
           <Link
             href="/account/edit"
             className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"

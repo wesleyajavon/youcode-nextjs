@@ -63,3 +63,18 @@ export const authActionClient = actionClient
     // Return the next middleware with `userId` value in the context
     return next({ ctx: { user, userId } });
   });
+
+//   // Extend from authActionClient for ADMIN only
+// export const adminActionClient = authActionClient.use(async ({ next }) => {
+//   const session = await getAuthSession();
+
+//     const user = session?.user;
+//     const role = user?.role;
+
+//     if (role !== 'ADMIN') {
+//       throw new ServerError("You must be logged in to perform this action");
+//     }
+
+//     // Return the next middleware with `userId` value in the context
+//     return next({ ctx: { user, role } });
+// });

@@ -21,8 +21,6 @@ export async function getCourse(courseId: string) {
         }
     });
 
-    if (!course) return null;
-
     return course
 }
 

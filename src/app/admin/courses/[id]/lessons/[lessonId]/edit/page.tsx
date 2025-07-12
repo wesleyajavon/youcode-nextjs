@@ -8,12 +8,11 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { LessonForm } from './LessonForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
-export default async function LessonPage(props: { params: Promise<{ lessonId: string }> }) {
-    const session = await getRequiredAuthSession();
+export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
 
     const lesson = await prisma.lesson.findUnique({
@@ -30,9 +29,9 @@ export default async function LessonPage(props: { params: Promise<{ lessonId: st
         },
     });
 
-    if (!lesson) {
-        notFound();
-    }
+  if (!lesson) {
+    redirect(`/admin/courses/${params.id}/lessons`);
+  }
 
     return (
         <Layout>

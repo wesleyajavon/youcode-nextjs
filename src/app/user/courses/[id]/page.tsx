@@ -1,4 +1,3 @@
-import { getCourse } from "../_actions/course.query";
 import { getRequiredAuthSession } from "@/lib/auth";
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
 import Link from "next/link";
@@ -10,15 +9,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { redirect } from "next/navigation";
+import { getCourse } from "@/app/admin/courses/_actions/course.query";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
+    const session = await getRequiredAuthSession();
     const params = await props.params;
     const course = await getCourse(params.id);
 
     if (!course) {
-        redirect('/admin/courses');
+        redirect('/user/courses');
     }
+
+    // Vérifie si l'utilisateur est déjà inscrit
+    const alreadyJoined = course.users.some(
+        (u: any) => u.user.id === session.user.id
+    );
 
     return (
 
@@ -27,10 +33,10 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses', href: '/admin/courses' },
+                            { label: 'Courses', href: '/user/courses' },
                             {
                                 label: course.name,
-                                href: '/admin/courses/' + course.id,
+                                href: '/user/courses/' + course.id,
                                 active: true,
                             },
                         ]}
@@ -94,24 +100,36 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     <CardContent className="flex flex-col gap-3">
                         <Badge className="w-fit">{course.state}</Badge>
                         <Typography variant={'base'}>{course.users?.length} users</Typography>
-    
+
                         <Typography variant={'lead'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
-                        <Link
-                            href={`/admin/courses/${course.id}/lessons`}
-                            className={buttonVariants({
-                                variant: 'outline',
-                            })}
-                        >
-                            {course.lessons?.length} lessons
-                        </Link>{' '}
-                        <Link
-                            href={`/admin/courses/${course.id}/edit`}
-                            className={buttonVariants({
-                                variant: 'outline',
-                            })}
-                        >
-                            Edit course
-                        </Link>{' '}
+                        {alreadyJoined && (
+                            <Link
+                                href={`/user/courses/${course.id}/lessons`}
+                                className={buttonVariants({
+                                    variant: 'outline',
+                                })}
+                            >
+                                {course.lessons?.length} lessons
+                            </Link>) }
+                        {alreadyJoined ? (
+                            <Link
+                                href={`/user/courses/${course.id}/join`}
+                                className={buttonVariants({
+                                    variant: 'destructive',
+                                })}
+                            >
+                                Leave this course
+                            </Link>
+                        ) : (
+                            <Link
+                                href={`/user/courses/${course.id}/join`}
+                                className={buttonVariants({
+                                    variant: 'default',
+                                })}
+                            >
+                                Join this course
+                            </Link>
+                        )}
                     </CardContent>
                 </Card>
             </LayoutContent>

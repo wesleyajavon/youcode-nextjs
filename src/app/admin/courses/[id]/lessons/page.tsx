@@ -11,36 +11,15 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { getCourse } from "../../_actions/course.query";
 import { getLessons } from "../../_actions/lesson.query";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { redirect } from "next/navigation";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
-    const session = await getRequiredAuthSession();
     const params = await props.params;
     const course = await getCourse(params.id)
     const lessons = await getLessons(params.id);
-
-    if (!session) {
-        return (
-            <div className="p-8">
-                <h1 className="text-2xl font-bold">You must be logged in to view this page</h1>
-            </div>
-        );
-    }
-
     if (!course) {
-        return (
-            <div className="p-8">
-                <h1 className="text-2xl font-bold">Course not found</h1>
-            </div>
-        );
-    }
-
-    if (!lessons) {
-        return (
-            <div className="p-8">
-                <h1 className="text-2xl font-bold">Lessons not found</h1>
-            </div>
-        );
+        redirect('/admin/courses');
     }
 
     return (
@@ -89,7 +68,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {lessons.map((lesson) => (
+                                {lessons && lessons.map((lesson) => (
                                     <TableRow key={lesson.id}>
                                         <TableCell>
                                             <Typography
