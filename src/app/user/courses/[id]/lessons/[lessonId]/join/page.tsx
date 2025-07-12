@@ -8,8 +8,9 @@ import { prisma } from "@/lib/prisma";
 import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
 import { redirect } from "next/navigation";
 
-export default async function JoinLessonPage({ params }: { params: { id: string, lessonId: string } }) {
+export default async function JoinLessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const session = await getRequiredAuthSession();
+    const params = await props.params;
     const lesson = await getLesson(params.lessonId);
 
     if (!lesson) {

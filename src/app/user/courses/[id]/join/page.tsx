@@ -9,7 +9,9 @@ import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 
-export default async function JoinCoursePage({ params }: { params: { id: string } }) {
+export default async function JoinCoursePage(props: { params: Promise<{ id: string }> }) {
+
+    const params = await props.params;
     const session = await getRequiredAuthSession();
     const course = await getCourse(params.id);
 
