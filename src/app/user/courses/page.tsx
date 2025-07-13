@@ -61,7 +61,7 @@ export default async function CoursePage() {
                 <Card>
                     <CardContent className="mt-4">
                         <Typography variant="large" className="mb-4">
-                            My Courses
+                            Courses Dashboard
                         </Typography>
                         <Typography variant="small" className="mb-6">
                             Here you can find all your courses. Click on a course to view its details.

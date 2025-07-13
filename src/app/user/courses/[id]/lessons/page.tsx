@@ -62,7 +62,22 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
 
             <LayoutContent className="flex flex-col gap-4 lg:flex-row">
                 <Card className="flex-[2]">
-                    <CardContent className="mt-4">
+                    <CardHeader className="flex items-center justify-left">
+                        <Avatar className="rounded">
+                            <AvatarFallback>{course.name?.[0]}</AvatarFallback>
+                            {course.image && (
+                                <AvatarImage src={course.image} alt={course.name ?? ''} />
+                            )}      
+                        </Avatar>
+                        <CardTitle>{course.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="">
+                        <Typography variant="large" className="mb-10">
+                            Lessons Dashboard
+                        </Typography>
+                        <Typography variant="small" className="mb-6">
+                            Here you can find all the lessons for this course. Click on a lesson to view its details.
+                        </Typography>
                         <Table>
                             <TableHeader>
                                 <TableRow>

@@ -48,8 +48,9 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 <div className="flex flex-col gap-6 order-1 lg:order-1 lg:col-span-1">
                     {/* Présentation du cours */}
                     <Card className="h-fit">
-                        <CardHeader>
+                        <CardHeader className="flex items-center justify-between">
                             <CardTitle>Presentation</CardTitle>
+
                         </CardHeader>
                         <CardContent>
                             <Typography variant="base">
@@ -59,7 +60,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     </Card>
                     {/* Infos du cours et actions */}
                     <Card className="flex-1 flex flex-col">
-                        <CardHeader className="flex-row items-center gap-4 space-y-0">
+                        <CardHeader className="flex items-center justify-center">
                             <Avatar className="rounded">
                                 <AvatarFallback>{course.name?.[0]}</AvatarFallback>
                                 {course.image && (
@@ -111,14 +112,14 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
 
                 {/* Colonne droite : Liste des utilisateurs */}
                 <Card className="order-2 lg:order-2 lg:col-span-2">
-                    <CardHeader>
+                    <CardHeader className="flex items-center justify-between">
                         <CardTitle>Participants</CardTitle>
                     </CardHeader>
                     <CardContent className="mt-2">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Avatar</TableHead>
+                                    <TableHead> </TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Email</TableHead>
                                 </TableRow>

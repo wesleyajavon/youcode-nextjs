@@ -13,7 +13,6 @@ interface PageProps {
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  await getRequiredAuthSession();
 
   return (
     <Layout>
