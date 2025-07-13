@@ -43,13 +43,82 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     />
                 </LayoutTitle>
             </LayoutHeader>
-            <LayoutContent className="flex flex-col gap-4 lg:flex-row">
-                <Card className="flex-[2]">
-                    <CardContent className="mt-4">
+            <LayoutContent className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Colonne gauche : Présentation + Infos du cours */}
+                <div className="flex flex-col gap-6 order-1 lg:order-1 lg:col-span-1">
+                    {/* Présentation du cours */}
+                    <Card className="h-fit">
+                        <CardHeader>
+                            <CardTitle>Presentation</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <Typography variant="base">
+                                {course.presentation || "No presentation available."}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                    {/* Infos du cours et actions */}
+                    <Card className="flex-1 flex flex-col">
+                        <CardHeader className="flex-row items-center gap-4 space-y-0">
+                            <Avatar className="rounded">
+                                <AvatarFallback>{course.name?.[0]}</AvatarFallback>
+                                {course.image && (
+                                    <AvatarImage src={course.image} alt={course.name ?? ''} />
+                                )}
+                            </Avatar>
+                            <CardTitle>{course.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-3 flex-1">
+                            {/* <Typography variant={'base'}>Created: {course.createdAt.toLocaleDateString()}</Typography> */}
+                            {/* <Badge className="w-fit">{course.state}</Badge> */}
+                            {/* <Typography variant={'base'}>{course.users?.length} users</Typography> */}
+
+                            {alreadyJoined && (
+                                <Link
+                                    href={`/user/courses/${course.id}/lessons`}
+                                    className={buttonVariants({
+                                        variant: 'outline',
+                                    })}
+                                >
+                                    See lessons
+                                </Link>
+                            )}
+
+                            <div className="flex-1" /> {/* Espaceur pour pousser le bouton en bas */}
+
+                            {alreadyJoined ? (
+                                <Link
+                                    href={`/user/courses/${course.id}/join`}
+                                    className={buttonVariants({
+                                        variant: 'destructive',
+                                    })}
+                                >
+                                    Leave this course
+                                </Link>
+                            ) : (
+                                <Link
+                                    href={`/user/courses/${course.id}/join`}
+                                    className={buttonVariants({
+                                        variant: 'default',
+                                    })}
+                                >
+                                    Join this course
+                                </Link>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* Colonne droite : Liste des utilisateurs */}
+                <Card className="order-2 lg:order-2 lg:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Participants</CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-2">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Users</TableHead>
+                                    <TableHead>Avatar</TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Email</TableHead>
                                 </TableRow>
@@ -59,7 +128,9 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                     <TableRow key={user.id}>
                                         <TableCell>
                                             <Avatar className="rounded">
-                                                <AvatarFallback>{user.user.name}</AvatarFallback>
+                                                <AvatarFallback>
+                                                    {user.user.name?.[0] ?? "?"}
+                                                </AvatarFallback>
                                                 {user.user.image && (
                                                     <AvatarImage src={user.user.image} alt={user.user.id} />
                                                 )}
@@ -75,7 +146,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                         </TableCell>
                                         <TableCell>
                                             <Typography
-                                                variant="large"
+                                                variant="small"
                                                 className="font-semibold"
                                             >
                                                 {user.user.email}
@@ -87,52 +158,8 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                         </Table>
                     </CardContent>
                 </Card>
-                <Card className="flex-1">
-                    <CardHeader className="flex-row items-center gap-4 space-y-0">
-                        <Avatar className="rounded">
-                            <AvatarFallback>{course.name?.[0]}</AvatarFallback>
-                            {course.image && (
-                                <AvatarImage src={course.image} alt={course.name ?? ''} />
-                            )}
-                        </Avatar>
-                        <CardTitle>{course.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-3">
-                        <Badge className="w-fit">{course.state}</Badge>
-                        <Typography variant={'base'}>{course.users?.length} users</Typography>
-
-                        <Typography variant={'lead'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
-                        {alreadyJoined && (
-                            <Link
-                                href={`/user/courses/${course.id}/lessons`}
-                                className={buttonVariants({
-                                    variant: 'outline',
-                                })}
-                            >
-                                {course.lessons?.length} lessons
-                            </Link>) }
-                        {alreadyJoined ? (
-                            <Link
-                                href={`/user/courses/${course.id}/join`}
-                                className={buttonVariants({
-                                    variant: 'destructive',
-                                })}
-                            >
-                                Leave this course
-                            </Link>
-                        ) : (
-                            <Link
-                                href={`/user/courses/${course.id}/join`}
-                                className={buttonVariants({
-                                    variant: 'default',
-                                })}
-                            >
-                                Join this course
-                            </Link>
-                        )}
-                    </CardContent>
-                </Card>
             </LayoutContent>
+
         </Layout >
     )
 

@@ -58,7 +58,7 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
 
                 if (data) {
                     toast.success(data.message);
-                    router.push(`/admin/courses/${data.lesson.courseId}/lessons/${data.lesson.id}`);
+                    router.push(`/admin/courses/${data.lesson.courseId}/lessons/`);
                     router.refresh();
                     return;
                 }

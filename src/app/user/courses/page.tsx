@@ -21,11 +21,24 @@ import {
 import { Typography } from '@/components/ui/typography';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
+import { CheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 export default async function CoursePage() {
-    const courses = await prisma.course.findMany();
+
+    const session = await getRequiredAuthSession();
+    const courses = await prisma.course.findMany(
+        {
+            include: {
+                users: {
+                    select: {
+                        user: true,
+                    },
+                },
+            },
+        }
+    );
+
 
     return (
         <Layout>
@@ -47,46 +60,75 @@ export default async function CoursePage() {
             <LayoutContent>
                 <Card>
                     <CardContent className="mt-4">
+                        <Typography variant="large" className="mb-4">
+                            My Courses
+                        </Typography>
+                        <Typography variant="small" className="mb-6">
+                            Here you can find all your courses. Click on a course to view its details.
+                        </Typography>
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Image</TableHead>
+                                    <TableHead> </TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Presentation</TableHead>
+                                    <TableHead>Joined?</TableHead>
+
                                 </TableRow>
 
                             </TableHeader>
                             <TableBody>
-                                {courses && courses.map((course) => (
-                                    <TableRow key={course.id}>
-                                        <TableCell>
-                                            <Avatar className="rounded">
-                                                <AvatarFallback>{course.name[0]}</AvatarFallback>
-                                                {course.image && (
-                                                    <AvatarImage src={course.image} alt={course.name} />
+                                {courses && courses.map((course) => {
+
+                                    const alreadyJoined = course.users.some(
+                                        (u: any) => u.user.id === session.user.id
+                                    );
+                                    return (
+
+                                        <TableRow key={course.id}>
+                                            <TableCell>
+                                                <Avatar className="rounded h-5 w-5">
+                                                    <AvatarFallback>{course.name[0]}</AvatarFallback>
+                                                    {course.image && (
+                                                        <AvatarImage src={course.image} alt={course.name} />
+                                                    )}
+                                                </Avatar>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography
+                                                    as={Link}
+                                                    variant="large"
+                                                    href={`/user/courses/${course.id}`}
+                                                >
+                                                    {course.name}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography
+                                                    as={Link}
+                                                    href={`/user/courses/${course.id}`}
+                                                    variant="small"
+                                                >
+                                                    {course.presentation}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                {alreadyJoined ? (
+                                                    <CheckIcon className="h-5 w-5 text-green-500" />
+                                                ) : (
+                                                    <Link
+                                                        href={`/user/courses/${course.id}/join`}
+                                                        className={buttonVariants({
+                                                            variant: 'secondary',
+                                                        })}
+                                                    >
+                                                        Join
+                                                    </Link>
                                                 )}
-                                            </Avatar>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                as={Link}
-                                                variant="large"
-                                                href={`/user/courses/${course.id}`}
-                                            >
-                                                {course.name}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                as={Link}
-                                                href={`/user/courses/${course.id}`}
-                                                variant="small"
-                                            >
-                                                {course.presentation}
-                                            </Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
                             </TableBody>
                         </Table>
                     </CardContent>

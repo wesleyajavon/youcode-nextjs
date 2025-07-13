@@ -66,7 +66,7 @@ export default async function AdminPage() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Image</TableHead>
+                                    <TableHead> </TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Presentation</TableHead>
                                     <TableHead></TableHead>

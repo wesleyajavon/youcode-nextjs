@@ -17,10 +17,13 @@ import { redirect } from "next/navigation";
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const course = await getCourse(params.id)
-    const lessons = await getLessons(params.id);
+    let lessons = await getLessons(params.id);
     if (!course) {
         redirect('/admin/courses');
     }
+
+    // Trier les leçons par ordre croissant de rank (en supposant que rank est un nombre ou une chaîne numérique)
+    lessons = lessons?.slice().sort((a, b) => Number(a.rank) - Number(b.rank)) || null;
 
     return (
 
@@ -55,7 +58,19 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
             </LayoutActions>
             <LayoutContent className="flex flex-col gap-4 lg:flex-row">
                 <Card className="flex-[2]">
+                    <CardHeader className="flex items-end justify-between">  
+                        <CardTitle>{course.name}</CardTitle>
+                        <Avatar className="rounded">
+                            <AvatarFallback>{course.name?.[0]}</AvatarFallback>
+                            {course.image && (
+                                <AvatarImage src={course.image} alt={course.name ?? ''} />
+                            )}
+                        </Avatar>
+                    </CardHeader>
                     <CardContent className="mt-4">
+                        <Typography variant="small" className="text-muted-foreground mb-3">
+                            {course.presentation}
+                        </Typography>
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -64,7 +79,6 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                     <TableHead>Content</TableHead>
                                     <TableHead>State</TableHead>
                                     <TableHead></TableHead>
-
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -96,7 +110,6 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                                 {lesson.content.slice(0, 15)}...
                                             </Typography>
                                         </TableCell>
-
                                         <TableCell>
                                             <Badge className="w-fit">{lesson.state}</Badge>
                                         </TableCell>
@@ -104,7 +117,6 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                             <Link href={`/admin/courses/${course.id}/lessons/${lesson.id}/edit`}>
                                                 <PencilSquareIcon className="h-5 w-5"/>
                                             </Link>
-
                                         </TableCell>
                                     </TableRow>
                                 ))}

@@ -55,7 +55,7 @@ export default async function EditAccountPage() {
               </select>
             </div>
           </CardContent>
-          <CardFooter className="flex justify-end gap-2">
+          <CardFooter className="flex justify-end gap-2 mt-4">
             <Button type="submit">Save</Button>
             <Button asChild variant="outline">
               <a href="/account">Cancel</a>

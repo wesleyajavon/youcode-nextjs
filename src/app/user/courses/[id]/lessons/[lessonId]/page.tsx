@@ -127,19 +127,22 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                     <CardContent className="prose max-w-none">
                         <ReactMarkdown>{markdown}</ReactMarkdown>
                         {alreadyJoined && (
-                            <form action={handleProgressChange} className="mt-8 flex items-center gap-2">
+                            <form
+                                action={handleProgressChange}
+                                className="mt-8 flex items-end justify-between"
+                            >
                                 <Select name="progress" defaultValue={lessonOnUser?.progress}>
                                     <SelectTrigger className="w-48">
                                         <SelectValue placeholder="Progress" />
                                     </SelectTrigger>
-                                    <SelectContent >
+                                    <SelectContent>
                                         {/* <SelectItem value="NOT_STARTED">Not started</SelectItem> */}
                                         <SelectItem value="IN_PROGRESS">In progress</SelectItem>
                                         <SelectItem value="COMPLETED">Completed</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <Button type="submit">
-                                    Update
+                                    Save
                                 </Button>
                             </form>
                         )}

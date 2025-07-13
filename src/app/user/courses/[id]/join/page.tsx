@@ -73,7 +73,7 @@ export default async function JoinCoursePage(props: { params: Promise<{ id: stri
                         <CardTitle>
                             <Typography variant="h2">{course.name}</Typography>
                         </CardTitle>
-                        <Badge className="w-fit">{course.state}</Badge>
+                        {/* <Badge className="w-fit">{course.state}</Badge> */}
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
                         <Typography variant="lead">

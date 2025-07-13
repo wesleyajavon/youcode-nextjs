@@ -21,7 +21,11 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
     const user = session.user;
     const params = await props.params;
     const course = await getCourse(params.id)
-    const lessons = await getLessons(params.id);
+    let lessons = await getLessons(params.id);
+
+    // Trier les leçons par ordre croissant de rank (en supposant que rank est un nombre ou une chaîne numérique)
+    lessons = lessons ? lessons.slice().sort((a, b) => Number(a.rank) - Number(b.rank)) : null;
+
 
     // Ensure the user is authenticated
     // If not, redirect to the login page
@@ -65,7 +69,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                     <TableHead>Name</TableHead>
                                     <TableHead>Rank</TableHead>
                                     <TableHead>Content</TableHead>
-                                    <TableHead>State</TableHead>
+                                    {/* <TableHead>State</TableHead> */}
                                     <TableHead>Progress</TableHead>
 
                                 </TableRow>
@@ -100,9 +104,9 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                             </Typography>
                                         </TableCell>
 
-                                        <TableCell>
+                                        {/* <TableCell>
                                             <Badge className="w-fit">{lesson.state}</Badge>
-                                        </TableCell>
+                                        </TableCell> */}
 
                                         <TableCell>
                                             {(async () => {
