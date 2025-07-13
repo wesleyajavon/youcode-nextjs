@@ -57,16 +57,11 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     </Card>
                     {/* Infos du cours et actions */}
                     <Card className="h-fit flex flex-col">
-                        <CardHeader className="flex items-end justify-between">
-                            <Avatar className="rounded">
-                                <AvatarFallback>{course.name?.[0]}</AvatarFallback>
-                                {course.image && (
-                                    <AvatarImage src={course.image} alt={course.name ?? ''} />
-                                )}
-                            </Avatar>
-                            <CardTitle>{course.name}</CardTitle>
+                        <CardHeader className="flex items-end justify-between gap-6">
 
+                            <CardTitle>Course Info</CardTitle>
                         </CardHeader>
+
                         <CardContent className="flex flex-col gap-3 flex-1">
                             <Badge className="w-fit">{course.state}</Badge>
                             <Typography variant={'base'}>{course.users?.length} users</Typography>
@@ -86,14 +81,21 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
 
                 {/* Colonne droite : Liste des utilisateurs */}
                 <Card className="order-2 lg:order-2 lg:col-span-2">
-                    <CardHeader>
-                        <CardTitle>Participants</CardTitle>
+                    <CardHeader className="flex items-end justify-between gap-6">
+                        <CardTitle>{course.name}</CardTitle>
+
+                        <Avatar className="rounded h-5 w-5">
+                            <AvatarFallback>{course.name?.[0]}</AvatarFallback>
+                            {course.image && (
+                                <AvatarImage src={course.image} alt={course.name ?? ''} />
+                            )}
+                        </Avatar>
                     </CardHeader>
                     <CardContent className="mt-2">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Avatar</TableHead>
+                                    <TableHead></TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Email</TableHead>
                                 </TableRow>

@@ -9,6 +9,7 @@ import { Typography } from '@/components/ui/typography';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -51,7 +52,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
             variant: 'secondary',
           })}
         >
-          Edit
+          <PencilSquareIcon className="h-5 w-5" />
         </Link>
       </LayoutActions>
       <LayoutContent className="flex flex-col gap-2 ">

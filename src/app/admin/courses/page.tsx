@@ -62,7 +62,13 @@ export default async function AdminPage() {
             </LayoutActions>
             <LayoutContent>
                 <Card>
-                    <CardContent className="mt-4">
+                    <CardContent className="mt-0">
+                        <Typography variant="large" className="mb-6">
+                            Admin Courses Dashboard
+                        </Typography>
+                        <Typography variant="small" className="mb-6">
+                            Here you can manage all courses. Click on a course to view or edit its details.
+                        </Typography>
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -77,7 +83,7 @@ export default async function AdminPage() {
                                 {courses && courses.map((course) => (
                                     <TableRow key={course.id}>
                                         <TableCell>
-                                            <Avatar className="rounded">
+                                            <Avatar className="rounded h-5 w-5">
                                                 <AvatarFallback>{course.name[0]}</AvatarFallback>
                                                 {course.image && (
                                                     <AvatarImage src={course.image} alt={course.name} />

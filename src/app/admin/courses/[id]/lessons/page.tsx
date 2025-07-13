@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { getCourse } from "../../_actions/course.query";
 import { getLessons } from "../../_actions/lesson.query";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { redirect } from "next/navigation";
 
 
@@ -53,23 +53,34 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                         variant: 'secondary',
                     })}
                 >
-                    New Lesson
+
+                    <PlusIcon className="h-5 w-5" />
                 </Link>
             </LayoutActions>
             <LayoutContent className="flex flex-col gap-4 lg:flex-row">
                 <Card className="flex-[2]">
-                    <CardHeader className="flex items-end justify-between">  
-                        <CardTitle>{course.name}</CardTitle>
-                        <Avatar className="rounded">
-                            <AvatarFallback>{course.name?.[0]}</AvatarFallback>
-                            {course.image && (
-                                <AvatarImage src={course.image} alt={course.name ?? ''} />
-                            )}
-                        </Avatar>
+                    <CardHeader className="flex items-baseline justify-between gap-2">
+                        <Typography variant="large" className="mb-6">
+                            Admin Lessons Dashboard
+                        </Typography>
+                        <div className="flex items-baseline gap-5">
+                            <CardTitle>
+                                <Typography variant="small" className="mb-6">
+                                    {course.name}                        
+                                </Typography>
+                            </CardTitle>
+
+                            <Avatar className="rounded h-4 w-4">
+                                <AvatarFallback>{course.name?.[0]}</AvatarFallback>
+                                {course.image && (
+                                    <AvatarImage src={course.image} alt={course.name ?? ''} />
+                                )}
+                            </Avatar>
+                        </div>
                     </CardHeader>
-                    <CardContent className="mt-4">
-                        <Typography variant="small" className="text-muted-foreground mb-3">
-                            {course.presentation}
+                    <CardContent className="mt-0">
+                        <Typography variant="small" className="mb-6">
+                            Here you can manage all lessons for the course. Click on a lesson to view or edit its details.
                         </Typography>
                         <Table>
                             <TableHeader>
@@ -115,7 +126,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                         </TableCell>
                                         <TableCell>
                                             <Link href={`/admin/courses/${course.id}/lessons/${lesson.id}/edit`}>
-                                                <PencilSquareIcon className="h-5 w-5"/>
+                                                <PencilSquareIcon className="h-5 w-5" />
                                             </Link>
                                         </TableCell>
                                     </TableRow>
