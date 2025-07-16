@@ -60,7 +60,7 @@ export default async function CoursePage() {
             <LayoutContent>
                 <Card>
                     <CardContent className="mt-4">
-                        <Typography variant="large" className="mb-4">
+                        <Typography variant="h2" className="mb-6">
                             Courses Dashboard
                         </Typography>
                         <Typography variant="small" className="mb-6">

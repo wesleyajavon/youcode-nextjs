@@ -45,7 +45,9 @@ export default async function AdminPage() {
             <LayoutContent>
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-2xl font-bold">User Dashboard</CardTitle>
+                        <CardTitle>
+                            <Typography variant="h2">Dashboard</Typography>
+                        </CardTitle>
                         <CardDescription>Quick Stats</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
@@ -54,13 +56,14 @@ export default async function AdminPage() {
                             <span className="ml-2">Number of users that joined your courses: {usersCount}</span>
                         </Typography> */}
                         <Typography variant={"small"}>
-                            <BookOpenIcon className="h-5 w-5 text-gray-100 inline-block"/>
-                            <span className="ml-2">Lessons you have joined: {lessonsCount}</span>
+                            <RectangleStackIcon className="h-5 w-5 text-gray-100 inline-block" />
+                            <span className="ml-2">You are subscribed to {coursesCount} courses.</span>
                         </Typography>
                         <Typography variant={"small"}>
-                            <RectangleStackIcon className="h-5 w-5 text-gray-100 inline-block"/>
-                            <span className="ml-2">Courses you are subscribed to: {coursesCount}</span>
+                            <BookOpenIcon className="h-5 w-5 text-gray-100 inline-block" />
+                            <span className="ml-2">You are currently following {lessonsCount} lessons.</span>
                         </Typography>
+
                     </CardContent>
                 </Card>
             </LayoutContent>

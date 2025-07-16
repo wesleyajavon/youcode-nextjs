@@ -17,7 +17,7 @@ export const getRequiredAuthSession = async (...parameters: ParametersGetServerS
   const session = await getServerSession(...parameters, authOptions);
 
   if(!session?.user.id) {
-    throw new Error('Unauthorized')
+    throw new Error('Unauthorized: You must be logged in to access this resource.');
   }
   return session as {
     user: {

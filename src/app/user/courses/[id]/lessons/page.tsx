@@ -62,21 +62,27 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
 
             <LayoutContent className="flex flex-col gap-4 lg:flex-row">
                 <Card className="flex-[2]">
-                    <CardHeader className="flex items-center justify-left">
-                        <Avatar className="rounded">
-                            <AvatarFallback>{course.name?.[0]}</AvatarFallback>
-                            {course.image && (
-                                <AvatarImage src={course.image} alt={course.name ?? ''} />
-                            )}      
-                        </Avatar>
-                        <CardTitle>{course.name}</CardTitle>
+                    <CardHeader className="flex items-end justify-between gap-6">
+                        <CardTitle>
+                            <Typography variant="h2">Lessons Dashboard</Typography>
+                        </CardTitle>
+                        <div className="flex items-baseline gap-3">
+                            <Typography variant="muted" className="">
+                                {course?.name}
+                            </Typography>
+
+                            <Avatar className="rounded h-4 w-4">
+                                <AvatarFallback>{course?.name?.[0]}</AvatarFallback>
+                                {course?.image && (
+                                    <AvatarImage src={course?.image} alt={course?.name ?? ''} />
+                                )}
+                            </Avatar>
+                        </div>
                     </CardHeader>
                     <CardContent className="">
-                        <Typography variant="large" className="mb-10">
-                            Lessons Dashboard
-                        </Typography>
+                       
                         <Typography variant="small" className="mb-6">
-                            Here you can find all the lessons for this course. Click on a lesson to view its details.
+                            Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress.
                         </Typography>
                         <Table>
                             <TableHeader>

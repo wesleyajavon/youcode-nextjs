@@ -27,12 +27,12 @@ export const Footer = () => {
                             rel="noopener noreferrer">
                             Portfolio
                         </Link>
-                        <Link className="hover:underline"
+                        {/* <Link className="hover:underline"
                             href="https://youcode.sh"
                             target="_blank"
                             rel="noopener noreferrer">
                             YouCode.sh
-                        </Link>
+                        </Link> */}
                         <div className="flex gap-6 justify-center text-2xl">
                             <a
                                 href="https://github.com/wesleyajavon"

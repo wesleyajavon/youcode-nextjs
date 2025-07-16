@@ -53,16 +53,15 @@ export default async function AccountPage() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-end gap-2">
-          <SignOutButton/>
           {session.user.role === 'ADMIN' && (<Link
             href="/admin"
-            className="rounded-md ml-30 border px-4 py-2 text-sm font-medium transition hover:bg-muted"
+            className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
           >
             Admin
           </Link>)}
           {session.user.role === 'USER' && (<Link
             href="/user"
-            className="rounded-md ml-30 border px-4 py-2 text-sm font-medium transition hover:bg-muted"
+            className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
           >
             User
           </Link>)}
@@ -72,6 +71,8 @@ export default async function AccountPage() {
           >
             Update Profile
           </Link>
+          <SignOutButton />
+
         </CardFooter>
       </Card>
     </div>

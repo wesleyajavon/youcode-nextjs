@@ -35,7 +35,7 @@ export default async function EditAccountPage() {
   }
 
   return (
-    <div className="flex mx-auto mt-10 mb-10">
+    <div className="flex items-center justify-center mt-20">
       <Card>
         <CardHeader>
           <CardTitle>

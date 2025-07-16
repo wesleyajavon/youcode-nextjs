@@ -49,8 +49,9 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     {/* Présentation du cours */}
                     <Card className="h-fit">
                         <CardHeader className="flex items-center justify-between">
-                            <CardTitle>Presentation</CardTitle>
-
+                            <Typography variant="h3">
+                                <CardTitle>Presentation</CardTitle>
+                            </Typography>
                         </CardHeader>
                         <CardContent>
                             <Typography variant="base">
@@ -60,15 +61,6 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     </Card>
                     {/* Infos du cours et actions */}
                     <Card className="flex-1 flex flex-col">
-                        <CardHeader className="flex items-center justify-center">
-                            <Avatar className="rounded">
-                                <AvatarFallback>{course.name?.[0]}</AvatarFallback>
-                                {course.image && (
-                                    <AvatarImage src={course.image} alt={course.name ?? ''} />
-                                )}
-                            </Avatar>
-                            <CardTitle>{course.name}</CardTitle>
-                        </CardHeader>
                         <CardContent className="flex flex-col gap-3 flex-1">
                             {/* <Typography variant={'base'}>Created: {course.createdAt.toLocaleDateString()}</Typography> */}
                             {/* <Badge className="w-fit">{course.state}</Badge> */}
@@ -112,8 +104,22 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
 
                 {/* Colonne droite : Liste des utilisateurs */}
                 <Card className="order-2 lg:order-2 lg:col-span-2">
-                    <CardHeader className="flex items-center justify-between">
-                        <CardTitle>Participants</CardTitle>
+                    <CardHeader className="flex items-end justify-between gap-6">
+                        <Typography variant="h3">
+                            <CardTitle>Participants</CardTitle>
+                        </Typography>
+                        <div className="flex items-baseline gap-3">
+                            <Typography variant="muted" className="">
+                                {course?.name}
+                            </Typography>
+
+                            <Avatar className="rounded h-4 w-4">
+                                <AvatarFallback>{course?.name?.[0]}</AvatarFallback>
+                                {course?.image && (
+                                    <AvatarImage src={course?.image} alt={course?.name ?? ''} />
+                                )}
+                            </Avatar>
+                        </div>
                     </CardHeader>
                     <CardContent className="mt-2">
                         <Table>

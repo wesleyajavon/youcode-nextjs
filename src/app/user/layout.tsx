@@ -6,7 +6,7 @@ export default async function UserLayout({ children }: { children: React.ReactNo
   const session = await getRequiredAuthSession()
 
   if (!session || !session.user) {
-    redirect('/user')
+    redirect('/')
   }
 
   return <>{children}</>
