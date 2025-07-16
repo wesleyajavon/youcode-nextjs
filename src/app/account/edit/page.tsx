@@ -35,14 +35,16 @@ export default async function EditAccountPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 mb-20 px-4">
+    <div className="flex mx-auto mt-10 mb-10">
       <Card>
         <CardHeader>
-          <CardTitle>Edit Role</CardTitle>
+          <CardTitle>
+            <Typography variant="h2">Edit Role</Typography>
+          </CardTitle>
           <CardDescription>Update your user role</CardDescription>
         </CardHeader>
         <form action={updateRole}>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-4 mb-30">
             <div>
               <Typography variant="small">Role</Typography>
               <select
@@ -55,7 +57,7 @@ export default async function EditAccountPage() {
               </select>
             </div>
           </CardContent>
-          <CardFooter className="flex justify-end gap-2 mt-4">
+          <CardFooter className="flex justify-end gap-2 mt-4 ml-30">
             <Button type="submit">Save</Button>
             <Button asChild variant="outline">
               <a href="/account">Cancel</a>

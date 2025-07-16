@@ -33,7 +33,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
             <div className="relative flex min-h-screen flex-col">
               <Header />
               {/* Main content area: sidebar + page content */}
-              <div className="flex flex-1 w-full">
+              <div className="flex">
                 {children}
               </div>
               <Footer />

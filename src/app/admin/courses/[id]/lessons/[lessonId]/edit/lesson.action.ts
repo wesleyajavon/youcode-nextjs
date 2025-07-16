@@ -66,7 +66,7 @@ export const lessonActionCreate = authActionClient
             },
         });
         return {
-            message: 'lesson created successfully',
+            message: 'Lesson successfully created!',
             lesson,
         };
     });;

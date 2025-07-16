@@ -51,7 +51,7 @@ export const courseActionCreate = authActionClient
             },
         });
         return {
-            message: 'Course created successfully',
+            message: 'Course successfully created!',
             course,
         };
     });;

@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card'
 import Link from 'next/link'
 import SignOutButton from '@/lib/features/auth/SignOutButton'
+import { Typography } from '@/components/ui/typography'
 
 export default async function AccountPage() {
   const session = await getRequiredAuthSession()
@@ -25,7 +26,9 @@ export default async function AccountPage() {
     <div className="max-w-2xl mx-auto mt-10 mb-10 px-4">
       <Card>
         <CardHeader>
-          <CardTitle>Account</CardTitle>
+          <CardTitle>
+            <Typography variant="h2">Account</Typography>
+          </CardTitle>
           <CardDescription>Your profile information</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
@@ -50,16 +53,16 @@ export default async function AccountPage() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-end gap-2">
-          <SignOutButton />
+          <SignOutButton/>
           {session.user.role === 'ADMIN' && (<Link
             href="/admin"
-            className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
+            className="rounded-md ml-30 border px-4 py-2 text-sm font-medium transition hover:bg-muted"
           >
             Admin
           </Link>)}
           {session.user.role === 'USER' && (<Link
             href="/user"
-            className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
+            className="rounded-md ml-30 border px-4 py-2 text-sm font-medium transition hover:bg-muted"
           >
             User
           </Link>)}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { BookOpen, Users, Home, PlusCircle, User } from "lucide-react";
+import { Typography } from "../ui/typography";
 
 const navLinks = [
 	{ href: "/admin", label: "Dashboard", icon: Home },
@@ -19,9 +20,8 @@ export function AdminSideNav({ visible = true, onClose }: { visible?: boolean; o
 
 	return (
 		<nav className="flex flex-col gap-2 py-8 px-4 bg-primary/5 border-r border-border min-h-screen">
-			<div className="mb-6 text-lg font-bold tracking-tight text-primary">
-				Panel
-			</div>
+
+            <Typography variant="h2">Panel</Typography>
 			{/* Bouton pour fermer sur mobile */}
 			{onClose && (
 				<button
