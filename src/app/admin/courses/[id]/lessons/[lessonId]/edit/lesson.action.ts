@@ -62,7 +62,7 @@ export const lessonActionCreate = authActionClient
                 content: parsedInput.content,
                 state: parsedInput.state,
                 courseId: parsedInput.courseId,
-                rank: String((course?.lessons?.length ?? 0) + 1), // Default to "1" if no lessons exist
+                rank: String(Number(course?.lessons?.at(-1)?.rank ?? 0) + 1), // Default to "1" if no lessons exist
             },
         });
         return {

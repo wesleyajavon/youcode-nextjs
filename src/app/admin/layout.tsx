@@ -2,6 +2,7 @@
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { authOptions } from '../../../pages/api/auth/[...nextauth]'
+import { AdminSideNav } from '@/components/layout/AdminSideNav'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)
@@ -10,5 +11,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect('/')
   }
 
-  return <>{children}</>
+  return (
+    <div className="flex flex-1">
+      <AdminSideNav />
+      <main className="flex-1">{children}</main>
+    </div>
+  )
 }

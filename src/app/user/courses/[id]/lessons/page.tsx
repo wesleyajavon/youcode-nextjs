@@ -85,7 +85,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                     <TableHead>Rank</TableHead>
                                     <TableHead>Content</TableHead>
                                     {/* <TableHead>State</TableHead> */}
-                                    <TableHead>Progress</TableHead>
+                                    <TableHead className="flex items-center justify-end">Progress</TableHead>
 
                                 </TableRow>
                             </TableHeader>
@@ -115,7 +115,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                                 variant="small"
                                                 className="font-normal"
                                             >
-                                                {lesson.content.slice(0, 15)}...
+                                                {lesson.content.slice(0, 60)}..
                                             </Typography>
                                         </TableCell>
 
@@ -123,7 +123,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                                             <Badge className="w-fit">{lesson.state}</Badge>
                                         </TableCell> */}
 
-                                        <TableCell>
+                                        <TableCell className="flex items-center justify-end">
                                             {(async () => {
                                                 const progress = await getLessonProgress(session.user.id, lesson.id);
                                                 let color = "bg-gray-200 text-black"; // default

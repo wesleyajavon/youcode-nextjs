@@ -22,7 +22,7 @@ export default async function AccountPage() {
   const { name, email, image, role } = session.user
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 px-4">
+    <div className="max-w-2xl mx-auto mt-10 mb-10 px-4">
       <Card>
         <CardHeader>
           <CardTitle>Account</CardTitle>

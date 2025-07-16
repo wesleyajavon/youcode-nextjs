@@ -55,7 +55,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
             </LayoutHeader>
             <LayoutContent>
                 <Card className="flex-[2]">
-                    <CardContent className="mt-6">
+                    <CardContent className="mt-6 mb-6">
                         <LessonForm defaultValue={lesson} />
                     </CardContent>
                 </Card>

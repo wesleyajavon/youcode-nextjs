@@ -43,7 +43,9 @@ export default async function AdminPage() {
             <LayoutContent>
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-2xl font-bold">Admin Dashboard</CardTitle>
+                        <CardTitle>
+                            <Typography variant="h2">Dashboard</Typography>
+                        </CardTitle>
                         <CardDescription>Quick Stats</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">

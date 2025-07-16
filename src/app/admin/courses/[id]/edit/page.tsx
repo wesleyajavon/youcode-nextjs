@@ -5,12 +5,13 @@ import {
     LayoutHeader,
     LayoutTitle,
 } from '@/components/layout/layout';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { notFound, redirect } from 'next/navigation';
 import { CourseForm } from './CourseForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
+import { Typography } from '@/components/ui/typography';
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
     const session = await getRequiredAuthSession();
@@ -30,9 +31,9 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
         },
     });
 
-  if (!course) {
-    redirect(`/admin/courses/`);
-  }
+    if (!course) {
+        redirect(`/admin/courses/`);
+    }
 
     return (
         <Layout>
@@ -55,7 +56,14 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 </LayoutTitle>
             </LayoutHeader>
             <LayoutContent>
-                <Card className="flex-[2]">
+                <Card className="flex-[2] mb-6">
+                    <CardHeader>
+                        <Typography variant="large">Edit Course</Typography>
+                        <Typography variant="small" className="mt-2">
+                            Fill in the details below to edit the course.
+                        </Typography>
+
+                    </CardHeader>
                     <CardContent className="mt-6">
                         <CourseForm defaultValue={course} />
                     </CardContent>

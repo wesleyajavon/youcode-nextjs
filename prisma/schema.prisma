@@ -80,8 +80,8 @@ model Course {
   creatorId    String
   state        CourseState @default(DRAFT)
 
-  creator User           @relation(fields: [creatorId], references: [id])
-  lessons Lesson[]
+  creator User           @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  lessons Lesson[]       
   users   CourseOnUser[]
 }
 
@@ -98,7 +98,7 @@ model Lesson {
   state   LessonState @default(HIDDEN)
 
   createdAt DateTime       @default(now())
-  course    Course         @relation(fields: [courseId], references: [id])
+  course    Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId  String
   users     LessonOnUser[]
 }
@@ -116,8 +116,8 @@ model LessonOnUser {
   progress  Progress @default(NOT_STARTED)
   createdAt DateTime @default(now())
 
-  user   User   @relation(fields: [userId], references: [id])
-  lesson Lesson @relation(fields: [lessonId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
 }
@@ -135,8 +135,8 @@ model CourseOnUser {
   createdAt  DateTime  @default(now())
   canceledAt DateTime?
 
-  user   User   @relation(fields: [userId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
 }

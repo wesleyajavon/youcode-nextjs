@@ -35,7 +35,7 @@ export default async function EditAccountPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 px-4">
+    <div className="max-w-2xl mx-auto mt-10 mb-20 px-4">
       <Card>
         <CardHeader>
           <CardTitle>Edit Role</CardTitle>

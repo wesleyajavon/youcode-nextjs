@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getCourse } from '../../../_actions/course.query';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -18,6 +20,7 @@ import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
   const params = await props.params;
+  const course = await getCourse(params.id);
   const lesson = await getLesson(params.lessonId);
   const markdown = await getLessonContent(params.lessonId);
 
@@ -33,11 +36,15 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
           <Breadcrumbs
             breadcrumbs={[
               {
+                label: course?.name.slice(0, 10) || 'Course',
+                href: `/admin/courses/${lesson?.courseId}`,
+              },
+              {
                 label: 'Lessons',
                 href: '/admin/courses/' + lesson?.courseId + '/lessons',
               },
               {
-                label: lesson?.name || 'Lesson',
+                label: lesson?.name.slice(0, 25) || 'Lesson',
                 href: '/admin/courses/' + lesson?.courseId + '/lessons' + '/' + lesson?.id,
                 active: true,
               },
@@ -58,11 +65,24 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
       <LayoutContent className="flex flex-col gap-2 ">
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl font-bold">
-              <Typography variant={'h2'}>
-                {lesson?.course?.name || 'Course'} - {lesson?.name || 'Lesson'}
+            <CardTitle className="flex items-center justify-between gap-2">
+              <Typography variant="h2" className="">
+                {lesson.name.slice(0, 20) || 'Lesson'}
               </Typography>
+              <div className="flex items-baseline gap-3">
+                <Typography variant="muted" className="">
+                  {course?.name.slice(0, 25) || 'Course'}
+                </Typography>
+
+                <Avatar className="rounded h-4 w-4">
+                  <AvatarFallback>{course?.name?.[0]}</AvatarFallback>
+                  {course?.image && (
+                    <AvatarImage src={course?.image} alt={course?.name ?? ''} />
+                  )}
+                </Avatar>
+              </div>
             </CardTitle>
+
           </CardHeader>
           <CardContent className="prose max-w-none">
             <ReactMarkdown>{markdown}</ReactMarkdown>

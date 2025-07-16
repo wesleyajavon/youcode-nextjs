@@ -76,7 +76,7 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
             </FormControl>
             <FormDescription>
               Host and use an image. You can use{' '}
-              <Link href="https://imgur.com">Imgur</Link> to host your image.
+              <Link className='hover:underline' href="https://imgur.com">Imgur</Link> to host your image. Png format is recommended.
             </FormDescription>
             <FormMessage />
           </FormItem>

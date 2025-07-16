@@ -5,10 +5,11 @@ import {
     LayoutHeader,
     LayoutTitle,
 } from '@/components/layout/layout';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { CourseForm } from '../[id]/edit/CourseForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
+import { Typography } from '@/components/ui/typography';
 
 export default async function CoursePage() {
     return (
@@ -33,7 +34,16 @@ export default async function CoursePage() {
             </LayoutHeader>
             <LayoutContent>
                 <Card className="flex-[2]">
-                    <CardContent className="mt-6">
+                    <CardHeader>
+                        <Typography variant="large">New Course</Typography>
+                        <Typography variant="small" className="mt-2">
+                            Fill in the details below to create a new course.
+                        </Typography>
+                        <Typography variant="muted" className="mt-2">
+                            Ensure all fields are filled out correctly before submitting.
+                        </Typography>
+                    </CardHeader>
+                    <CardContent className="mt-2">
                         <CourseForm />
                     </CardContent>
                 </Card>

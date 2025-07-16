@@ -30,24 +30,30 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                         breadcrumbs={[
                             { label: 'Courses', href: '/admin/courses' },
                             {
-                                label: course.name,
+                                label: course.name.slice(0, 30) || 'Course',
                                 href: '/admin/courses/' + course.id,
                                 active: true,
                             },
-                        ]}
-                    />
+                        ]} />
                 </LayoutTitle>
             </LayoutHeader>
-            <LayoutContent className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Colonne gauche : Présentation + Infos du cours */}
-                <div className="flex flex-col gap-6 order-1 lg:order-1 lg:col-span-1">
-                    {/* Présentation du cours */}
-                    <Card className="h-fit flex flex-col ">
-                        <CardHeader className="flex items-center justify-between">
-                            <CardTitle>Presentation</CardTitle>
-                            <Link href={`/admin/courses/${course.id}/edit`}>
-                                <PencilSquareIcon className="h-5 w-5" />
-                            </Link>
+            <LayoutActions>
+                <Link href={`/admin/courses/${course.id}/edit`}
+                    className={buttonVariants({
+                        variant: 'secondary',
+                    })}>
+                    <PencilSquareIcon className="h-5 w-5" />
+                </Link>
+        </LayoutActions>
+        <LayoutContent className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Colonne gauche : Présentation + Infos du cours */}
+            <div className="flex flex-col gap-6 order-1 lg:order-1 lg:col-span-1">
+                {/* Présentation du cours */}
+                <Card className="h-fit flex flex-col ">
+                    <CardHeader className="flex items-center justify-between">
+                            <Typography variant="h3">
+                                <CardTitle>Presentation</CardTitle>
+                            </Typography>
                         </CardHeader>
                         <CardContent>
                             <Typography variant="base">
@@ -58,14 +64,15 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     {/* Infos du cours et actions */}
                     <Card className="h-fit flex flex-col">
                         <CardHeader className="flex items-end justify-between gap-6">
-
-                            <CardTitle>Course Info</CardTitle>
+                            <Typography variant="h3">
+                                <CardTitle>Course Info</CardTitle>
+                            </Typography>
                         </CardHeader>
 
                         <CardContent className="flex flex-col gap-3 flex-1">
                             <Badge className="w-fit">{course.state}</Badge>
                             <Typography variant={'base'}>{course.users?.length} users</Typography>
-                            <Typography variant={'base'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
+                            <Typography variant={'muted'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
                             <div className="flex-1" />
                             <Link
                                 href={`/admin/courses/${course.id}/lessons`}
@@ -82,16 +89,23 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 {/* Colonne droite : Liste des utilisateurs */}
                 <Card className="order-2 lg:order-2 lg:col-span-2">
                     <CardHeader className="flex items-end justify-between gap-6">
-                        <CardTitle>{course.name}</CardTitle>
+                        <Typography variant="h3">
+                            <CardTitle>Participants</CardTitle>
+                        </Typography>
+                        <div className="flex items-baseline gap-3">
+                            <Typography variant="muted" className="">
+                                {course?.name}
+                            </Typography>
 
-                        <Avatar className="rounded h-5 w-5">
-                            <AvatarFallback>{course.name?.[0]}</AvatarFallback>
-                            {course.image && (
-                                <AvatarImage src={course.image} alt={course.name ?? ''} />
-                            )}
-                        </Avatar>
+                            <Avatar className="rounded h-4 w-4">
+                                <AvatarFallback>{course?.name?.[0]}</AvatarFallback>
+                                {course?.image && (
+                                    <AvatarImage src={course?.image} alt={course?.name ?? ''} />
+                                )}
+                            </Avatar>
+                        </div>
                     </CardHeader>
-                    <CardContent className="mt-2">
+                    <CardContent className="mt-0">
                         <Table>
                             <TableHeader>
                                 <TableRow>

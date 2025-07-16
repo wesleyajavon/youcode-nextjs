@@ -24,6 +24,17 @@ export async function getCourse(courseId: string) {
     return course
 }
 
+export async function getCourseName(courseId: string) {
+    const course = await prisma.course.findUnique({
+        where: { id: courseId },
+        select: {
+            name: true,
+        }
+    });
+
+    return course
+}
+
 
 export async function getUsersFromCourse(courseId: string): Promise<User[]> {
     const course = await prisma.course.findUnique({
