@@ -6,10 +6,10 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { PropsWithChildren } from 'react';
-import { Providers } from './Provider';
 import './globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { AdminSideNav } from '@/components/layout/AdminSideNav';
+import { Providers } from './Provider';
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
+
+
   return (
     <>
       <html lang="en" className="h-full" suppressHydrationWarning>

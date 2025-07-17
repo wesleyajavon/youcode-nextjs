@@ -1,5 +1,7 @@
+"use client"
+
+
 import { SiteConfig } from '@/lib/site-config';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Typography } from '../ui/typography';
 

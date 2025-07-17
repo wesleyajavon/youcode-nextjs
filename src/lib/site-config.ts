@@ -2,5 +2,5 @@
 
 export const SiteConfig = {
   title: 'YouCode',
-  description: 'You JUST need to CODE.',
+  description: 'LMS Learning Management System.',
 } as const;
