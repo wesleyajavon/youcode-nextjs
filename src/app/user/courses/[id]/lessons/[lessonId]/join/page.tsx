@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
 import { redirect } from "next/navigation";
+import { LessonJoinUI } from "./LessonJoin";
+import { Suspense } from "react";
+import { CardSkeleton } from "@/components/ui/skeleton";
 
 export default async function JoinLessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const session = await getRequiredAuthSession();
@@ -25,40 +28,6 @@ export default async function JoinLessonPage(props: { params: Promise<{ id: stri
         },
     });
 
-    async function handleJoinLesson() {
-        "use server";
-        if (!lesson) {
-            redirect(`/user/courses/${params.id}/lessons`);
-        }
-
-        await prisma.lessonOnUser.create({
-            data: {
-                userId: session.user.id,
-                lessonId: lesson.id,
-                progress: "IN_PROGRESS", // Default progress when joining
-            },
-        });
-        redirect(`/user/courses/${lesson.courseId}/lessons/${lesson.id}`);
-    }
-
-    async function handleUnjoinLesson() {
-        "use server";
-
-        if (!lesson) {
-            redirect(`/user/courses/${params.id}/lessons`);
-        }
-
-        await prisma.lessonOnUser.delete({
-            where: {
-                userId_lessonId: {
-                    userId: session.user.id,
-                    lessonId: lesson.id,
-                },
-            },
-        });
-        redirect(`/user/courses/${lesson.courseId}/lessons/${lesson.id}`);
-    }
-
     return (
         <Layout>
             <LayoutHeader>
@@ -68,42 +37,15 @@ export default async function JoinLessonPage(props: { params: Promise<{ id: stri
                             { label: 'Courses', href: '/user/courses' },
                             { label: 'Lessons', href: `/user/courses/${params.id}/lessons` },
                             { label: lesson?.name || 'Lesson', href: `/user/courses/${params.id}/lessons/${lesson?.id}` },
-                            { label: 'Join', href: `/user/courses/${params.id}/lessons/${lesson?.id}/join`, active: true },
+                            { label: alreadyJoined ? 'Leave' : 'Join', href: `/user/courses/${params.id}/lessons/${lesson?.id}/join`, active: true },
                         ]}
                     />
                 </LayoutTitle>
             </LayoutHeader>
-            <LayoutContent className="flex flex-col gap-4 max-w-xl mx-auto">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>
-                            <Typography variant="h2">{lesson.course.name}</Typography>
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-4">
-                        {alreadyJoined ? (
-                            <>
-                                <Typography variant="base">
-                                    You are about to leave the lesson: <strong>{lesson.name}</strong>
-                                </Typography>
-                                <form action={handleUnjoinLesson}>
-                                    <Button type="submit" variant="destructive" className="mt-2">
-                                        Leave this lesson
-                                    </Button>
-                                </form>
-                            </>
-                        ) : (
-                            <form action={handleJoinLesson}>
-                                <Typography variant="base">
-                                    You are about to join the lesson: <strong>{lesson.name}</strong>
-                                </Typography>
-                                <Button type="submit" className="mt-6">
-                                    Join this lesson
-                                </Button>
-                            </form>
-                        )}
-                    </CardContent>
-                </Card>
+            <LayoutContent>
+                <Suspense fallback={<CardSkeleton />}>
+                    <LessonJoinUI params={props.params} />
+                </Suspense>
             </LayoutContent>
         </Layout>
     );

@@ -28,7 +28,7 @@ export async function LessonsTable(props: { params: Promise<{ id: string }> }) {
     // If not, redirect to the login page
     // need to implement login page
     if (!session || !user) {
-        redirect('/login');
+        redirect('/');
     }
 
     if (!course) {

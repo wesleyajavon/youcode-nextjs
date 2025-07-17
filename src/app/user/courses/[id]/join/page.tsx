@@ -8,6 +8,9 @@ import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
+import { CourseJoinUI } from "./CourseJoin";
+import { Suspense } from "react";
+import { CardSkeleton } from "@/components/ui/skeleton";
 
 export default async function JoinCoursePage(props: { params: Promise<{ id: string }> }) {
 
@@ -24,35 +27,6 @@ export default async function JoinCoursePage(props: { params: Promise<{ id: stri
         (u: any) => u.user.id === session.user.id
     );
 
-    async function handleJoin() {
-        "use server";
-        if (!course) {
-            redirect('/user/courses');
-        }
-        await prisma.courseOnUser.create({
-            data: {
-                userId: session.user.id,
-                courseId: course.id,
-            },
-        });
-        redirect(`/user/courses/${course.id}`);
-    }
-
-    async function handleUnjoin() {
-        "use server";
-        if (!course) {
-            redirect('/user/courses');
-        }
-        await prisma.courseOnUser.delete({
-            where: {
-                userId_courseId: {
-                    userId: session.user.id,
-                    courseId: course.id,
-                },
-            },
-        });
-        redirect(`/user/courses/${course.id}`);
-    }
 
     return (
         <Layout>
@@ -62,46 +36,15 @@ export default async function JoinCoursePage(props: { params: Promise<{ id: stri
                         breadcrumbs={[
                             { label: 'Courses', href: '/user/courses' },
                             { label: course.name, href: `/user/courses/${course.id}` },
-                            { label: 'Join', href: `/user/courses/${course.id}/join`, active: true },
+                            { label: alreadyJoined ? 'Leave' : 'Join', href: `/user/courses/${params.id}/join`, active: true },
                         ]}
                     />
                 </LayoutTitle>
             </LayoutHeader>
-            <LayoutContent className="flex flex-col gap-4 max-w-xl mx-auto">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>
-                            <Typography variant="h2">{course.name}</Typography>
-                        </CardTitle>
-                        {/* <Badge className="w-fit">{course.state}</Badge> */}
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-4">
-                        <Typography variant="lead">
-                            {course.presentation}
-                        </Typography>
-                        {alreadyJoined ? (
-                            <>
-                                <Typography variant="base">
-                                    You are about to leave the course: <strong>{course.name}</strong>
-                                </Typography>
-                                <form action={handleUnjoin}>
-                                    <Button type="submit" variant="destructive" className="mt-2">
-                                        Leave this course
-                                    </Button>
-                                </form>
-                            </>
-                        ) : (
-                            <form action={handleJoin}>
-                                <Typography variant="base">
-                                    You are about to join the course: <strong>{course.name}</strong>
-                                </Typography>
-                                <Button type="submit" className="mt-6">
-                                    Join this course
-                                </Button>
-                            </form>
-                        )}
-                    </CardContent>
-                </Card>
+            <LayoutContent>
+                <Suspense fallback={<CardSkeleton />}>
+                    <CourseJoinUI params={props.params} />
+                </Suspense>
             </LayoutContent>
         </Layout>
     );
