@@ -17,7 +17,7 @@ import { UserDashboardUI } from './UserDashboardUI';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
 
-export default async function AdminPage() {
+export default async function UserDashboardPage() {
     return (
         <Layout>
             <LayoutHeader>

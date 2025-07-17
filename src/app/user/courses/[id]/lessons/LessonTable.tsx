@@ -64,6 +64,7 @@ export async function LessonsTable(props: { params: Promise<{ id: string }> }) {
                     <Table>
                         <TableHeader>
                             <TableRow>
+                                <TableHead> </TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Rank</TableHead>
                                 <TableHead>Content</TableHead>
@@ -75,6 +76,12 @@ export async function LessonsTable(props: { params: Promise<{ id: string }> }) {
                         <TableBody>
                             {lessons && lessons.map(async (lesson) => (
                                 <TableRow key={lesson.id}>
+                                    <TableCell>
+                                        <Avatar className="rounded h-5 w-5">
+                                            <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                                            {/* Ajoute une image si tu en as une pour la leçon */}
+                                        </Avatar>
+                                    </TableCell>
                                     <TableCell>
                                         <Typography
                                             as={Link}

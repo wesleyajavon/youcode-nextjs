@@ -5,12 +5,13 @@ import {
     LayoutHeader,
     LayoutTitle,
 } from '@/components/layout/layout';
-import { Card, CardContent } from '@/components/ui/card';
-import { getRequiredAuthSession } from '@/lib/auth';
+
 import { prisma } from '@/lib/prisma';
-import { notFound, redirect } from 'next/navigation';
-import { LessonForm } from './LessonForm';
+import {  redirect } from 'next/navigation';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
+import AdminCourseEditUI from '../../../edit/AdminCourseEditUI';
+import { Suspense } from 'react';
+import { CardSkeleton } from '@/components/ui/skeleton';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
@@ -18,7 +19,6 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
     const lesson = await prisma.lesson.findUnique({
         where: {
             id: params.lessonId,
-            // creatorId: session.user.id,
         },
         select: {
             id: true,
@@ -29,9 +29,9 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
         },
     });
 
-  if (!lesson) {
-    redirect(`/admin/courses/${params.id}/lessons`);
-  }
+    if (!lesson) {
+        redirect(`/admin/courses/${params.id}/lessons`);
+    }
 
     return (
         <Layout>
@@ -54,11 +54,9 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                 </LayoutTitle>
             </LayoutHeader>
             <LayoutContent>
-                <Card className="flex-[2]">
-                    <CardContent className="mt-6 mb-6">
-                        <LessonForm defaultValue={lesson} />
-                    </CardContent>
-                </Card>
+                <Suspense fallback={<CardSkeleton />}>
+                    <AdminCourseEditUI params={props.params} />
+                </Suspense>
             </LayoutContent>
         </Layout>
     );

@@ -10,6 +10,9 @@ import { getRequiredAuthSession } from '@/lib/auth';
 import { CourseForm } from '../[id]/edit/CourseForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Typography } from '@/components/ui/typography';
+import { AdminCoursesCreateUI } from './AdminCourseCreateUI';
+import { Suspense } from 'react';
+import { CardSkeleton } from '@/components/ui/skeleton';
 
 export default async function CoursePage() {
     return (
@@ -33,20 +36,9 @@ export default async function CoursePage() {
                 </LayoutTitle>
             </LayoutHeader>
             <LayoutContent>
-                <Card className="flex-[2]">
-                    <CardHeader>
-                        <Typography variant="large">New Course</Typography>
-                        <Typography variant="small" className="mt-2">
-                            Fill in the details below to create a new course.
-                        </Typography>
-                        <Typography variant="muted" className="mt-2">
-                            Ensure all fields are filled out correctly before submitting.
-                        </Typography>
-                    </CardHeader>
-                    <CardContent className="mt-2">
-                        <CourseForm />
-                    </CardContent>
-                </Card>
+                <Suspense fallback={<CardSkeleton />}>
+                    <AdminCoursesCreateUI />
+                </Suspense>
             </LayoutContent>
         </Layout>
     );
