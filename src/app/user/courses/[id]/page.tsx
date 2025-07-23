@@ -6,6 +6,7 @@ import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import CoursePageContent from "./CoursePageContent";
 import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
+import CoursePageContentGeneric from "@/components/youcode/CoursePageContentGeneric";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
@@ -39,9 +40,10 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                     />
                 </LayoutTitle>
             </LayoutHeader>
-            <LayoutContent className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <LayoutContent>
                 <Suspense fallback={<CoursePageContentSkeleton />}>
-                    <CoursePageContent params={props.params} />
+                    {/* <CoursePageContent params={props.params} /> */}
+                    <CoursePageContentGeneric params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

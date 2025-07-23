@@ -9,5 +9,9 @@ export default async function UserLayout({ children }: { children: React.ReactNo
     redirect('/')
   }
 
-  return <>{children}</>
+  return (
+      <div className="flex flex-1">
+        <main className="flex flex-1">{children}</main>
+      </div>
+      )
 }

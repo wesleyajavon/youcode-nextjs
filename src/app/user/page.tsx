@@ -13,11 +13,17 @@ import { getCoursesNumber, getUsersCountForUserCourses } from '../admin/courses/
 import { getLessonsNumber } from '../admin/courses/_actions/lesson.query';
 import { getCoursesNumberAsUser } from './courses/_actions/course.query';
 import { getLessonsNumberAsUser } from './courses/_actions/lesson.query';
-import { UserDashboardUI } from './UserDashboardUI';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
+import { DashboardCard } from '@/components/youcode/DashboardCard';
 
 export default async function UserDashboardPage() {
+
+    const stats = [
+        { icon: <RectangleStackIcon className="h-5 w-5 text-gray-100 inline-block" />, label: 'You are subscribed to', value: (await getCoursesNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' courses.' },
+        { icon: <BookOpenIcon className="h-5 w-5 text-gray-100 inline-block" />, label: 'You are currently following', value: (await getLessonsNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' lessons.' }
+    ];
+
     return (
         <Layout>
             <LayoutHeader>
@@ -40,7 +46,8 @@ export default async function UserDashboardPage() {
             </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <UserDashboardUI />
+                    {/* <UserDashboardUI /> */}
+                    <DashboardCard stats={stats} />
                 </Suspense>
             </LayoutContent>
         </Layout>

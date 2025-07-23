@@ -8,6 +8,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import AdminCoursePageContentUI from "./AdminCoursePageContentUI";
 import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
+import CoursePageContentGeneric from "@/components/youcode/CoursePageContentGeneric";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
@@ -44,7 +45,8 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
             </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CoursePageContentSkeleton />}>
-                    <AdminCoursePageContentUI params={props.params} />
+                    {/* <AdminCoursePageContentUI params={props.params} /> */}
+                    <CoursePageContentGeneric params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout >

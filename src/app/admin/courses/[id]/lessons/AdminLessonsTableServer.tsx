@@ -1,11 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { getRequiredAuthSession } from "@/lib/auth";
 import { AdminLessonsTableUI } from "./AdminLessonsTableUI";
+import { getCourse } from "../../_actions/course.query";
+import { notFound } from "next/navigation";
 
 export async function AdminLessonsTableServer(props: { params: Promise<{ id: string }> }) {
     const session = await getRequiredAuthSession();
-    const params = await props.params;
+    const params = await props.params
     const courseId = params.id;
+    const course = await getCourse(courseId);
+    if (!course) {
+        notFound()
+    }
+
 
     // On récupère les leçons du cours, triées par rank
     const lessons = await prisma.lesson.findMany({
