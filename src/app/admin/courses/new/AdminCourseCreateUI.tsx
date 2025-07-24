@@ -9,7 +9,7 @@ export async function AdminCoursesCreateUI() {
     return (
         <Card className="flex-[2]">
             <CardHeader>
-                <Typography variant="large">New Course</Typography>
+                <Typography variant="h2">New Course</Typography>
                 <Typography variant="small" className="mt-2">
                     Fill in the details below to create a new course.
                 </Typography>

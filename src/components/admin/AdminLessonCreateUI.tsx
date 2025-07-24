@@ -1,11 +1,7 @@
-import { getRequiredAuthSession } from '@/lib/auth';
 import React from 'react';
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Typography } from '@/components/ui/typography';
-import { LessonForm } from '../../app/admin/courses/[id]/lessons/[lessonId]/edit/LessonForm'; // adapte le chemin si besoin
-import { getCourseName } from '../../app/admin/courses/_actions/course.query';
+import { LessonForm } from './LessonForm'; // adapte le chemin si besoin
 
 
 

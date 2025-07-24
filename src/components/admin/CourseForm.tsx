@@ -47,9 +47,9 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
 
         const { data, serverError } = defaultValue?.id
           ? await courseActionEdit({
-                data: values,
-                courseId: defaultValue.id,
-            })
+            data: values,
+            courseId: defaultValue.id,
+          })
           : await courseActionCreate(values);
 
         if (data) {
@@ -102,9 +102,8 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
           <FormItem>
             <FormLabel>Presentation</FormLabel>
             <FormControl>
-              <Textarea placeholder="## Some title" {...field} />
+              <Textarea placeholder="## Course Presentation" {...field} />
             </FormControl>
-            <FormDescription>Markdown is supported.</FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -136,6 +135,9 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
       />
 
       <Button type="submit">Submit</Button>
+      <Button asChild variant="outline">
+        <a href="/admin/courses">Cancel</a>
+      </Button>
     </Form>
   );
 };

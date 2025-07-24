@@ -1,7 +1,7 @@
-import { AccountUI } from './AccountUI'
 import { Suspense } from 'react'
 import { CardSkeleton } from '@/components/ui/skeleton'
 import { Layout, LayoutContent } from '@/components/layout/layout'
+import { AccountUI } from '@/components/common/AccountUI'
 
 export default async function AccountPage() {
   return (

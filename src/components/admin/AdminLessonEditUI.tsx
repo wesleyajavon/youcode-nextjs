@@ -1,15 +1,7 @@
-import {
-    Layout,
-    LayoutContent,
-    LayoutHeader,
-    LayoutTitle,
-} from '@/components/layout/layout';
+import { LessonForm } from '@/components/admin/LessonForm';
 import { Card, CardContent } from '@/components/ui/card';
-import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { notFound, redirect } from 'next/navigation';
-import { LessonForm } from './LessonForm';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
+import { redirect } from 'next/navigation';
 
 
 

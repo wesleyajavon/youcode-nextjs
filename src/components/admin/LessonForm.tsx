@@ -20,12 +20,10 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { lessonActionCreate, lessonActionEdit } from './lesson.action';
-import { LESSON_STATE, LessonFormSchema } from './lesson.schema';
-import { useEffect, useState } from 'react';
+import { lessonActionCreate, lessonActionEdit } from '../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.action';
+import { LESSON_STATE, LessonFormSchema } from '../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.schema';
 
 
 
@@ -124,6 +122,9 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
             />
 
             <Button type="submit">Submit</Button>
+            <Button asChild variant="outline">
+                <a href={`/admin/courses/${defaultValue?.courseId}/lessons`}>Cancel</a>
+            </Button>
         </Form>
     );
 };

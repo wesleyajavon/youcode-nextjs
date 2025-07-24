@@ -2,9 +2,6 @@ import { getAuthSession } from "@/lib/auth"
 import { LoginButton } from "./LoginButton";
 import { LoggedInButton } from "./LoggedInButton";
 
-
-
-
 export const AuthButton = async() => {
     const session = await getAuthSession();
 
