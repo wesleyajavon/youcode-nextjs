@@ -78,7 +78,7 @@ export default async function Home() {
       <section className="relative flex flex-col items-center justify-center px-6 pt-16 pb-24 bg-gradient-to-b from-white-100 to-primary/10">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-pink-100/60 via-transparent to-transparent" />
         <div className="relative z-10 flex flex-col items-center max-w-3xl mx-auto text-center gap-6">
-          <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-white to-gray-700 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-gray-300 to-gray-700 bg-clip-text text-transparent">
             {!session
               ? "Learn and teach in seconds"
               : session.user.role === "ADMIN"
@@ -161,7 +161,7 @@ export default async function Home() {
                 "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0"
               )}
             >
-              Start here !
+              Start
             </Link>
           )}
           {session?.user.role === "USER" && (
@@ -202,19 +202,18 @@ export default async function Home() {
       </section>
 
       {/* Contact Me */}
-
       <section
         id="contact"
-        className="bg-gradient-to-b from-primary/10 to-black py-16 text-white"
+        className="bg-gradient-to-b from-primary/10 to-white-100 py-16 text-black-foreground"
       >
         <div className="m-auto flex max-w-5xl flex-col gap-6 px-6 items-center text-center">
           <h2 className="text-4xl font-extrabold mb-2">Contact</h2>
-          <p className="mb-6 text-base sm:text-lg text-white/90">
+          <p className="mb-6 text-base sm:text-lg ">
             Get in touch via email or social media!
           </p>
           <a
             href="mailto:wesleyajavon2203@hotmail.com"
-            className="text-neutral-200 text-sm sm:text-base hover:underline mb-4"
+            className=" text-sm sm:text-base hover:underline mb-4"
           >
             wesleyajavon2203@hotmail.com
           </a>

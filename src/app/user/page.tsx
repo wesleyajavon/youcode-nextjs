@@ -16,8 +16,8 @@ import { DashboardCard } from '@/components/common/DashboardCard';
 export default async function UserDashboardPage() {
 
     const stats = [
-        { icon: <RectangleStackIcon className="h-5 w-5 text-gray-100 inline-block" />, label: 'You are subscribed to', value: (await getCoursesNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' courses.' },
-        { icon: <BookOpenIcon className="h-5 w-5 text-gray-100 inline-block" />, label: 'You are currently following', value: (await getLessonsNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' lessons.' }
+        { icon: <RectangleStackIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'You are subscribed to', value: (await getCoursesNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' courses.' },
+        { icon: <BookOpenIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'You are currently following', value: (await getLessonsNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' lessons.' }
     ];
 
     return (

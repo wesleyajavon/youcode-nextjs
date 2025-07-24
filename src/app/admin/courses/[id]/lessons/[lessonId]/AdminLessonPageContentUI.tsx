@@ -28,7 +28,7 @@ export default async function AdminLessonPageContentUI(props: { params: Promise<
             <CardHeader>
                 <CardTitle className="flex items-center justify-between gap-2">
                     <Typography variant="h2" className="">
-                        {lesson.name.slice(0, 20) || 'Lesson'}
+                        {lesson.name.slice(0, 30) || 'Lesson'}
                     </Typography>
                     <div className="flex items-baseline gap-3">
                         <Typography variant="muted" className="">

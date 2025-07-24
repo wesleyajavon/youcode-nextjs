@@ -23,9 +23,9 @@ export default async function AdminDashboardPage() {
             // await new Promise(res => setTimeout(res, 5000));
 
         const stats = [
-            { icon: <UserIcon className="h-5 w-5 text-gray-100 inline-block" />, label: 'Number of users that joined your courses', value: usersCount },
-            { icon: <BookOpenIcon className="h-5 w-5 text-gray-100 inline-block" />, label: 'Total Lessons', value: lessonsCount },
-            { icon: <RectangleStackIcon className="h-5 w-5 text-gray-100 inline-block" />, label: 'Total Courses', value: coursesCount }
+            { icon: <UserIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'Number of users that joined your courses', value: usersCount },
+            { icon: <BookOpenIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'Total Lessons', value: lessonsCount },
+            { icon: <RectangleStackIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'Total Courses', value: coursesCount }
         ];
 
     return (

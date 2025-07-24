@@ -8,7 +8,6 @@ import { Inter } from 'next/font/google';
 import { PropsWithChildren } from 'react';
 import './globals.css';
 import { Footer } from '@/components/layout/Footer';
-import { AdminSideNav } from '@/components/layout/AdminSideNav';
 import { Providers } from './Provider';
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -34,7 +33,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <Providers>
             <div className="relative flex min-h-screen flex-col">
               <Header />
-              {/* Main content area: sidebar + page content */}
               <div className="flex-1">
                 {children}
               </div>

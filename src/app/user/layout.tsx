@@ -11,7 +11,7 @@ export default async function UserLayout({ children }: { children: React.ReactNo
 
   return (
       <div className="flex flex-1">
-        <main className="flex flex-1">{children}</main>
+        <main className="flex flex-1 text-white-foreground">{children}</main>
       </div>
       )
 }
