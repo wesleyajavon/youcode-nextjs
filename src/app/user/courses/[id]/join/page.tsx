@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
-import { CourseJoinUI } from "./CourseJoin";
+import { CourseJoinUI } from "../../../../../components/user/CourseJoin";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
 

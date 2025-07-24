@@ -4,9 +4,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
+import { getAuthSession, getRequiredAuthSession } from "@/lib/auth";
+import { LoginButton } from "@/lib/features/auth/LoginButton";
 import { prisma } from "@/lib/prisma";
 import { cn } from "@/lib/utils";
 import { CircleDollarSign, PencilLine, Rocket, Star } from "lucide-react";
@@ -67,15 +68,9 @@ const FAQValues = [
 
 
 export default async function Home() {
-  await prisma.course.findMany({
-    include: {
-      lessons: {
-        include: {
-          users: true,
-        },
-      },
-    },
-  });
+
+  const session = await getAuthSession()
+
 
   return (
     <div className="bg-background w-full">
@@ -84,10 +79,18 @@ export default async function Home() {
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-pink-100/60 via-transparent to-transparent" />
         <div className="relative z-10 flex flex-col items-center max-w-3xl mx-auto text-center gap-6">
           <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-white to-gray-700 bg-clip-text text-transparent">
-            Create courses in seconds
+            {!session
+              ? "Learn and teach in seconds"
+              : session.user.role === "ADMIN"
+                ? "Share your knowledge with the world"
+                : "Learn from the best, instantly"}
           </h1>
           <h2 className="text-2xl font-bold text-muted-foreground">
-            YouCode is the YouTube of education. Create online courses in seconds.
+            {!session
+              ? "YouCode is the YouTube of education. Create or enroll in online courses in seconds."
+              : session.user.role === "ADMIN"
+                ? "YouCode lets you create and publish online courses in seconds."
+                : "YouCode is the YouTube of education. Discover and enroll in courses in seconds."}
           </h2>
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-1 text-yellow-500 dark:text-yellow-400">
@@ -96,10 +99,14 @@ export default async function Home() {
               ))}
             </div>
             <p className="font-semibold text-muted-foreground">
-              +500 teachers trust us.
+              {!session
+                ? "+500 teachers and 5000 students trust us."
+                : session.user.role === "ADMIN"
+                  ? "+500 teachers trust us."
+                  : "+5000 students are learning with us."}
             </p>
           </div>
-          
+
         </div>
       </section>
 
@@ -123,15 +130,11 @@ export default async function Home() {
           </div>
           <div className="flex flex-1 flex-col items-center gap-3 text-center">
             <Rocket size={36} />
-            <Typography variant="h3">NextReact project</Typography>
+            <Typography variant="h3">Next.js project</Typography>
             <Typography variant="large">
-              Re-build this app from scratch in{" "}
-              <Link
-                href="https://codelynx.dev/nextfullstack"
-                className="underline"
-              >
-                NextReact
-              </Link>
+              This app is built from scratch with:
+              <br />
+              Next.js, React, and Tailwind CSS.
             </Typography>
           </div>
         </div>
@@ -142,17 +145,38 @@ export default async function Home() {
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-pink-100/60 via-transparent to-transparent" />
         <div className="relative z-10 flex flex-col items-center gap-6">
           <h2 className="text-4xl font-extrabold bg-gradient-to-l from-gray-300 to-gray-700 bg-clip-text text-transparent">
-            Start building your course today
+            Start using YouCode today!
           </h2>
-          <Link
-            href="/admin/courses/new"
-            className={cn(
+          {!session && (
+            <LoginButton label="Sign in" className={cn(
               buttonVariants({ size: "lg" }),
               "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0"
-            )}
-          >
-            BUILD YOUR FIRST COURSE
-          </Link>
+            )} />
+          )}
+          {session?.user.role === "ADMIN" && (
+            <Link
+              href="/admin"
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0"
+              )}
+            >
+              Start here !
+            </Link>
+          )}
+          {session?.user.role === "USER" && (
+            <Link
+              href="/user"
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0"
+              )}
+            >
+              Start here !
+            </Link>
+          )}
+
+          
         </div>
       </section>
 

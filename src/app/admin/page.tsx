@@ -50,9 +50,7 @@ export default async function AdminDashboardPage() {
             </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    {/* <AdminDashboardUI /> */}
                     <DashboardCard stats={stats} />
-
                 </Suspense>
             </LayoutContent>
         </Layout>

@@ -6,25 +6,30 @@ import { useMutation } from "@tanstack/react-query"
 import { LogIn } from "lucide-react"
 import { signIn } from "next-auth/react"
 
-export const LoginButton = () => {
+type LoginButtonProps = {
+  label?: string
+  className?: string
+}
 
-    const mutation = useMutation({
-        mutationFn: async () => signIn(),
-    })
+export const LoginButton = ({ label = "Sign in", className }: LoginButtonProps) => {
+  const mutation = useMutation({
+    mutationFn: async () => signIn(),
+  })
 
-    return (
-        <Button
-            variant={"outline"}
-            size={'sm'}
-            disabled={mutation.isPending}
-            onClick={() => {
-                signIn()
-            }}>
-            {mutation.isPending ? (
-                <Loader className="ml-1" size={12} />
-            ) : <LogIn className="ml-1" size={12} />}
-
-            Login
-        </Button>
-    )
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      disabled={mutation.isPending}
+      onClick={() => signIn()}
+      className={className}
+    >
+      {mutation.isPending ? (
+        <Loader className="ml-1" size={12} />
+      ) : (
+        <LogIn className="ml-1" size={12} />
+      )}
+      {label}
+    </Button>
+  )
 }
