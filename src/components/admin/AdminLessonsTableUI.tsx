@@ -1,16 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-    Layout,
-    LayoutActions,
-    LayoutContent,
-    LayoutHeader,
-    LayoutTitle,
-} from '@/components/layout/layout';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { buttonVariants } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import {
     Table,
@@ -21,7 +12,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Typography } from '@/components/ui/typography';
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import Link from 'next/link';
 import {
@@ -34,7 +25,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Lesson } from "@prisma/client";
-import { CardSkeleton } from "@/components/ui/skeleton";
 
 export function AdminLessonsTableUI({
     lessonProps,

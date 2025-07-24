@@ -23,8 +23,8 @@ import { Textarea } from '@/components/ui/textarea';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { courseActionCreate, courseActionEdit } from './course.action';
-import { COURSE_STATE, CourseFormSchema } from './course.schema';
+import { courseActionCreate, courseActionEdit } from '../../app/admin/courses/[id]/edit/course.action';
+import { COURSE_STATE, CourseFormSchema } from '../../app/admin/courses/[id]/edit/course.schema';
 
 export type CourseFormProps = {
   defaultValue?: CourseFormSchema & {

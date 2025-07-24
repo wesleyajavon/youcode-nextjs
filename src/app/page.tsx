@@ -19,32 +19,52 @@ const FAQValues = [
       "With YouCode, the only limits are your creativity and the content you are legally allowed to share. There are no restrictions on the number of courses or lessons you can create.",
   },
   {
-    question: "Can I integrate quizzes or exercises into my YouCode courses?",
+    question: "Can I use YouCode to publish paid courses?",
     answer:
-      "Absolutely! YouCode supports the integration of various types of interactive activities like quizzes, coding exercises, and more.",
+      "Currently, YouCode is focused on open learning. While payment support is not built-in yet, you can share links or gated content manually if needed.",
   },
   {
-    question: "How does YouCode ensure the quality of the courses offered?",
+    question: "Who can create courses on YouCode?",
     answer:
-      "We have a dedicated team for quality assurance of courses. Moreover, the YouCode community can leave reviews and report inappropriate content.",
+      "Anyone with a YouCode account can create and publish courses, whether you're a student, teacher, or self-taught learner.",
   },
   {
-    question: "Does YouCode offer tracking tools for course creators?",
+    question: "Is YouCode mobile-friendly?",
     answer:
-      "Yes, we provide detailed analytics so you can monitor your students' progress and engagement with your courses.",
+      "Yes! YouCode is fully responsive and works great on mobile, tablet, and desktop devices.",
   },
   {
-    question: "Can I customize the appearance of my courses on YouCode?",
+    question: "How do I enroll in a course?",
     answer:
-      "Yes, YouCode offers customization options so you can align the look of your courses with your brand or personal preferences.",
+      "Simply browse the course catalog, click on a course you're interested in, and hit the enroll button. Enrollment is instant.",
   },
   {
-    question:
-      "What support does YouCode provide to content creators in case of issues?",
+    question: "Can I track my progress through a course?",
     answer:
-      "We have a responsive support team that can be contacted directly via our platform for any technical issues or questions.",
+      "Yes, YouCode tracks which lessons you’ve completed, making it easy to resume where you left off.",
   },
-];
+  {
+    question: "Is YouCode free to use?",
+    answer:
+      "Yes, YouCode is completely free to use for both learners and instructors.",
+  },
+  {
+    question: "Can I edit or delete my course after publishing?",
+    answer:
+      "Absolutely. You have full control over your published content and can update or remove courses at any time.",
+  },
+  {
+    question: "Is there a review or feedback system for courses?",
+    answer:
+      "A feedback and rating system is currently in development and will be available in a future update.",
+  },
+  {
+    question: "How is my data stored and secured on YouCode?",
+    answer:
+      "YouCode uses secure, industry-standard practices to store and manage user data, ensuring your content and personal information remain safe.",
+  }
+]
+
 
 export default async function Home() {
   await prisma.course.findMany({

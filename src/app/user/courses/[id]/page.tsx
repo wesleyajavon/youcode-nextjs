@@ -3,10 +3,9 @@ import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from 
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
-import CoursePageContent from "./CoursePageContent";
 import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
-import CoursePageContentGeneric from "@/components/youcode/CoursePageContentGeneric";
+import CoursePageContentGeneric from "@/components/common/CoursePageContentGeneric";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
@@ -42,7 +41,6 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
             </LayoutHeader>
             <LayoutContent>
                 <Suspense fallback={<CoursePageContentSkeleton />}>
-                    {/* <CoursePageContent params={props.params} /> */}
                     <CoursePageContentGeneric params={props.params} />
                 </Suspense>
             </LayoutContent>

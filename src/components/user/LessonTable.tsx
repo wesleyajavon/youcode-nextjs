@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { getLessons } from "@/app/admin/courses/_actions/lesson.query";
-import { getLessonProgress } from "../../_actions/lesson.query";
+import { getLessonProgress } from "../../app/user/courses/_actions/lesson.query";
 
 
 export async function LessonsTable(props: { params: Promise<{ id: string }> }) {

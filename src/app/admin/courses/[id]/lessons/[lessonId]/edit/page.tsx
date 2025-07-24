@@ -9,7 +9,7 @@ import {
 import { prisma } from '@/lib/prisma';
 import {  redirect } from 'next/navigation';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
-import AdminCourseEditUI from '../../../edit/AdminCourseEditUI';
+import AdminCourseEditUI from '../../../../../../../components/admin/AdminCourseEditUI';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
 

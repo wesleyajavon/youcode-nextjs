@@ -7,7 +7,7 @@ import {
 } from '@/components/layout/layout';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getRequiredAuthSession } from '@/lib/auth';
-import { CourseForm } from '../[id]/edit/CourseForm';
+import { CourseForm } from '../../../../components/admin/CourseForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Typography } from '@/components/ui/typography';
 import { AdminCoursesCreateUI } from './AdminCourseCreateUI';

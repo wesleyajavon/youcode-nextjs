@@ -8,9 +8,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
+import { getRequiredAuthSession } from "@/lib/auth";
 
-export default async function AdminCoursePageContentUI(props: { params: Promise<{ id: string }> }) {
+export default async function CoursePageContentGeneric(props: { params: Promise<{ id: string }> }) {
 
+    const session = await getRequiredAuthSession();
     const params = await props.params;
     const course = await getCourse(params.id);
 
@@ -19,6 +21,11 @@ export default async function AdminCoursePageContentUI(props: { params: Promise<
     }
 
     // await new Promise(res => setTimeout(res, 5000));
+
+    // Vérifie si l'utilisateur est déjà inscrit
+    const alreadyJoined = course.users.some(
+        (u: any) => u.user.id === session.user.id
+    );
 
 
     return (
@@ -39,29 +46,69 @@ export default async function AdminCoursePageContentUI(props: { params: Promise<
                         </Typography>
                     </CardContent>
                 </Card>
-                {/* Infos du cours et actions */}
-                <Card className="h-fit flex flex-col">
-                    <CardHeader className="flex items-end justify-between gap-6">
-                        <Typography variant="h3">
-                            <CardTitle>Course Info</CardTitle>
-                        </Typography>
-                    </CardHeader>
+                {/* Infos du cours et actions for admin */}
+                {session.user.role === 'ADMIN' && (
+                    <Card className="h-fit flex flex-col">
+                        <CardHeader className="flex items-end justify-between gap-6">
+                            <Typography variant="h3">
+                                <CardTitle>Course Info</CardTitle>
+                            </Typography>
+                        </CardHeader>
 
-                    <CardContent className="flex flex-col gap-3 flex-1">
-                        <Badge className="w-fit">{course.state}</Badge>
-                        <Typography variant={'base'}>{course.users?.length} users</Typography>
-                        <Typography variant={'muted'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
-                        <div className="flex-1" />
-                        <Link
-                            href={`/admin/courses/${course.id}/lessons`}
-                            className={buttonVariants({
-                                variant: 'outline',
-                            })}
-                        >
-                            See lessons
-                        </Link>
-                    </CardContent>
-                </Card>
+                        <CardContent className="flex flex-col gap-3 flex-1">
+                            <Badge className="w-fit">{course.state}</Badge>
+                            <Typography variant={'base'}>{course.users?.length} users</Typography>
+                            <Typography variant={'muted'}>Created: {course.createdAt.toLocaleDateString()}</Typography>
+                            <div className="flex-1" />
+                            <Link
+                                href={`/admin/courses/${course.id}/lessons`}
+                                className={buttonVariants({
+                                    variant: 'outline',
+                                })}
+                            >
+                                See lessons
+                            </Link>
+                        </CardContent>
+                    </Card>)}
+
+                {/* Infos du cours et actions for user */}
+                {session.user.role === 'USER' && (
+                    <Card className="h-fit flex flex-col">
+                        <CardContent className="flex flex-col gap-3 flex-1">
+                            {alreadyJoined && (
+                                <Link
+                                    href={`/user/courses/${course.id}/lessons`}
+                                    className={buttonVariants({
+                                        variant: 'outline',
+                                    })}
+                                >
+                                    See lessons
+                                </Link>
+                            )}
+
+                            <div className="flex-2" /> {/* Espaceur pour pousser le bouton en bas */}
+
+                            {alreadyJoined ? (
+                                <Link
+                                    href={`/user/courses/${course.id}/join`}
+                                    className={buttonVariants({
+                                        variant: 'destructive',
+                                    })}
+                                >
+                                    Leave this course
+                                </Link>
+                            ) : (
+                                <Link
+                                    href={`/user/courses/${course.id}/join`}
+                                    className={buttonVariants({
+                                        variant: 'default',
+                                    })}
+                                >
+                                    Join this course
+                                </Link>
+                            )}
+                        </CardContent>
+                    </Card>)}
             </div>
 
             {/* Colonne droite : Liste des utilisateurs */}
@@ -89,7 +136,7 @@ export default async function AdminCoursePageContentUI(props: { params: Promise<
                             <TableRow>
                                 <TableHead></TableHead>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
+                                {session.user.role === 'ADMIN' && <TableHead>Email</TableHead>}
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -113,14 +160,15 @@ export default async function AdminCoursePageContentUI(props: { params: Promise<
                                             {user.user.name}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell>
-                                        <Typography
-                                            variant="small"
-                                            className="font-semibold"
-                                        >
-                                            {user.user.email}
-                                        </Typography>
-                                    </TableCell>
+                                    {session.user.role === 'ADMIN' &&
+                                        <TableCell>
+                                            <Typography
+                                                variant="small"
+                                                className="font-semibold"
+                                            >
+                                                {user.user.email}
+                                            </Typography>
+                                        </TableCell>}
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -129,4 +177,5 @@ export default async function AdminCoursePageContentUI(props: { params: Promise<
             </Card>
         </div>
     )
+
 }

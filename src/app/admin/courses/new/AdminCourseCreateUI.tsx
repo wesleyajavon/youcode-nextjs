@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { CourseForm } from '../[id]/edit/CourseForm';
+import { CourseForm } from '../../../../components/admin/CourseForm';
 import { Typography } from '@/components/ui/typography';
 
 export async function AdminCoursesCreateUI() {

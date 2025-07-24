@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { getRequiredAuthSession } from "@/lib/auth";
-import { AdminLessonsTableUI } from "./AdminLessonsTableUI";
-import { getCourse } from "../../_actions/course.query";
+import { getCourse } from "../../app/admin/courses/_actions/course.query";
 import { notFound } from "next/navigation";
+import { AdminLessonsTableUI } from "./AdminLessonsTableUI";
 
 export async function AdminLessonsTableServer(props: { params: Promise<{ id: string }> }) {
     const session = await getRequiredAuthSession();

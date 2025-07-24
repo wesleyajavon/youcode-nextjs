@@ -11,7 +11,7 @@ import { getCoursesNumber, getUsersCountForUserCourses } from './courses/_action
 import { getLessonsNumber } from './courses/_actions/lesson.query';
 import { BookOpenIcon, UserIcon } from 'lucide-react';
 import { RectangleStackIcon } from '@heroicons/react/24/outline';
-import { DashboardCard } from '@/components/youcode/DashboardCard';
+import { DashboardCard } from '@/components/common/DashboardCard';
 
 export default async function AdminDashboardPage() {
 
