@@ -2,7 +2,7 @@ import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/l
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
-import { LessonsTable } from "../../../../../components/user/LessonTable";
+import { LessonsTable } from "../../../../../components/user/server/LessonTable";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
 

@@ -34,7 +34,7 @@ export async function CoursesTable() {
 
     return (
         <Card>
-            <CardContent className="">
+            <CardContent>
                 <Typography variant="h2" className="mb-6">
                     Courses Dashboard
                 </Typography>

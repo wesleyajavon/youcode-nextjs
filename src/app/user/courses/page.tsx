@@ -8,7 +8,7 @@ import {
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
-import { CoursesTable } from '../../../components/user/CourseTable';
+import { CoursesTable } from '../../../components/user/server/CourseTable';
 
 
 export default async function UserCoursesPage() {

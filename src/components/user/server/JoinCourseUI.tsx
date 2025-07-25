@@ -3,16 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Typography } from "@/components/ui/typography";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
-import { prisma } from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
+import { JoinCourseButton } from "../client/JoinCourseButton";
+import { LeaveCourseButton } from "../client/LeaveCourseButton";
 
-export async function CourseJoinUI(props: { params: Promise<{ id: string }> }) {
+export async function JoinCourseUI(props: { params: Promise<{ id: string }> }) {
 
     const params = await props.params;
     const session = await getRequiredAuthSession();
     const course = await getCourse(params.id);
     // await new Promise(res => setTimeout(res, 5000));
-
 
     if (!course) {
         redirect('/user/courses');
@@ -22,36 +21,6 @@ export async function CourseJoinUI(props: { params: Promise<{ id: string }> }) {
     const alreadyJoined = course.users.some(
         (u: any) => u.user.id === session.user.id
     );
-
-    async function handleJoin() {
-        "use server";
-        if (!course) {
-            redirect('/user/courses');
-        }
-        await prisma.courseOnUser.create({
-            data: {
-                userId: session.user.id,
-                courseId: course.id,
-            },
-        });
-        redirect(`/user/courses/${course.id}`);
-    }
-
-    async function handleUnjoin() {
-        "use server";
-        if (!course) {
-            redirect('/user/courses');
-        }
-        await prisma.courseOnUser.delete({
-            where: {
-                userId_courseId: {
-                    userId: session.user.id,
-                    courseId: course.id,
-                },
-            },
-        });
-        redirect(`/user/courses/${course.id}`);
-    }
 
     return (
         <Card>
@@ -69,21 +38,15 @@ export async function CourseJoinUI(props: { params: Promise<{ id: string }> }) {
                         <Typography variant="base">
                             You are about to leave the course: <strong>{course.name}</strong>
                         </Typography>
-                        <form action={handleUnjoin}>
-                            <Button type="submit" variant="destructive" className="mt-2">
-                                Leave this course
-                            </Button>
-                        </form>
+                        <LeaveCourseButton courseId={course.id} userId={session.user.id} />
                     </>
                 ) : (
-                    <form action={handleJoin}>
+                    <>
                         <Typography variant="base">
                             You are about to join the course: <strong>{course.name}</strong>
                         </Typography>
-                        <Button type="submit" className="mt-6">
-                            Join this course
-                        </Button>
-                    </form>
+                        <JoinCourseButton courseId={course.id} userId={session.user.id} />
+                    </>
                 )}
             </CardContent>
         </Card>

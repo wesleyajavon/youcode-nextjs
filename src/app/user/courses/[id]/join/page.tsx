@@ -1,16 +1,11 @@
 import { getRequiredAuthSession } from "@/lib/auth";
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Typography } from "@/components/ui/typography";
-import { Badge } from "@/components/ui/badge";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
-import { prisma } from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
-import { CourseJoinUI } from "../../../../../components/user/CourseJoin";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
+import { JoinCourseUI } from "@/components/user/server/JoinCourseUI";
 
 export default async function JoinCoursePage(props: { params: Promise<{ id: string }> }) {
 
@@ -43,7 +38,7 @@ export default async function JoinCoursePage(props: { params: Promise<{ id: stri
             </LayoutHeader>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <CourseJoinUI params={props.params} />
+                    <JoinCourseUI params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>
