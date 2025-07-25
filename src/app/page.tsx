@@ -6,9 +6,8 @@ import {
 } from "@/components/ui/accordion";
 import { buttonVariants } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
-import { getAuthSession, getRequiredAuthSession } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
 import { LoginButton } from "@/lib/features/auth/LoginButton";
-import { prisma } from "@/lib/prisma";
 import { cn } from "@/lib/utils";
 import { CircleDollarSign, PencilLine, Rocket, Star } from "lucide-react";
 import Link from "next/link";

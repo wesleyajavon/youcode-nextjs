@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
-import { CourseForm } from './CourseForm';
+import { CourseForm } from '../client/CourseForm';
 import { Typography } from '@/components/ui/typography';
 
 export default async function AdminCourseEditUI(props: { params: Promise<{ id: string }> }) {

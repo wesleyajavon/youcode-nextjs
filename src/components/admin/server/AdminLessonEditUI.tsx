@@ -1,4 +1,4 @@
-import { LessonForm } from '@/components/admin/LessonForm';
+import { LessonForm } from '@/components/admin/client/LessonForm';
 import { Card, CardContent } from '@/components/ui/card';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';

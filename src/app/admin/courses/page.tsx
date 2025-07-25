@@ -15,7 +15,7 @@ import { PlusIcon, } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
-import { AdminCoursesTableServer } from "@/components/admin/AdminCoursesTableServer";
+import { AdminCoursesTableServer } from "@/components/admin/server/AdminCoursesTableServer";
 
 export default async function AdminCoursesPage() {
     const session = await getRequiredAuthSession();

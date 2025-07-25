@@ -22,8 +22,8 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { lessonActionCreate, lessonActionEdit } from '../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.action';
-import { LESSON_STATE, LessonFormSchema } from '../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.schema';
+import { lessonActionCreate, lessonActionEdit } from '../../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.action';
+import { LESSON_STATE, LessonFormSchema } from '../../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.schema';
 
 
 

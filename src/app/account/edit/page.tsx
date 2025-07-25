@@ -4,14 +4,12 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
+  CardDescription
 } from '@/components/ui/card'
 import { Typography } from '@/components/ui/typography'
-import { Button } from '@/components/ui/button'
 import { prisma } from '@/lib/prisma'
 import { Role } from '@prisma/client'
+import { EditRoleForm } from '@/components/common/RoleForm'
 
 export default async function EditAccountPage() {
   const session = await getAuthSession()
@@ -27,15 +25,22 @@ export default async function EditAccountPage() {
   async function updateRole(formData: FormData) {
     'use server'
     const newRole = formData.get('role') as Role
-    await prisma.user.update({
+    const user = await prisma.user.update({
       where: { id },
       data: { role: newRole },
     })
+
+    // if (user) {
+    //   toast.success('Role updated successfully')
+    // } else {
+    //   toast.error('Failed to update role')
+    // }
+
     redirect('/account')
   }
 
   return (
-    <div className="flex items-center justify-center mt-20">
+    <div className="flex items-center justify-center py-20">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -43,27 +48,7 @@ export default async function EditAccountPage() {
           </CardTitle>
           <CardDescription>Update your user role</CardDescription>
         </CardHeader>
-        <form action={updateRole}>
-          <CardContent className="flex flex-col gap-4 mb-30">
-            <div>
-              <Typography variant="small">Role</Typography>
-              <select
-                name="role"
-                defaultValue={role}
-                className="mt-1 block w-full rounded-md border px-3 py-2"
-              >
-                <option value="USER">User</option>
-                <option value="ADMIN">Admin</option>
-              </select>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end gap-2 mt-4 ml-30">
-            <Button type="submit">Save</Button>
-            <Button asChild variant="outline">
-              <a href="/account">Cancel</a>
-            </Button>
-          </CardFooter>
-        </form>
+        <EditRoleForm id={id ?? ''} role={role} />
       </Card>
     </div>
   )

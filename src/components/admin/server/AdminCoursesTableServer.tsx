@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getRequiredAuthSession } from "@/lib/auth";
-import { AdminCoursesTableUI } from "./AdminCoursesTableUI";
+import { AdminCoursesTableUI } from "../client/AdminCoursesTableUI";
 
 export async function AdminCoursesTableServer() {
   const session = await getRequiredAuthSession();

@@ -14,7 +14,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
-import { AdminLessonsTableServer } from "@/components/admin/AdminLessonsTableServer";
+import { AdminLessonsTableServer } from "@/components/admin/server/AdminLessonsTableServer";
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params

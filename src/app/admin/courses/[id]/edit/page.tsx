@@ -9,7 +9,7 @@ import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
-import AdminCourseEditUI from '../../../../../components/admin/AdminCourseEditUI';
+import AdminCourseEditUI from '../../../../../components/admin/server/AdminCourseEditUI';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
 

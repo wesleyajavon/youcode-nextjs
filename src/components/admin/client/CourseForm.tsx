@@ -1,5 +1,7 @@
 'use client';
 
+import { courseActionCreate, courseActionEdit } from '@/app/admin/courses/[id]/edit/_actions/course.action';
+import { COURSE_STATE, CourseFormSchema } from '@/app/admin/courses/[id]/edit/_actions/course.schema';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -23,8 +25,7 @@ import { Textarea } from '@/components/ui/textarea';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { courseActionCreate, courseActionEdit } from '../../app/admin/courses/[id]/edit/course.action';
-import { COURSE_STATE, CourseFormSchema } from '../../app/admin/courses/[id]/edit/course.schema';
+
 
 export type CourseFormProps = {
   defaultValue?: CourseFormSchema & {

@@ -1,9 +1,6 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Typography } from "@/components/ui/typography";
-import { Badge } from "@/components/ui/badge";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { prisma } from "@/lib/prisma";
@@ -62,7 +59,6 @@ export async function CourseJoinUI(props: { params: Promise<{ id: string }> }) {
                 <CardTitle>
                     <Typography variant="h2">{course.name}</Typography>
                 </CardTitle>
-                {/* <Badge className="w-fit">{course.state}</Badge> */}
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
                 <Typography variant="lead">

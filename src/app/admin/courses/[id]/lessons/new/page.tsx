@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { getCourseName } from '../../../_actions/course.query';
-import { AdminLessonCreateUI } from '../../../../../../components/admin/AdminLessonCreateUI';
+import { AdminLessonCreateUI } from '../../../../../../components/admin/server/AdminLessonCreateUI';
 import { CardSkeleton } from '@/components/ui/skeleton';
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {

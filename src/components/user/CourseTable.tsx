@@ -1,4 +1,3 @@
-// CoursesTable.tsx (dans le même dossier)
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
