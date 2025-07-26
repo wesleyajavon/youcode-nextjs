@@ -11,7 +11,7 @@ import { Progress } from "@prisma/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
-export async function LessonUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
+export async function LessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
     const markdown = await getLessonContent(params.lessonId);

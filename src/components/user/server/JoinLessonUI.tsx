@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
 import { redirect } from "next/navigation";
+import { JoinLessonButton } from "../client/JoinLessonButton";
+import { LeaveLessonButton } from "../client/LeaveLessonButton";
 
-export async function LessonJoinUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
+export async function JoinLessonUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
 
     const session = await getRequiredAuthSession();
     const params = await props.params;
@@ -76,21 +78,16 @@ export async function LessonJoinUI(props: { params: Promise<{ id: string, lesson
                         <Typography variant="base">
                             You are about to leave the lesson: <strong>{lesson.name}</strong>
                         </Typography>
-                        <form action={handleUnjoinLesson}>
-                            <Button type="submit" variant="destructive" className="mt-2">
-                                Leave this lesson
-                            </Button>
-                        </form>
+                        <LeaveLessonButton courseId={lesson.courseId} lessonId={lesson.id} userId={session.user.id} />
                     </>
                 ) : (
-                    <form action={handleJoinLesson}>
+                    <>
                         <Typography variant="base">
                             You are about to join the lesson: <strong>{lesson.name}</strong>
                         </Typography>
-                        <Button type="submit" className="mt-6">
-                            Join this lesson
-                        </Button>
-                    </form>
+                        <JoinLessonButton courseId={lesson.courseId} lessonId={lesson.id} userId={session.user.id} />
+                    </>
+
                 )}
             </CardContent>
         </Card>

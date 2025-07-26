@@ -1,15 +1,12 @@
 import { getRequiredAuthSession } from "@/lib/auth";
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Typography } from "@/components/ui/typography";
-import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
 import { redirect } from "next/navigation";
-import { LessonJoinUI } from "./LessonJoin";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
+import { JoinLessonUI } from "@/components/user/server/JoinLessonUI";
 
 export default async function JoinLessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const session = await getRequiredAuthSession();
@@ -44,7 +41,7 @@ export default async function JoinLessonPage(props: { params: Promise<{ id: stri
             </LayoutHeader>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <LessonJoinUI params={props.params} />
+                    <JoinLessonUI params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

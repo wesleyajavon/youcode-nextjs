@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
 import { getLesson} from '@/app/admin/courses/_actions/lesson.query';
-import { LessonUI } from './LessonUI';
 import { CardSkeleton } from '@/components/ui/skeleton';
+import { LessonPageContentUI } from '@/components/user/server/LessonPageContentUI';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -73,7 +73,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
             </LayoutActions>
             <LayoutContent className="flex flex-col gap-2 ">
                 <Suspense fallback={<CardSkeleton />}>
-                    <LessonUI params={props.params} />
+                    <LessonPageContentUI params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

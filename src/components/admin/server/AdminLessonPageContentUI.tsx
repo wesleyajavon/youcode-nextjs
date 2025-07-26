@@ -1,17 +1,11 @@
-import { getRequiredAuthSession } from '@/lib/auth';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { getLesson, getLessonContent } from '../../../_actions/lesson.query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Typography } from '@/components/ui/typography';
-import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getCourse } from '../../../_actions/course.query';
+import { getCourse } from '@/app/admin/courses/_actions/course.query';
+import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
 
 export default async function AdminLessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;

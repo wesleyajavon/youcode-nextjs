@@ -21,9 +21,7 @@ export function EditRoleForm({ id, role }: { id: string; role: Role }) {
     const form = useForm<EditRoleFormValues>({
         defaultValues: { role }
     });
-
     const router = useRouter();
-
 
     const handleSubmit = async (data: EditRoleFormValues) => {
         startTransition(async () => {
@@ -45,7 +43,7 @@ export function EditRoleForm({ id, role }: { id: string; role: Role }) {
                     <Typography variant="small">Role</Typography>
                     <select
                         {...form.register("role")}
-                        className="mt-1 block w-full rounded-md border px-3 py-2"
+                        className="mt-2 block w-full rounded-md border px-3 py-2"
                     >
                         <option value="USER">User</option>
                         <option value="ADMIN">Admin</option>

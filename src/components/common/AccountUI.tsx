@@ -15,7 +15,7 @@ import { Typography } from '@/components/ui/typography'
 export async function AccountUI() {
     const session = await getRequiredAuthSession()
     if (!session?.user) {
-        redirect('/login')
+        redirect('/')
     }
 
     // await new Promise(res => setTimeout(res, 5000));

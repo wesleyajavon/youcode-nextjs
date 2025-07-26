@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getCourse } from '../../../_actions/course.query';
-import AdminLessonPageContentUI from './AdminLessonPageContentUI';
+import AdminLessonPageContentUI from '../../../../../../components/admin/server/AdminLessonPageContentUI';
 import { CardSkeleton } from '@/components/ui/skeleton';
 
 // This page is used to display the content of a lesson in markdown format
