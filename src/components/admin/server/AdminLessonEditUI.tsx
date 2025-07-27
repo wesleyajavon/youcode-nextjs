@@ -1,5 +1,6 @@
 import { LessonForm } from '@/components/admin/client/LessonForm';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Typography } from '@/components/ui/typography';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 
@@ -25,8 +26,15 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
     }
 
     return (
-        <Card className="flex-[2]">
-            <CardContent className="mt-6 mb-6">
+        <Card>
+            <CardHeader>
+                <Typography variant="h2">Edit Lesson</Typography>
+                <Typography variant="muted" className="mt-2">
+                    Fill in the details below to edit the lesson.
+                </Typography>
+
+            </CardHeader>
+            <CardContent>
                 <LessonForm defaultValue={lesson} />
             </CardContent>
         </Card>

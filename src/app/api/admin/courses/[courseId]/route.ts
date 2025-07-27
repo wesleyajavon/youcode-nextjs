@@ -31,54 +31,15 @@ export async function GET(req: Request) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
-  const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get('page') || '1');
-  const limit = parseInt(searchParams.get('limit') || '5');
-  const search = searchParams.get('search') || '';
-  const courseId = searchParams.get('courseId') || '';
-  const skip = (page - 1) * limit;
+const url = new URL(req.url);
+const match = url.pathname.match(/\/api\/admin\/courses\/([^/]+)/);
+const courseId = match?.[1];
+
+if (!courseId) {
+  return new NextResponse('Missing courseId', { status: 400 });
+}
 
   try {
-    // Total des utilisateurs filtrés pour ce cours
-    const total = await prisma.courseOnUser.count({
-      where: {
-        courseId,
-        user: {
-          name: {
-            contains: search,
-            mode: 'insensitive',
-          },
-        },
-      },
-    });
-
-    // Utilisateurs paginés et filtrés pour ce cours
-    const users = await prisma.courseOnUser.findMany({
-      where: {
-        courseId,
-        user: {
-          name: {
-            contains: search,
-            mode: 'insensitive',
-          },
-        },
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            image: true,
-          },
-        },
-      },
-      skip,
-      take: limit,
-      orderBy: {
-        user: { name: 'asc' },
-      },
-    });
 
     // Infos du cours (hors users)
     const course = await prisma.course.findUnique({
@@ -93,13 +54,13 @@ export async function GET(req: Request) {
       },
     });
 
+    // Compte le nombre d'utilisateurs inscrits à ce cours
+    const totalUsers = await prisma.courseOnUser.count({
+      where: { courseId },
+    });
+
     return NextResponse.json({
-      course,
-      users,
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
+      course: { ...course, totalUsers },
     });
   } catch (error) {
     console.error('[ADMIN_COURSE_USERS_GET]', error);

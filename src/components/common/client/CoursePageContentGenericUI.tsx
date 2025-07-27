@@ -18,7 +18,7 @@ type User = {
     user: {
         id: string;
         name: string;
-        email: string;
+        email?: string;
         image?: string;
     };
 };
@@ -26,25 +26,63 @@ type User = {
 type Course = {
     id: string;
     name: string;
-    presentation?: string;
+    presentation: string;
     image?: string;
-    createdAt: string;
-    state: string;
-    users: User[];
-    lessons?: any[];
+    createdAt?: string;
+    state?: string;
+    totalUsers?: number; // Optional, if you want to display the total users in the course info
 };
 
-async function fetchCourseData(courseId: string, page: number, limit: number, search: string, role: string) {
+type FetchCourseInfoResponse = {
+    course: {
+        id: string;
+        name: string;
+        presentation: string;
+        image?: string;
+        createdAt?: string;
+        state?: string;
+        totalUsers?: number;
+    };
+};
+
+type FetchParticipantsResponse = {
+    users: {
+        user: {
+            id: string;
+            name: string;
+            email?: string;
+            image?: string;
+        };
+    }[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+};
+
+
+async function fetchCourseInfo(courseId: string, role: string) {
+    const res = await fetch(`/api/${role}/courses/${courseId}`, {
+        method: "GET",
+    });
+    if (!res.ok) throw new Error("Failed to fetch course info");
+    return res.json();
+}
+
+async function fetchParticipants(courseId: string, page: number, limit: number, search: string, role: string) {
     const params = new URLSearchParams({
-        courseId,
         page: page.toString(),
         limit: limit.toString(),
         search,
     });
-    const res = await fetch(`/api/${role}/courses/${courseId}?${params.toString()}`);
-    if (!res.ok) throw new Error("Failed to fetch course data");
+    const res = await fetch(`/api/${role}/courses/${courseId}/participants?${params.toString()}`, {
+        method: "GET",
+    });
+    if (!res.ok) throw new Error("Failed to fetch participants");
     return res.json();
 }
+
+
 
 export default function CoursePageContentGenericUI({
     courseId,
@@ -59,14 +97,19 @@ export default function CoursePageContentGenericUI({
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["course", courseId, page, limit, search],
-        queryFn: () => fetchCourseData(courseId, page, limit, search, role.toLowerCase()),
+    const { data: courseData, isLoading: loadingCourse } = useQuery<FetchCourseInfoResponse>({
+        queryKey: ["course-info", courseId],
+        queryFn: () => fetchCourseInfo(courseId, role.toLowerCase()),
     });
 
-    const course: Course | undefined = data?.course;
-    const participants: User[] = data?.users ?? [];
-    const total: number = data?.total ?? 0;
+    const { data: participantsData, isLoading, error } = useQuery<FetchParticipantsResponse>({
+        queryKey: ["participants", courseId, page, limit, search],
+        queryFn: () => fetchParticipants(courseId, page, limit, search, role.toLowerCase()),
+    });
+
+    const course: Course | undefined = courseData?.course;
+    const participants: User[] = participantsData?.users ?? [];
+    const total: number = course?.totalUsers ?? 0;
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -80,9 +123,16 @@ export default function CoursePageContentGenericUI({
                         </Typography>
                     </CardHeader>
                     <CardContent>
-                        <Typography variant="base">
-                            {course?.presentation || "..."}
-                        </Typography>
+                        {loadingCourse && (
+                            <Typography variant="base">
+                                Loading presentation...
+                            </Typography>
+                        )}
+                        {!loadingCourse && (
+                            <Typography variant="base">
+                                {course?.presentation || "No presentation available."}
+                            </Typography>
+                        )}
                     </CardContent>
                 </Card>
                 {/* Infos du cours et actions for admin */}
@@ -94,20 +144,27 @@ export default function CoursePageContentGenericUI({
                             </Typography>
                         </CardHeader>
                         <CardContent className="flex flex-col gap-3 flex-1">
-                            <Badge className="w-fit">{course?.state}</Badge>
-                            <Typography variant={"base"}>{total} users</Typography>
-                            <Typography variant={"muted"}>
-                                Created: {course?.createdAt ? new Date(course.createdAt).toLocaleDateString() : "Unknown"}
-                            </Typography>
-                            <div className="flex-1" />
-                            <Link
-                                href={`/admin/courses/${course?.id}/lessons`}
-                                className={buttonVariants({
-                                    variant: "outline",
-                                })}
-                            >
-                                See lessons
-                            </Link>
+                            {loadingCourse && (
+                                <Typography variant="base">Loading course info...</Typography>
+                            )}
+                            {!loadingCourse && (
+                                <>
+                                    <Badge className="w-fit">{course?.state}</Badge>
+                                    <Typography variant={"base"}>{total} users</Typography>
+                                    <Typography variant={"muted"}>
+                                        Created: {course?.createdAt ? new Date(course.createdAt).toLocaleDateString() : "Unknown"}
+                                    </Typography>
+                                    <div className="flex-1" />
+                                    <Link
+                                        href={`/admin/courses/${course?.id}/lessons`}
+                                        className={buttonVariants({
+                                            variant: "outline",
+                                        })}
+                                    >
+                                        See lessons
+                                    </Link>
+                                </>
+                            )}
                         </CardContent>
                     </Card>
                 )}
@@ -187,7 +244,7 @@ export default function CoursePageContentGenericUI({
                         />
                         {isLoading && <Typography variant="muted">Loading participants...</Typography>}
                         {error && <Typography variant="muted" color="red">Failed to load participants</Typography>}
-                        {!isLoading && data && (
+                        {!isLoading && participantsData && (
                             <Table>
                                 <TableHeader>
                                     <TableRow>

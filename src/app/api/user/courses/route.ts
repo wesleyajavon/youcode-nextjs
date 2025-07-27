@@ -32,11 +32,6 @@ export async function GET(req: Request) {
                     name: true,
                     image: true,
                     presentation: true,
-                    users: {
-                        select: {
-                            userId: true,
-                        },
-                    },
                 },
                 orderBy: { createdAt: 'asc' },
                 skip,
@@ -52,14 +47,21 @@ export async function GET(req: Request) {
             }),
         ]);
 
-        // Ajoute une propriété alreadyJoined pour chaque cours
+        // Récupère tous les courseId où l'utilisateur est inscrit
         const userId = session.user.id;
+        const joinedCourses = await prisma.courseOnUser.findMany({
+            where: { userId },
+            select: { courseId: true },
+        });
+        const joinedCourseIds = new Set(joinedCourses.map(c => c.courseId));
+
+        // Ajoute une propriété alreadyJoined pour chaque cours
         const coursesWithJoined = courses.map(course => ({
             image: course.image,
             id: course.id,
             name: course.name,
             presentation: course.presentation,
-            alreadyJoined: course.users.some(u => u.userId === userId),
+            alreadyJoined: joinedCourseIds.has(course.id),
         }));
 
         return NextResponse.json({

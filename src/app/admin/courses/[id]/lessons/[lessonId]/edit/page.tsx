@@ -9,9 +9,9 @@ import {
 import { prisma } from '@/lib/prisma';
 import {  redirect } from 'next/navigation';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
-import AdminCourseEditUI from '../../../../../../../components/admin/server/AdminCourseEditUI';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
+import AdminLessonEditUI from '@/components/admin/server/AdminLessonEditUI';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
@@ -55,7 +55,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
             </LayoutHeader>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <AdminCourseEditUI params={props.params} />
+                    <AdminLessonEditUI params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>
