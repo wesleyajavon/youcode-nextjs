@@ -48,12 +48,9 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
             </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <AdminLessonsTableServer
-                        params={props.params}
-                    />
+                    <AdminLessonsTableServer params={props.params} />
                 </Suspense>
             </LayoutContent>
-
         </Layout>
     )
 }

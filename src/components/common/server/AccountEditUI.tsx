@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card'
 import { Typography } from '@/components/ui/typography'
 import { Role } from '@prisma/client'
-import { EditRoleForm } from '@/components/common/RoleForm'
+import { EditRoleForm } from '@/components/common/client/RoleForm'
 
 export async function AccountEditUI() {
   const session = await getAuthSession()

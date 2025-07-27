@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
-import CoursePageContentGeneric from "@/components/common/CoursePageContentGeneric";
+import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {

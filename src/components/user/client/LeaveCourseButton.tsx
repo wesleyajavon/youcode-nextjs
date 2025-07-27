@@ -14,7 +14,7 @@ export function LeaveCourseButton({ courseId, userId }: { courseId: string; user
       const res = await leaveCourseAction(courseId, userId);
       if (res.success) {
         toast.success("You left the course!");
-        router.push(`/user/courses/${courseId}`);
+        router.push(`/user/courses/`);
       } else {
         toast.error("Failed to leave the course.");
       }

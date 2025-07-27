@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -24,22 +25,37 @@ import {
     AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Lesson } from "@prisma/client";
+import { SearchInput } from "@/components/ui/search-bar";
+import { Pagination } from "@/components/ui/pagination";
 
-export function AdminLessonsTableUI({
-    lessonProps,
-    courseId,
-}: {
-    lessonProps: Lesson[];
-    courseId: string;
-}) {
-    const [lessons, setLessons] = useState<Lesson[]>([]);
+
+async function fetchLessons(courseId: string, page: number, limit: number, search: string) {
+    const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        search,
+    });
+    const res = await fetch(`/api/admin/courses/${courseId}/lessons?${params.toString()}`);
+    if (!res.ok) throw new Error("Failed to fetch lessons");
+    return res.json();
+}
+
+export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
+    const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [limit] = useState(5);
+
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedLesson, setSelectedLesson] = useState<{ id: string, name: string } | null>(null);
 
-    useEffect(() => {
-        setLessons(lessonProps);
-    }, [lessonProps]);
+    const { data, isLoading, error, refetch } = useQuery({
+        queryKey: ["lessons", courseId, page, limit, search],
+        queryFn: () => fetchLessons(courseId, page, limit, search),
+        enabled: !!courseId,
+    });
+
+    const lessons = data?.data ?? [];
+    const total = data?.total ?? 0;
 
     const handleDeleteClick = (lesson: { id: string, name: string }) => {
         setSelectedLesson(lesson);
@@ -51,11 +67,10 @@ export function AdminLessonsTableUI({
         await fetch(`/api/admin/courses/${courseId}/lessons/${selectedLesson.id}`, {
             method: "DELETE",
         });
-        setLessons(lessons.filter((l: any) => l.id !== selectedLesson.id));
         setDialogOpen(false);
         setSelectedLesson(null);
+        refetch();
     };
-
 
     return (
         <>
@@ -70,66 +85,82 @@ export function AdminLessonsTableUI({
                     <Typography variant="muted" className="mb-6">
                         You can also create a new lesson using the button above.
                     </Typography>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead> </TableHead>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Content</TableHead>
-                                <TableHead>Rank</TableHead>
-                                <TableHead> </TableHead>
-                                <TableHead> </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {lessons && lessons.map((lesson: any) => (
-                                <TableRow key={lesson.id}>
-                                    <TableCell>
-                                        <Avatar className="rounded h-5 w-5">
-                                            <AvatarFallback>{lesson.name[0]}</AvatarFallback>
-                                            {/* Ajoute une image si tu en as une pour la leçon */}
-                                        </Avatar>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography
-                                            as={Link}
-                                            variant="large"
-                                            href={`/admin/courses/${courseId}/lessons/${lesson.id}`}
-                                        >
-                                            {lesson.name?.slice(0, 30) ?? ""}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography
-                                            variant="small"
-                                        >
-                                            {lesson.content?.slice(0, 15) ?? ""}...
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant="small">
-                                            {lesson.rank}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Link href={`/admin/courses/${courseId}/lessons/${lesson.id}/edit`}>
-                                            <PencilSquareIcon className="h-5 w-5" />
-                                        </Link>
-                                    </TableCell>
-                                    <TableCell>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleDeleteClick({ id: lesson.id, name: lesson.name })}
-                                            className="hover:text-red-600"
-                                            aria-label="Delete lesson"
-                                        >
-                                            <XMarkIcon className="h-5 w-5 mt-1" />
-                                        </button>
-                                    </TableCell>
+                    <SearchInput
+                        value={search}
+                        onChange={setSearch}
+                        placeholder="Search lessons..."
+                        onSearchStart={() => setPage(1)}
+                    />
+                    {isLoading && <Typography variant="muted">Loading lessons...</Typography>}
+                    {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
+                    {!isLoading && data && (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead> </TableHead>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Content</TableHead>
+                                    <TableHead>Rank</TableHead>
+                                    <TableHead> </TableHead>
+                                    <TableHead> </TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {lessons && lessons.map((lesson: any) => (
+                                    <TableRow key={lesson.id}>
+                                        <TableCell>
+                                            <Avatar className="rounded h-5 w-5">
+                                                <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                                            </Avatar>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography
+                                                as={Link}
+                                                variant="large"
+                                                href={`/admin/courses/${courseId}/lessons/${lesson.id}`}
+                                            >
+                                                {lesson.name?.slice(0, 30) ?? ""}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography
+                                                variant="small"
+                                            >
+                                                {lesson.content?.slice(0, 15) ?? ""}...
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="small">
+                                                {lesson.rank}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Link href={`/admin/courses/${courseId}/lessons/${lesson.id}/edit`}>
+                                                <PencilSquareIcon className="h-5 w-5" />
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDeleteClick({ id: lesson.id, name: lesson.name })}
+                                                className="hover:text-red-600"
+                                                aria-label="Delete lesson"
+                                            >
+                                                <XMarkIcon className="h-5 w-5 mt-1" />
+                                            </button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
+                    {lessons.length > 0 && (
+                        <Pagination
+                            page={page}
+                            onPageChange={setPage}
+                            hasNext={page * limit < total}
+                        />
+                    )}
                 </CardContent>
             </Card>
             <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -157,6 +188,7 @@ export function AdminLessonsTableUI({
                         </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>
-            </AlertDialog></>
+            </AlertDialog>
+        </>
     );
 }

@@ -30,40 +30,6 @@ export async function JoinLessonUI(props: { params: Promise<{ id: string, lesson
         },
     });
 
-    async function handleJoinLesson() {
-        "use server";
-        if (!lesson) {
-            redirect(`/user/courses/${params.id}/lessons`);
-        }
-
-        await prisma.lessonOnUser.create({
-            data: {
-                userId: session.user.id,
-                lessonId: lesson.id,
-                progress: "IN_PROGRESS", // Default progress when joining
-            },
-        });
-        redirect(`/user/courses/${lesson.courseId}/lessons/${lesson.id}`);
-    }
-
-    async function handleUnjoinLesson() {
-        "use server";
-        if (!lesson) {
-            redirect(`/user/courses/${params.id}/lessons`);
-        }
-
-        await prisma.lessonOnUser.delete({
-            where: {
-                userId_lessonId: {
-                    userId: session.user.id,
-                    lessonId: lesson.id,
-                },
-            },
-        });
-        redirect(`/user/courses/${lesson.courseId}/lessons/${lesson.id}`);
-    }
-
-
 
     return (
         <Card>

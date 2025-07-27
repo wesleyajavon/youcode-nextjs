@@ -2,32 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getRequiredAuthSession } from "@/lib/auth";
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
-
-  const session = await getRequiredAuthSession()
-
-  if (!session || session.user.role !== 'ADMIN') {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
-
-  try {
-    const { courseId } = await params;
-    await prisma.course.delete({
-      where: { id: courseId },
-    });
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to delete course" }, { status: 500 });
-  }
-}
 
 export async function GET(req: Request) {
   const session = await getRequiredAuthSession();
 
-  if (!session || session.user.role !== 'ADMIN') {
+  if (!session || session.user.role !== 'USER') {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
@@ -68,7 +47,6 @@ export async function GET(req: Request) {
           select: {
             id: true,
             name: true,
-            email: true,
             image: true,
           },
         },
@@ -88,8 +66,6 @@ export async function GET(req: Request) {
         name: true,
         presentation: true,
         image: true,
-        createdAt: true,
-        state: true,
       },
     });
 
@@ -102,7 +78,7 @@ export async function GET(req: Request) {
       totalPages: Math.ceil(total / limit),
     });
   } catch (error) {
-    console.error('[ADMIN_COURSE_USERS_GET]', error);
+    console.error('[USER_COURSE_USERS_GET]', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

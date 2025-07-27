@@ -4,7 +4,7 @@ import { Role } from '@prisma/client'
 import { Suspense } from 'react'
 import { CardSkeleton } from '@/components/ui/skeleton'
 import { Layout, LayoutContent } from '@/components/layout/layout'
-import { AccountEditUI } from '@/components/common/AccountEditUI'
+import { AccountEditUI } from '@/components/common/server/AccountEditUI'
 
 export default async function EditAccountPage() {
 

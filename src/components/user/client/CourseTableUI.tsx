@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,27 +14,49 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Typography } from '@/components/ui/typography';
-import { getRequiredAuthSession } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { SearchInput } from "@/components/ui/search-bar";
+import { Pagination } from "@/components/ui/pagination";
 
-export async function CoursesTable() {
-    const session = await getRequiredAuthSession();
+async function fetchCourses(page: number, limit: number, search: string) {
+    const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        search,
+    });
+    const res = await fetch(`/api/user/courses?${params.toString()}`);
+    if (!res.ok) throw new Error("Failed to fetch courses");
+    return res.json();
+}
 
-    // await new Promise(res => setTimeout(res, 5000));
+type Course = {
+    id: string
+    name: string
+    image?: string | null
+    presentation?: string | null
+    alreadyJoined: boolean
+}
 
-    const courses = await prisma.course.findMany(
-        {
-            include: {
-                users: {
-                    select: {
-                        user: true,
-                    },
-                },
-            },
-        }
-    );
+type CoursesResponse = {
+    data: Course[]
+    page: number
+    limit: number
+    total: number
+}
+
+export function CourseTableUI() {
+    const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [limit] = useState(5);
+
+    const { data, isLoading, error } = useQuery<CoursesResponse>({
+        queryKey: ["user-courses", page, limit, search],
+        queryFn: () => fetchCourses(page, limit, search),
+    });
+
+    const courses = data?.data ?? [];
+    const total = data?.total ?? 0;
 
     return (
         <Card>
@@ -41,25 +67,26 @@ export async function CoursesTable() {
                 <Typography variant="small" className="mb-6">
                     Here you can find all your courses. Click on a course to view its details.
                 </Typography>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead> </TableHead>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Presentation</TableHead>
-                            <TableHead>Joined?</TableHead>
-
-                        </TableRow>
-
-                    </TableHeader>
-                    <TableBody>
-                        {courses && courses.map((course) => {
-
-                            const alreadyJoined = course.users.some(
-                                (u: any) => u.user.id === session.user.id
-                            );
-                            return (
-
+                <SearchInput
+                    value={search}
+                    onChange={setSearch}
+                    placeholder="Search courses..."
+                    onSearchStart={() => setPage(1)}
+                />
+                {isLoading && <Typography variant="muted">Loading courses...</Typography>}
+                {error && <Typography variant="muted" color="red">Failed to load courses</Typography>}
+                {!isLoading && data && (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead> </TableHead>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Presentation</TableHead>
+                                <TableHead>Joined?</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {data.data.map((course) => (
                                 <TableRow key={course.id}>
                                     <TableCell>
                                         <Avatar className="rounded h-5 w-5">
@@ -88,7 +115,7 @@ export async function CoursesTable() {
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
-                                        {alreadyJoined ? (
+                                        {course.alreadyJoined ? (
                                             <CheckIcon className="h-5 w-5 text-green-500" />
                                         ) : (
                                             <Link
@@ -102,11 +129,19 @@ export async function CoursesTable() {
                                         )}
                                     </TableCell>
                                 </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
+
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
+                {courses.length > 0 && (
+                    <Pagination
+                        page={page}
+                        onPageChange={setPage}
+                        hasNext={page * limit < total}
+                    />
+                )}
             </CardContent>
         </Card>
-    )
+    );
 }

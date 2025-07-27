@@ -8,7 +8,7 @@ import {
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
-import { CoursesTable } from '../../../components/user/server/CourseTable';
+import { CourseTableServer } from '../../../components/user/server/CourseTableServer';
 
 
 export default async function UserCoursesPage() {
@@ -32,7 +32,7 @@ export default async function UserCoursesPage() {
             </LayoutHeader>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <CoursesTable />
+                    <CourseTableServer />
                 </Suspense>
 
             </LayoutContent>

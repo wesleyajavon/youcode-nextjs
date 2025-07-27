@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { joinLessonAction } from "@/app/user/courses/[id]/lessons/[lessonId]/join/_actions/join.query";
+
 export function JoinLessonButton({ courseId, lessonId, userId }: { courseId: string; lessonId: string; userId: string }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();

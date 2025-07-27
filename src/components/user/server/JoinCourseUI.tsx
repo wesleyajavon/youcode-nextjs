@@ -30,9 +30,6 @@ export async function JoinCourseUI(props: { params: Promise<{ id: string }> }) {
                 </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
-                <Typography variant="lead">
-                    {course.presentation}
-                </Typography>
                 {alreadyJoined ? (
                     <>
                         <Typography variant="base">

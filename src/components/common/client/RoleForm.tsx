@@ -6,7 +6,7 @@ import { Typography } from "@/components/ui/typography";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import { updateRoleAction } from "@/app/account/edit/_actions/account.query";
-import { Form } from "../ui/form";
+import { Form } from "../../ui/form";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 

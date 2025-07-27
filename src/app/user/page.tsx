@@ -11,7 +11,7 @@ import { getCoursesNumberAsUser } from './courses/_actions/course.query';
 import { getLessonsNumberAsUser } from './courses/_actions/lesson.query';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
-import { DashboardCard } from '@/components/common/DashboardCard';
+import { DashboardCard } from '@/components/common/server/DashboardCard';
 
 export default async function UserDashboardPage() {
 
