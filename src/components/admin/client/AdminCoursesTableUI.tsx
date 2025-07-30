@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import {
     Table,
     TableBody,
@@ -106,10 +106,12 @@ export function AdminCoursesTableUI() {
     return (
         <>
             <Card>
-                <CardContent className="mt-0">
-                    <Typography variant="h2" className="mb-6">
-                        Courses Dashboard
-                    </Typography>
+                <CardHeader>
+                    <CardTitle>
+                        <Typography variant="h2">Courses Dashboard</Typography>
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
                     <Typography variant="small" className="mb-2">
                         Here you can manage all courses. Click on a course to view or edit its details.
                     </Typography>

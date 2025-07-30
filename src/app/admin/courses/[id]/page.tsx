@@ -37,7 +37,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
             <LayoutActions>
                 <Link href={`/admin/courses/${course.id}/edit`}
                     className={buttonVariants({
-                        variant: 'secondary',
+                        variant: 'outline',
                     })}>
                     <PencilSquareIcon className="h-5 w-5" />
                 </Link>

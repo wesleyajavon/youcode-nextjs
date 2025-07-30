@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { buttonVariants } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Table,
     TableBody,
@@ -60,10 +60,12 @@ export function CourseTableUI() {
 
     return (
         <Card>
+            <CardHeader>
+                <CardTitle>
+                    <Typography variant="h2">Courses Dashboard</Typography>
+                </CardTitle>
+            </CardHeader>
             <CardContent>
-                <Typography variant="h2" className="mb-6">
-                    Courses Dashboard
-                </Typography>
                 <Typography variant="small" className="mb-6">
                     Here you can find all your courses. Click on a course to view its details.
                 </Typography>

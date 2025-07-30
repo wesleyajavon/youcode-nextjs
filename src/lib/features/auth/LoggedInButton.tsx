@@ -2,13 +2,14 @@
 
 import { useState } from "react"
 import {
-    AlertDialog,
     AlertDialogContent,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogCancel,
 } from "@/components/ui/alert-dialog"
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
+
 import { AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -33,9 +34,15 @@ export const LoggedInButton = (props: LoggedInButtonProps) => {
     const [open, setOpen] = useState(false)
     const mutation = useMutation({
         mutationFn: async () => {
-            signOut()
-        }
+            await signOut({
+                callbackUrl: '/', // Change this to wherever you want users to land after logout
+            })
+        },
+        onSuccess: () => {
+            localStorage.setItem("showSignOutToast", "1");
+        },
     })
+
 
     return (
         <>
@@ -67,34 +74,36 @@ export const LoggedInButton = (props: LoggedInButtonProps) => {
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            <AlertDialog open={open} onOpenChange={setOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            Are you sure you want to log out?
-                        </AlertDialogTitle>
-                    </AlertDialogHeader>
+            <AlertDialog.Root open={open} onOpenChange={setOpen}>
+                <AlertDialog.Portal>
+                    <AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" />
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>
+                                You confirm log out ?
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
 
-                    <AlertDialogFooter>
-                        <AlertDialogCancel asChild>
-                            <Button variant="secondary">Cancel</Button>
-                        </AlertDialogCancel>
-                        <Button
-                            variant="destructive"
-                            disabled={mutation.isPending}
-                            onClick={() => {
-                                mutation.mutate()
-                            }}>
-                            {mutation.isPending ? (
-                                <Loader className="ml-1" size={12} />
-                            ) :
-                                <LogOut className="ml-1" size={12} />}
-                            Log out
-                        </Button>
-                    </AlertDialogFooter>
-
-                </AlertDialogContent>
-            </AlertDialog>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel asChild>
+                                <Button variant="secondary">Cancel</Button>
+                            </AlertDialogCancel>
+                            <Button
+                                variant="destructive"
+                                disabled={mutation.isPending}
+                                onClick={() => {
+                                    mutation.mutate();
+                                }}>
+                                {mutation.isPending ? (
+                                    <Loader className="ml-1" size={12} />
+                                ) :
+                                    <LogOut className="ml-1" size={12} />}
+                                Log out
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog.Portal>
+            </AlertDialog.Root>
         </>
     )
 }

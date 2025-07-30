@@ -26,14 +26,14 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-  async session({ session, user }) {
-    if (session.user) {
-      session.user.id = user.id
-      session.user.image = user.image
-      session.user.role = user.role // Ajoute cette ligne
-    }
-    return session
-  },
+    async session({ session, user }) {
+      if (session.user) {
+        session.user.id = user.id
+        session.user.image = user.image
+        session.user.role = user.role // Ajoute cette ligne
+      }
+      return session
+    },
     async redirect({ url, baseUrl }) {
       // Default redirect after login
       return "/" // or any custom route

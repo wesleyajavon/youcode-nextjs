@@ -57,7 +57,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
         <Link
           href={`/admin/courses/${lesson?.courseId}/lessons/${lesson?.id}/edit`}
           className={buttonVariants({
-            variant: 'secondary',
+            variant: 'outline',
           })}
         >
           <PencilSquareIcon className="h-5 w-5" />

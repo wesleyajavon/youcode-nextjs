@@ -1,21 +1,33 @@
-// app/admin/layout.tsx
-import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation'
-import { authOptions } from '../../../pages/api/auth/[...nextauth]'
-import { AdminSideNav } from '@/components/layout/AdminSideNav'
-import { getRequiredAuthSession } from '@/lib/auth'
+"use client";
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const session = await getRequiredAuthSession()
+import { useState } from "react";
+import { AdminSideNav } from '@/components/layout/AdminSideNav';
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
 
-  if (!session || session.user.role !== 'ADMIN') {
-    redirect('/')
-  }
+export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="flex flex-1">
-      <AdminSideNav />
-      <main className="flex flex-1">{children}</main>
+    <div className={`flex flex-1 ${!sidebarOpen ? "pb-10" : ""}`}>
+      {/* Sidebar */}
+      <AdminSideNav visible={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+      {/* Bouton burger flottant si sidebar masquée */}
+      {!sidebarOpen && (
+        <Button
+          variant="ghost"
+          className="fixed top-22 left-4 z-50 p-2 bg-primary/10 rounded "
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Afficher la navigation"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+      )}
+
+      <main className="flex flex-1 relative">
+        {children}
+      </main>
     </div>
-  )
+  );
 }

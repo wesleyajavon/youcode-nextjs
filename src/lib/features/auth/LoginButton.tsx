@@ -13,7 +13,9 @@ type LoginButtonProps = {
 
 export const LoginButton = ({ label = "Sign in", className }: LoginButtonProps) => {
   const mutation = useMutation({
-    mutationFn: async () => signIn(),
+    mutationFn: async () => {
+      await signIn()
+      },
   })
 
   return (

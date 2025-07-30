@@ -40,7 +40,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
                 <Link
                     href={`/admin/courses/${courseId}/lessons/new`}
                     className={buttonVariants({
-                        variant: 'secondary',
+                        variant: 'default',
                     })}
                 >
                     <PlusIcon className="h-5 w-5" />

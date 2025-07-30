@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
 import { Loader } from '@/components/ui/loader'
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export default function SignOutButton() {
 
@@ -13,6 +14,10 @@ export default function SignOutButton() {
             await signOut({
                 callbackUrl: '/', // Change this to wherever you want users to land after logout
             })
+            
+        },
+        onSuccess: () => {
+            localStorage.setItem("showSignOutToast", "1");
         },
     })
 

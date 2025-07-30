@@ -27,11 +27,11 @@ export function EditRoleForm({ id, role }: { id: string; role: Role }) {
         startTransition(async () => {
             const res = await updateRoleAction(id, data.role);
             if (res.success) {
-                toast.success("Role updated successfully");
+                toast.success("Role updated successfully !");
                 router.push(`/account`);
                 router.refresh();
             } else {
-                toast.error("Failed to update role");
+                toast.error("Failed to update role..");
             }
         });
     };

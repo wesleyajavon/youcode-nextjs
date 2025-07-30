@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Table,
     TableBody,
@@ -27,6 +27,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/search-bar";
 import { Pagination } from "@/components/ui/pagination";
+
+
+type FetchCourseInfoResponse = {
+    course: {
+        id: string;
+        name: string;
+    };
+};
+
 
 
 async function fetchLessons(courseId: string, page: number, limit: number, search: string) {
@@ -75,10 +84,12 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
     return (
         <>
             <Card>
-                <CardContent className="mt-0">
-                    <Typography variant="h2" className="mb-6">
-                        Lessons Dashboard
-                    </Typography>
+                <CardHeader>
+                    <CardTitle>
+                        <Typography variant="h2">Lessons Dashboard</Typography>
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
                     <Typography variant="small" className="mb-2">
                         Here you can manage all lessons. Click on a lesson to view or edit its details.
                     </Typography>

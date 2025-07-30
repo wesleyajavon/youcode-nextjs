@@ -40,10 +40,6 @@ type Lesson = {
 
 type LessonsResponse = {
     data: Lesson[]
-    course: {
-        name: string
-        image: string
-    }
     page: number
     limit: number
     total: number
@@ -86,94 +82,80 @@ export function LessonTableUI({ courseId }: { courseId: string }) {
 
     const lessons = data?.data ?? [];
     const total = data?.total ?? 0;
-    const course = data?.course;
 
     return (
-        <div className="flex flex-col gap-4 lg:flex-row">
-            <Card className="flex-[2]">
-                <CardHeader className="flex items-end justify-between gap-6">
-                    <CardTitle>
-                        <Typography variant="h2">Lessons Dashboard</Typography>
-                    </CardTitle>
-                    <div className="flex items-baseline gap-3">
-                        <Typography variant="muted" className="">
-                            {course?.name}
-                        </Typography>
-                        <Avatar className="rounded h-4 w-4">
-                            <AvatarFallback>{course?.name?.[0]}</AvatarFallback>
-                            {course?.image && (
-                                <AvatarImage src={course?.image} alt={course?.name ?? ''} />
-                            )}
-                        </Avatar>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                    <Typography variant="small" className="mb-6">
-                        Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress.
-                    </Typography>
-                    <SearchInput
-                        value={search}
-                        onChange={setSearch}
-                        placeholder="Search lessons..."
-                        onSearchStart={() => setPage(1)}
-                    />
-                    {isLoading && <Typography variant="muted">Loading lessons...</Typography>}
-                    {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
-                    {!isLoading && data && (
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead> </TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Rank</TableHead>
-                                    <TableHead>Progress</TableHead>
+        <Card >
+            <CardHeader>
+                <CardTitle>
+                    <Typography variant="h2">Lessons Dashboard</Typography>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Typography variant="small" className="mb-6">
+                    Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress.
+                </Typography>
+                <SearchInput
+                    value={search}
+                    onChange={setSearch}
+                    placeholder="Search lessons..."
+                    onSearchStart={() => setPage(1)}
+                />
+                {isLoading && <Typography variant="muted">Loading lessons...</Typography>}
+                {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
+                {!isLoading && data && (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead> </TableHead>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Rank</TableHead>
+                                <TableHead>Progress</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {lessons.map((lesson) => (
+                                <TableRow key={lesson.id}>
+                                    <TableCell>
+                                        <Avatar className="rounded h-5 w-5">
+                                            <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                                        </Avatar>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography
+                                            as={Link}
+                                            href={`/user/courses/${courseId}/lessons/${lesson.id}`}
+                                            variant="large"
+                                            className="font-semibold"
+                                        >
+                                            {lesson.name}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography
+                                            variant="large"
+                                            className="font-semibold"
+                                        >
+                                            {lesson.rank}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge className={clsx("w-fit", getProgressBadgeColor(lesson.progress))}>
+                                            {getProgressLabel(lesson.progress)}
+                                        </Badge>
+                                    </TableCell>
                                 </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {lessons.map((lesson) => (
-                                    <TableRow key={lesson.id}>
-                                        <TableCell>
-                                            <Avatar className="rounded h-5 w-5">
-                                                <AvatarFallback>{lesson.name[0]}</AvatarFallback>
-                                            </Avatar>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                as={Link}
-                                                href={`/user/courses/${courseId}/lessons/${lesson.id}`}
-                                                variant="large"
-                                                className="font-semibold"
-                                            >
-                                                {lesson.name}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                variant="large"
-                                                className="font-semibold"
-                                            >
-                                                {lesson.rank}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge className={clsx("w-fit", getProgressBadgeColor(lesson.progress))}>
-                                                {getProgressLabel(lesson.progress)}
-                                            </Badge>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    )}
-                    {lessons.length > 0 && (
-                        <Pagination
-                            page={page}
-                            onPageChange={setPage}
-                            hasNext={page * limit < total}
-                        />
-                    )}
-                </CardContent>
-            </Card>
-        </div>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
+                {lessons.length > 0 && (
+                    <Pagination
+                        page={page}
+                        onPageChange={setPage}
+                        hasNext={page * limit < total}
+                    />
+                )}
+            </CardContent>
+        </Card>
     );
 }

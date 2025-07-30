@@ -28,7 +28,7 @@ export async function GET(req: Request) {
   const skip = (page - 1) * limit;
 
   try {
-    const [lessons, total, course] = await Promise.all([
+    const [lessons, total] = await Promise.all([
       prisma.lesson.findMany({
         where: {
           courseId,
@@ -55,10 +55,6 @@ export async function GET(req: Request) {
           },
         },
       }),
-      prisma.course.findUnique({
-        where: { id: courseId },
-        select: { image: true, name: true },
-      }),
     ]);
 
     const userId = session.user.id;
@@ -84,7 +80,6 @@ export async function GET(req: Request) {
     return NextResponse.json({
       data: lessonsWithProgress,
       total,
-      course,
       page,
       limit,
       totalPages: Math.ceil(total / limit),

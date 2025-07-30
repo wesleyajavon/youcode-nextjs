@@ -36,7 +36,7 @@ export default async function AdminCoursesPage() {
                 <Link
                     href={`/admin/courses/new`}
                     className={buttonVariants({
-                        variant: 'secondary',
+                        variant: 'default',
                     })}
                 >
                     <PlusIcon className="h-5 w-5" />
