@@ -37,7 +37,8 @@ export const authOptions: AuthOptions = {
     async redirect({ url, baseUrl }) {
       // Default redirect after login
       return "/" // or any custom route
-    }
+    },
+    
   },
 };
 
