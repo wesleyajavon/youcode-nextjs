@@ -10,6 +10,7 @@ import { prisma } from '@/lib/prisma';
 import { Progress } from "@prisma/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LockClosedIcon } from '@heroicons/react/24/outline';
+import remarkGfm from 'remark-gfm';
 
 
 export async function LessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
@@ -75,7 +76,13 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
 
                 {alreadyJoined ? (
                     <>
-                        <ReactMarkdown>{markdown}</ReactMarkdown><form
+                        <div className="prose">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {markdown}
+                            </ReactMarkdown>
+                        </div>
+
+                        <form
                             action={handleProgressChange}
                             className="mt-8 flex items-end justify-between"
                         >

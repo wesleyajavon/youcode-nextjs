@@ -9,7 +9,7 @@ export default function UserLayoutClient({ children }: { children: React.ReactNo
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className={`flex flex-1 ${!sidebarOpen ? "pb-10" : ""}`}>
+    <div className={`flex flex-1`}>
       {/* Sidebar */}
       <UserSideNav visible={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -25,7 +25,7 @@ export default function UserLayoutClient({ children }: { children: React.ReactNo
         </Button>
       )}
 
-      <main className="flex flex-1 relative">
+      <main className="flex flex-1 pb-10">
         {children}
       </main>
     </div>

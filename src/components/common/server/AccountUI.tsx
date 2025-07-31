@@ -1,4 +1,4 @@
-import { getAuthSession, getRequiredAuthSession } from '@/lib/auth'
+import { getRequiredAuthSession } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import {
     Card,

@@ -3,8 +3,10 @@ import ReactMarkdown from 'react-markdown';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Typography } from '@/components/ui/typography';
 import { redirect } from 'next/navigation';
-import { getCourse } from '@/app/admin/courses/_actions/course.query';
 import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
+import remarkGfm from 'remark-gfm';
+import Markdown from "markdown-to-jsx";
+
 
 export default async function AdminLessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
@@ -18,7 +20,7 @@ export default async function AdminLessonPageContentUI(props: { params: Promise<
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="text-2xl font-bold">
+                <CardTitle>
                     <Typography variant={'h2'}>
                         {lesson?.course?.name || 'Course'}
                     </Typography>
@@ -27,8 +29,12 @@ export default async function AdminLessonPageContentUI(props: { params: Promise<
                     </Typography>
                 </CardTitle>
             </CardHeader>
-            <CardContent className="prose max-w-none">
-                <ReactMarkdown>{markdown}</ReactMarkdown>
+            <CardContent>
+                <div className="prose">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {markdown}
+                    </ReactMarkdown>
+                </div>
             </CardContent>
         </Card>
     )

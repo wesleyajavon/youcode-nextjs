@@ -68,7 +68,7 @@ export function CourseTableUI({ userId }: { userId: string }) {
         queryFn: () => fetchCourses(page, limit, search),
     });
 
-    const handleJoinClick = (course: Course, userId: string) => {
+    const handleJoinClick = (course: Course) => {
         setSelectedCourse(course)
         setDialogOpen(true)
     }
@@ -139,16 +139,8 @@ export function CourseTableUI({ userId }: { userId: string }) {
                                             {course.alreadyJoined ? (
                                                 <CheckIcon className="h-5 w-5 text-green-500" />
                                             ) : (
-                                                // <Link
-                                                //     href={`/user/courses/${course.id}/join`}
-                                                //     className={buttonVariants({
-                                                //         variant: 'secondary',
-                                                //     })}
-                                                // >
-                                                //     Join
-                                                // </Link>
                                                 <Button
-                                                    onClick={() => handleJoinClick(course, userId)}
+                                                    onClick={() => handleJoinClick(course)}
                                                     aria-label="Join course"
                                                     variant={'outline'}
                                                 >

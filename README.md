@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# YouCode
 
-## Getting Started
+YouCode is a modern educational platform built with [Next.js](https://nextjs.org), featuring course management, lesson editing, user/admin dashboards, and AI-powered lesson generation.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- **User & Admin Dashboards**  
+  Separate interfaces for students and admins, with role-based access.
+
+- **Course & Lesson Management**  
+  Create, edit, and manage courses and lessons with a rich markdown editor.
+
+- **AI Lesson Generation**  
+  Admins can generate lesson content using AI (Groq API, Llama 3, etc.) via a simple prompt.
+
+- **Responsive Sidebar Navigation**  
+  Toggleable sidebars for both user and admin panels.
+
+- **Authentication & Authorization**  
+  Secure access with NextAuth, including role checks for admin routes.
+
+- **Modern UI/UX**  
+  Styled with Tailwind CSS, custom markdown rendering, and a light/dark theme.
+
+---
+
+## 🛠️ Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/youcode.git
+cd youcode
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Configure environment variables
+
+Create a `.env.local` file at the root and add the following (adapt as needed):
+
+```env
+DATABASE_URL=your_database_url
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+GROQ_API_KEY=your_groq_api_key
+# ...other variables as needed
+```
+
+### 4. Set up the database
+
+If you use Prisma:
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. Run the development server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🤖 AI Lesson Generation
 
-## Learn More
+- Admins can generate lesson content by clicking "Generate with AI" in the lesson editor.
+- The backend uses the [Groq API](https://console.groq.com/) (Llama 3, Mixtral, etc.) for fast, free AI text generation.
+- You can customize the system prompt in `/src/app/api/admin/courses/[courseId]/lessons/generate/route.ts`.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🖌️ Custom Markdown Rendering
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Lessons are written and displayed in Markdown.
+- Rendering uses `react-markdown` with `remark-gfm` and custom CSS for beautiful, readable lessons.
+- See `/src/app/globals.css` for `.prose` styles.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧑‍💻 Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+/app
+  /admin
+    ...admin pages and layouts
+  /user
+    ...user pages and layouts
+  /api
+    ...API routes (including AI lesson generation)
+  Provider.tsx
+/components
+  /admin
+  /layout
+  /theme
+  ...
+/lib
+  /features/auth
+  ...
+/prisma
+  schema.prisma
+...
+```
+
+---
+
+## 🛡️ Security
+
+- Admin routes are protected server-side (see `/app/admin/layout.server.tsx`).
+- Only users with the `ADMIN` role can access admin features and AI generation.
+
+---
+
+## 🌐 Deployment
+
+You can deploy on [Vercel](https://vercel.com/) or any platform supporting Next.js.
+
+---
+
+## 📚 Learn More
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [react-markdown](https://github.com/remarkjs/react-markdown)
+- [Groq API](https://console.groq.com/)
+
+---
+
+## 📝 License
+
+MIT
+
+---
+
+## ✨ Credits
+
+- [Next.js](https://nextjs.org)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Groq](https://groq.com/)
+- [Prisma](https://www.prisma.io/)
+- [react-markdown](https://github.com/remarkjs/react-markdown)

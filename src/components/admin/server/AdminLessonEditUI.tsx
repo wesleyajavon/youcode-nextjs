@@ -3,8 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Typography } from '@/components/ui/typography';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
-
-
+import AdminLessonEditClientUI from '../client/AdminLessonEditClientUI';
 
 export default async function AdminLessonEditUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
@@ -25,6 +24,8 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
         redirect(`/admin/courses/${params.id}/lessons`);
     }
 
+
+
     return (
         <Card>
             <CardHeader>
@@ -32,7 +33,6 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
                 <Typography variant="muted" className="mt-2">
                     Fill in the details below to edit the lesson.
                 </Typography>
-
             </CardHeader>
             <CardContent>
                 <LessonForm defaultValue={lesson} />
