@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -27,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/search-bar";
 import { Pagination } from "@/components/ui/pagination";
+import { toast } from "sonner";
 
 
 type FetchCourseInfoResponse = {
@@ -50,6 +51,7 @@ async function fetchLessons(courseId: string, page: number, limit: number, searc
 }
 
 export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
+    const queryClient = useQueryClient()
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
@@ -57,7 +59,7 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedLesson, setSelectedLesson] = useState<{ id: string, name: string } | null>(null);
 
-    const { data, isLoading, error, refetch } = useQuery({
+    const { data, isLoading, error } = useQuery({
         queryKey: ["lessons", courseId, page, limit, search],
         queryFn: () => fetchLessons(courseId, page, limit, search),
         enabled: !!courseId,
@@ -66,20 +68,33 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
     const lessons = data?.data ?? [];
     const total = data?.total ?? 0;
 
+    // ✅ Delete mutation
+    const deleteMutation = useMutation({
+        mutationFn: async (lessonId: string) => {
+            const res = await fetch(`/api/admin/courses/${courseId}/lessons/${lessonId}`, {
+                method: "DELETE",
+            });
+            if (!res.ok) throw new Error('Failed to delete lesson')
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['lessons'] })
+            setDialogOpen(false)
+            setSelectedLesson(null)
+            toast.success('Lesson deleted successfully!')
+        },
+    })
+
     const handleDeleteClick = (lesson: { id: string, name: string }) => {
         setSelectedLesson(lesson);
         setDialogOpen(true);
     };
 
-    const handleConfirmDelete = async () => {
-        if (!selectedLesson) return;
-        await fetch(`/api/admin/courses/${courseId}/lessons/${selectedLesson.id}`, {
-            method: "DELETE",
-        });
+    const handleConfirmDelete = () => {
+        if (!selectedLesson) return
+        deleteMutation.mutate(selectedLesson.id)
         setDialogOpen(false);
         setSelectedLesson(null);
-        refetch();
-    };
+    }
 
     return (
         <>
