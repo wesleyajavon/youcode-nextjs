@@ -22,8 +22,8 @@ export function JoinLessonButton({ courseId, lessonId, userId }: { courseId: str
   };
 
   return (
-    <Button onClick={handleJoin} disabled={isPending} className="mt-6">
-      Join this lesson
+    <Button onClick={handleJoin} disabled={isPending} variant={"default"}>
+      Join
     </Button>
   );
 }

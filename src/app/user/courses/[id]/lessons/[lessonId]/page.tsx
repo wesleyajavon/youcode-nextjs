@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import { getLesson} from '@/app/admin/courses/_actions/lesson.query';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { LessonPageContentUI } from '@/components/user/server/LessonPageContentUI';
+import { JoinLessonButton } from '@/components/user/client/JoinLessonButton';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -61,14 +62,12 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                         Leave this lesson
                     </Link>
                 ) : (
-                    <Link
-                        href={`/user/courses/${lesson.course.id}/lessons/${lesson.id}/join`}
-                        className={buttonVariants({
-                            variant: 'default',
-                        })}
-                    >
-                        Join this lesson
-                    </Link>)}
+                    <JoinLessonButton
+                        lessonId={lesson.id}
+                        courseId={lesson.course.id}
+                        userId={session.user.id} // Assuming user ID is available in session
+                    />
+                )}
 
             </LayoutActions>
             <LayoutContent className="flex flex-col gap-2 ">

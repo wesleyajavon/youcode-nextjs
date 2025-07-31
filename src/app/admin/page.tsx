@@ -39,6 +39,16 @@ export default async function AdminDashboardPage() {
                     />
                 </LayoutTitle>
             </LayoutHeader>
+            <LayoutActions>
+                <Link
+                    href="/admin/courses/"
+                    className={buttonVariants({
+                        variant: 'outline',
+                    })}
+                >
+                    Courses
+                </Link>
+            </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
                     <DashboardCard stats={stats} />

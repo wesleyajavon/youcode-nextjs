@@ -34,7 +34,7 @@ export default async function UserDashboardPage() {
                 <Link
                     href="/user/courses/"
                     className={buttonVariants({
-                        variant: 'secondary',
+                        variant: 'outline',
                     })}
                 >
                     Courses

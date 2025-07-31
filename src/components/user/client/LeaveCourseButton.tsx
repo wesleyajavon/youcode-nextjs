@@ -22,8 +22,8 @@ export function LeaveCourseButton({ courseId, userId }: { courseId: string; user
   };
 
   return (
-    <Button onClick={handleLeave} disabled={isPending} className="mt-6">
-      Leave this course
+    <Button onClick={handleLeave} disabled={isPending} variant={"destructive"}>
+      Confirm
     </Button>
   );
 }

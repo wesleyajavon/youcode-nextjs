@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Typography } from "@/components/ui/typography";
@@ -12,7 +12,16 @@ import { Badge } from "@/components/ui/badge";
 import { SearchInput } from "@/components/ui/search-bar";
 import { Pagination } from "@/components/ui/pagination";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
-
+import { JoinCourseButton } from "@/components/user/client/JoinCourseButton";
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogCancel,
+} from '@/components/ui/alert-dialog'
+import { LeaveCourseButton } from "@/components/user/client/LeaveCourseButton";
 
 type User = {
     user: {
@@ -88,14 +97,18 @@ export default function CoursePageContentGenericUI({
     courseId,
     alreadyJoined,
     role,
+    userId
 }: {
     courseId: string;
     alreadyJoined: boolean;
     role: string;
+    userId: string;
 }) {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
+    const [dialogOpen, setDialogOpen] = useState(false)
+
 
     const { data: courseData, isLoading: loadingCourse } = useQuery<FetchCourseInfoResponse>({
         queryKey: ["course-info", courseId],
@@ -106,6 +119,10 @@ export default function CoursePageContentGenericUI({
         queryKey: ["participants", courseId, page, limit, search],
         queryFn: () => fetchParticipants(courseId, page, limit, search, role.toLowerCase()),
     });
+
+    const handleLeaveClick = () => {
+        setDialogOpen(true)
+    }
 
     const course: Course | undefined = courseData?.course;
     const participants: User[] = participantsData?.users ?? [];
@@ -187,30 +204,28 @@ export default function CoursePageContentGenericUI({
                             <div className="flex-2" />
 
                             {alreadyJoined ? (
-                                <Link
-                                    href={`/user/courses/${course?.id}/join`}
-                                    className={buttonVariants({
-                                        variant: "destructive",
-                                    })}
+                                <Button
+                                    onClick={() => {
+                                        setDialogOpen(true);
+                                    }}
+                                    aria-label="Leave course"
+                                    variant={'destructive'}
                                 >
                                     Leave this course
-                                </Link>
+                                </Button>
+
                             ) : (
-                                <Link
-                                    href={`/user/courses/${course?.id}/join`}
-                                    className={buttonVariants({
-                                        variant: "default",
-                                    })}
-                                >
-                                    Join this course
-                                </Link>
+                                <>
+                                    <JoinCourseButton
+                                        courseId={course?.id ?? ""}
+                                        userId={userId} // Replace with actual user ID if needed
+                                    />
+                                    <Typography variant="muted" className="mt-2">
+                                        Enroll in this course to access lessons and participants.
+                                    </Typography>
+                                </>
                             )}
 
-                            {!alreadyJoined && (
-                                <Typography variant="muted" className="mt-2">
-                                    Enroll in this course to access lessons and participants.
-                                </Typography>
-                            )}
                         </CardContent>
                     </Card>
                 )}
@@ -234,7 +249,7 @@ export default function CoursePageContentGenericUI({
                         </Avatar>
                     </div>
                 </CardHeader>
-                {alreadyJoined ? (
+                {alreadyJoined || role === "ADMIN" ? (
                     <CardContent>
                         <SearchInput
                             value={search}
@@ -297,6 +312,28 @@ export default function CoursePageContentGenericUI({
                     </CardContent>
                 )}
             </Card>
+            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            You are about to leave the course :
+                        </AlertDialogTitle>
+                        <AlertDialogTitle>{course?.name}</AlertDialogTitle>
+                        <Typography variant="small" className="text-muted-foreground">
+                            Content will be locked after leaving.
+                        </Typography>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        {courseId && (
+                            <LeaveCourseButton courseId={courseId} userId={userId} />
+                        )}
+                        <AlertDialogCancel asChild>
+                            <Button variant="secondary">Cancel</Button>
+                        </AlertDialogCancel>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
+
     );
 }
