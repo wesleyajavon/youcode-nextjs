@@ -6,6 +6,8 @@ import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { BookOpen } from "lucide-react";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
@@ -29,14 +31,22 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses', href: '/user/courses' },
                             {
-                                label: course.name,
+                                label: 'Courses Hub',
+                                href: '/user/courses',
+                                icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" />
+                            },
+                            {
+                                label: course.name || 'Course',
                                 href: '/user/courses/' + course.id,
                                 active: true,
-                            },
-                        ]}
-                    />
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{course.name[0]}</AvatarFallback>
+                                        {course.image && <AvatarImage src={course.image} alt={course.name} />}
+                                    </Avatar>
+                            }
+                        ]} />
                 </LayoutTitle>
             </LayoutHeader>
             <LayoutContent>

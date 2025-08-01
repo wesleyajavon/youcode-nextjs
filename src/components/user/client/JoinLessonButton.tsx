@@ -13,17 +13,17 @@ export function JoinLessonButton({ courseId, lessonId, userId }: { courseId: str
     startTransition(async () => {
       const res = await joinLessonAction(lessonId, userId);
       if (res.success) {
-        toast.success("You joined the lesson!");
+        toast.success("You started the lesson!");
         router.push(`/user/courses/${courseId}/lessons/${lessonId}`);
       } else {
-        toast.error("Failed to join the lesson.");
+        toast.error("Failed to start the lesson.");
       }
     });
   };
 
   return (
     <Button onClick={handleJoin} disabled={isPending} variant={"default"}>
-      Join
+      Start
     </Button>
   );
 }

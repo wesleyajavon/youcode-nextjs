@@ -27,7 +27,7 @@ const typographyVariants = cva('', {
       h4: 'scroll-m-20 border-b pb-2 text-base font-semibold tracking-tight transition-colors first:mt-0 font-caption',
       p: 'leading-7 [&:not(:first-child)]:mt-6',
       base: '',
-      quote: 'mt-6 border-l-2 pl-6 italic',
+      quote: 'mt-2 border-l-2 pl-6 italic text-sm',
       code: 'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold',
       lead: 'text-xl text-muted-foreground',
       large: 'text-lg font-semibold',

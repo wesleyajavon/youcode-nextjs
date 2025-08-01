@@ -146,7 +146,7 @@ export default function CoursePageContentGenericUI({
                             </Typography>
                         )}
                         {!loadingCourse && (
-                            <Typography variant="base">
+                            <Typography variant="quote">
                                 {course?.presentation || "No presentation available."}
                             </Typography>
                         )}
@@ -197,7 +197,7 @@ export default function CoursePageContentGenericUI({
                                         variant: "outline",
                                     })}
                                 >
-                                    See lessons
+                                    Teaching Center 🧠
                                 </Link>
                             )}
 
@@ -221,7 +221,7 @@ export default function CoursePageContentGenericUI({
                                         userId={userId} // Replace with actual user ID if needed
                                     />
                                     <Typography variant="muted" className="mt-2">
-                                        Enroll in this course to access lessons and participants.
+                                        Enroll in this course to access lessons and more 🔓
                                     </Typography>
                                 </>
                             )}

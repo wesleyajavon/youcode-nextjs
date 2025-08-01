@@ -97,7 +97,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                                 </SelectContent>
                             </Select>
                             <Button type="submit">
-                                Save
+                                Save progress 💪
                             </Button>
                         </form>
                     </>
@@ -105,7 +105,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                     <>
                         <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
                         <Typography variant="muted" className="text-center">
-                            You need to join the lesson to view its content.
+                            Start the lesson and update your progress 💪🏽
                         </Typography>
                     </>
                 )}

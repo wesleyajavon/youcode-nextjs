@@ -9,6 +9,8 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
 import { CourseTableServer } from '../../../components/user/server/CourseTableServer';
+import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
+import { BookOpen } from 'lucide-react';
 
 
 export default async function UserCoursesPage() {
@@ -19,13 +21,11 @@ export default async function UserCoursesPage() {
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            {
-                                label: 'User',
-                                href: '/user/'
+                            { label: 'Dashboard', 
+                                href: '/user/',
+                                icon: <HomeIcon className="inline-block mr-1 h-4 w-4 text-primary" />
                             },
-                            {
-                                label: 'Courses', href: '/user/courses', active: true,
-                            },
+                            { label: 'Courses Hub', href: '/user/courses', active: true, icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" /> },
                         ]}
                     />
                 </LayoutTitle>

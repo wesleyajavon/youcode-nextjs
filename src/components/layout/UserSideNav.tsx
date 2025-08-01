@@ -22,7 +22,7 @@ import { Loader } from "../ui/loader";
 
 const navLinks = [
     { href: "/user", label: "Dashboard", icon: Home },
-    { href: "/user/courses", label: "My Courses", icon: BookOpen },
+    { href: "/user/courses", label: "My Hub", icon: BookOpen },
     { href: "/account", label: "Account", icon: User },
 ];
 

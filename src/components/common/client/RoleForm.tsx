@@ -45,8 +45,8 @@ export function EditRoleForm({ id, role }: { id: string; role: Role }) {
                         {...form.register("role")}
                         className="mt-2 block w-full rounded-md border px-3 py-2"
                     >
-                        <option value="USER">User</option>
-                        <option value="ADMIN">Admin</option>
+                        <option value="USER">Student</option>
+                        <option value="ADMIN">Teacher</option>
                     </select>
                 </div>
             </CardContent>

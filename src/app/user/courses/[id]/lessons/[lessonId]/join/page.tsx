@@ -7,6 +7,9 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { JoinLessonUI } from "@/components/user/server/JoinLessonUI";
+import { BookOpen } from "lucide-react";
+import { DocumentTextIcon, UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default async function JoinLessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const session = await getRequiredAuthSession();
@@ -31,10 +34,31 @@ export default async function JoinLessonPage(props: { params: Promise<{ id: stri
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses', href: '/user/courses' },
-                            { label: 'Lessons', href: `/user/courses/${params.id}/lessons` },
-                            { label: lesson?.name || 'Lesson', href: `/user/courses/${params.id}/lessons/${lesson?.id}` },
-                            { label: alreadyJoined ? 'Leave' : 'Join', href: `/user/courses/${params.id}/lessons/${lesson?.id}/join`, active: true },
+                            {
+                                label: 'Courses Hub',
+                                href: '/user/courses',
+                                icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" />
+                            },
+                            {
+                                label: 'Teaching Center',
+                                href: `/user/courses/${params.id}/lessons`,
+                                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
+
+                            },
+                            {
+                                label: lesson?.name || 'Lesson',
+                                href: `/user/courses/${params.id}/lessons/${lesson?.id}`,
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                                    </Avatar>
+                            },
+                            {
+                                label: alreadyJoined ? 'Leave' : 'Join',
+                                href: `/user/courses/${params.id}/lessons/${lesson?.id}/join`,
+                                active: true,
+                                icon: alreadyJoined ? <UserMinusIcon className="inline-block mr-1 h-4 w-4 text-primary" /> : <UserPlusIcon className="inline-block mr-1 h-4 w-4 text-primary" />
+                            },
                         ]}
                     />
                 </LayoutTitle>

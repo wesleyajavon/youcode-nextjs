@@ -5,6 +5,8 @@ import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { LessonTableServer } from "@/components/user/server/LessonTableServer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
 
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
@@ -25,13 +27,19 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
                     <Breadcrumbs
                         breadcrumbs={[
                             {
-                                label: course.name,
-                                href: '/user/courses/' + course.id,
+                                label: course.name || 'Course',
+                                href: `/user/courses/${params.id}`,
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{course.name[0]}</AvatarFallback>
+                                        {course.image && <AvatarImage src={course.image} alt={course.name} />}
+                                    </Avatar>
                             },
                             {
-                                label: 'Lessons',
-                                href: '/user/courses/' + course.id + '/lessons',
+                                label: 'Teaching Center',
+                                href: `/user/courses/${params.id}/lessons`,
                                 active: true,
+                                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />
                             },
                         ]}
                     />

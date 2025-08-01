@@ -36,7 +36,7 @@ type Lesson = {
 }
 
 type FetchLessonsResponse = {
-    lessons: Lesson[];
+    data: Lesson[];
     page: number;
     limit: number;
     total: number;
@@ -65,7 +65,7 @@ export function PublicLessonsTableUI() {
         queryFn: () => fetchPublicLessons(page, limit, search),
     });
 
-    const lessons = data?.lessons ?? [];
+    const lessons = data?.data ?? [];
     const total = data?.total ?? 0;
 
     return (
@@ -82,7 +82,7 @@ export function PublicLessonsTableUI() {
                     </Typography>
 
                     <Typography variant="muted" className="mb-6">
-                        Want more lessons? Sign in! ✅
+                        Want more lessons? Sign in! 😁
                     </Typography>
                     <SearchInput
                         value={search}
@@ -113,7 +113,7 @@ export function PublicLessonsTableUI() {
                                             <Typography
                                                 as={Link}
                                                 variant="large"
-                                                href={`/public/lessons/${lesson.id}`}
+                                                href={`/public/${lesson.id}`}
                                             >
                                                 {lesson.name?.slice(0, 30) ?? ""}
                                             </Typography>

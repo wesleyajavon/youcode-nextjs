@@ -12,8 +12,13 @@ import { getLessonsNumberAsUser } from './courses/_actions/lesson.query';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { DashboardCard } from '@/components/common/server/DashboardCard';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 
 export default async function UserDashboardPage() {
+
+    const session = await getRequiredAuthSession();
+
 
     const stats = [
         { icon: <RectangleStackIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'You are subscribed to', value: (await getCoursesNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' courses.' },
@@ -26,7 +31,20 @@ export default async function UserDashboardPage() {
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'User', href: '/user/', active: true },]}
+                            {
+                                label: 'Student',
+                                href: '/user/',
+                                active: true,
+                                icon: <Avatar className="h-8 w-8 mr-2">
+                                    <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback>
+                                    {session.user.image && (
+                                        <AvatarImage
+                                            src={session.user.image}
+                                            alt={session.user.name ?? "user picture"}
+                                        />
+                                    )}
+                                </Avatar>
+                            },]}
                     />
                 </LayoutTitle>
             </LayoutHeader>

@@ -14,6 +14,8 @@ import { AdminCoursesCreateUI } from '../../../../components/admin/server/AdminC
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { PlusCircle } from "lucide-react";
+import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
+import { BookOpenIcon } from '@heroicons/react/24/outline';
 
 export default async function CoursePage() {
     return (
@@ -24,10 +26,14 @@ export default async function CoursePage() {
                         breadcrumbs={[
                             {
                                 label: 'Dashboard',
-                                href: '/admin/'
+                                href: '/admin/',
+                                icon: <HomeIcon className="inline-block mr-1 h-4 w-4 text-primary" />
+
                             },
                             {
-                                label: 'Courses Hub', href: '/admin/courses'
+                                label: 'Courses Hub', 
+                                href: '/admin/courses',
+                                icon: <BookOpenIcon className="inline-block mr-1 h-4 w-4 text-primary" />
                             },
                             {
                                 href: '/admin/courses/new',

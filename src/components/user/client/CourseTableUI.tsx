@@ -81,12 +81,15 @@ export function CourseTableUI({ userId }: { userId: string }) {
             <Card>
                 <CardHeader>
                     <CardTitle>
-                        <Typography variant="h2">Courses Dashboard</Typography>
+                        <Typography variant="h2">My Courses Hub 📚</Typography>
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Typography variant="small" className="mb-6">
-                        Here you can find all your courses. Click on a course to view its details.
+                    <Typography variant="small" className="mb-2">
+                        Find all your courses here. Click on a course to view its details.
+                    </Typography>
+                    <Typography variant="muted" className="mb-6">
+                        You need to join a course to unlock its content 😉
                     </Typography>
                     <SearchInput
                         value={search}
@@ -103,7 +106,7 @@ export function CourseTableUI({ userId }: { userId: string }) {
                                     <TableHead> </TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Presentation</TableHead>
-                                    <TableHead>Joined?</TableHead>
+                                    <TableHead></TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -132,7 +135,7 @@ export function CourseTableUI({ userId }: { userId: string }) {
                                                 href={`/user/courses/${course.id}`}
                                                 variant="small"
                                             >
-                                                {course.presentation}
+                                                {course.presentation?.slice(0, 35)}...
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
@@ -165,22 +168,27 @@ export function CourseTableUI({ userId }: { userId: string }) {
             </Card>
             <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            You are about to join the course :
+                    <AlertDialogHeader className="items-center text-center">
+                        {selectedCourse?.image && (
+                            <Avatar className="mx-auto mb-2 h-12 w-12">
+                                <AvatarFallback>{selectedCourse.name[0]}</AvatarFallback>
+                                <AvatarImage src={selectedCourse.image} alt={selectedCourse.name} />
+                            </Avatar>
+                        )}
+                        <AlertDialogTitle className="text-xl font-bold">
+                            Join <span className="text-primary">{selectedCourse?.name}</span>?
                         </AlertDialogTitle>
-                        <AlertDialogTitle>{selectedCourse?.name}</AlertDialogTitle>
-                        <Typography variant="small" className="text-muted-foreground">
-                            Content will be unlocked after joining.
+                        <Typography variant="small" className="text-muted-foreground mt-2">
+                            By joining, you’ll unlock all course content and resources.
                         </Typography>
                     </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        {selectedCourse && (
-                            <JoinCourseButton courseId={selectedCourse.id} userId={userId} />
-                        )}
+                    <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-4">
                         <AlertDialogCancel asChild>
-                            <Button variant="secondary">Cancel</Button>
+                            <Button variant="outline">Cancel</Button>
                         </AlertDialogCancel>
+                        {selectedCourse && (
+                            <JoinCourseButton courseId={selectedCourse.id} userId={userId}/>
+                        )}
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

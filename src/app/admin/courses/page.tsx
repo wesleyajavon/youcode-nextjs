@@ -31,7 +31,7 @@ export default async function AdminCoursesPage() {
                                 href: '/admin/',
                                 icon: <HomeIcon className="inline-block mr-1 h-4 w-4 text-primary" />
                             },
-                            { label: 'Courses', href: '/admin/courses', active: true, icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" /> },
+                            { label: 'Courses Hub', href: '/admin/courses', active: true, icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" /> },
                         ]}
                     />
                 </LayoutTitle>

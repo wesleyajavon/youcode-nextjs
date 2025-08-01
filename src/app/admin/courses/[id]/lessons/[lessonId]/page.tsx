@@ -1,19 +1,15 @@
-import { getRequiredAuthSession } from '@/lib/auth';
 import React, { Suspense } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { getLesson, getLessonContent } from '../../../_actions/lesson.query';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getLesson } from '../../../_actions/lesson.query';
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { Typography } from '@/components/ui/typography';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getCourse } from '../../../_actions/course.query';
-import AdminLessonPageContentUI from '../../../../../../components/admin/server/AdminLessonPageContentUI';
 import { CardSkeleton } from '@/components/ui/skeleton';
+import { getCourse } from '../../../_actions/course.query';
+import AdminLessonPageContentUI from '@/components/admin/server/AdminLessonPageContentUI';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown

@@ -27,7 +27,7 @@ export async function AccountUI() {
         <Card>
             <CardHeader>
                 <CardTitle>
-                    <Typography variant="h2">Account</Typography>
+                    <Typography variant="h2">Account ⚙️</Typography>
                 </CardTitle>
                 <CardDescription>Your profile information</CardDescription>
             </CardHeader>
@@ -49,7 +49,12 @@ export async function AccountUI() {
                 </div>
                 <div>
                     <p className="text-sm font-medium text-muted-foreground">Role</p>
-                    <p>{role}</p>
+                    {role === 'ADMIN' && (
+                        <p>Teacher</p>
+                    )}
+                    {role === 'USER' && (
+                        <p>Student</p>
+                    )}
                 </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
@@ -57,13 +62,13 @@ export async function AccountUI() {
                     href="/admin"
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
                 >
-                    Admin
+                    Teacher
                 </Link>)}
                 {session.user.role === 'USER' && (<Link
                     href="/user"
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
                 >
-                    User
+                    Student
                 </Link>)}
                 <Link
                     href="/account/edit"

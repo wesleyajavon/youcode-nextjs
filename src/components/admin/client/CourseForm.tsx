@@ -73,11 +73,11 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
           <FormItem>
             <FormLabel>Image</FormLabel>
             <FormControl>
-              <Input placeholder="https://img.icons8.com/?size=100&id=Nkym0Ujb8VGI&format=png&color=000000" {...field} />
+              <Input placeholder="https://icons8.com/icons" {...field} />
             </FormControl>
             <FormDescription>
-              Host and use an image. You can use{' '}
-              <Link className='hover:underline' href="https://imgur.com">Imgur</Link> to host your image. Png format is recommended.
+             Recommendation: Use{' '}
+              <Link className='hover:underline' href="https://icons8.com/icons">icons8.com</Link>. Provide a link to an image that represents your course 👆🏼
             </FormDescription>
             <FormMessage />
           </FormItem>

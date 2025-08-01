@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { getAuthSession } from "@/lib/auth";
 import { LoginButton } from "@/lib/features/auth/LoginButton";
@@ -147,10 +147,18 @@ export default async function Home() {
             Start using YouCode today!
           </h2>
           {!session && (
-            <LoginButton label="Sign in" className={cn(
-              buttonVariants({ size: "lg" }),
-              "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0"
-            )} />
+            // <LoginButton label="Sign in" className={cn(
+            //   buttonVariants({ size: "lg" }),
+            //   "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0"
+            // )} />
+            <Link href="/public">
+              <Button className={cn(
+                buttonVariants({ size: "lg" }),
+                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0 hover:cursor-pointer"
+              )} >
+                Public Teaching Center
+              </Button>
+            </Link>
           )}
           {session?.user.role === "ADMIN" && (
             <Link

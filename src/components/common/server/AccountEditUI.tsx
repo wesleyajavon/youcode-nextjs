@@ -27,9 +27,9 @@ export async function AccountEditUI() {
         <Card>
             <CardHeader>
                 <CardTitle>
-                    <Typography variant="h2">Edit Role</Typography>
+                    <Typography variant="h2">Are you a Teacher or a Student ? 🤔</Typography>
                 </CardTitle>
-                <CardDescription>Update your user role</CardDescription>
+                <CardDescription>Update your down role here 👇</CardDescription>
             </CardHeader>
             <EditRoleForm id={id ?? ''} role={role} />
         </Card>
