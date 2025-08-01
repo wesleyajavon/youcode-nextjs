@@ -55,6 +55,7 @@ export const LoggedInButton = (props: LoggedInButtonProps) => {
                                 <AvatarImage
                                     src={props.user.image}
                                     alt={props.user.name ?? "user picture"}
+                                    className="rounded"
                                 />
                             )}
                         </Avatar>
