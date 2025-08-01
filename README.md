@@ -2,6 +2,8 @@
 
 YouCode is a modern educational platform built with [Next.js](https://nextjs.org), featuring course management, lesson editing, user/admin dashboards, and AI-powered lesson generation.
 
+Live demo: [https://youcode-nextjs.vercel.app/](https://youcode-nextjs.vercel.app/)
+
 ---
 
 ## 🚀 Features
@@ -23,55 +25,6 @@ YouCode is a modern educational platform built with [Next.js](https://nextjs.org
 
 - **Modern UI/UX**  
   Styled with Tailwind CSS, custom markdown rendering, and a light/dark theme.
-
----
-
-## 🛠️ Getting Started
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/youcode.git
-cd youcode
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-# or
-yarn install
-```
-
-### 3. Configure environment variables
-
-Create a `.env.local` file at the root and add the following (adapt as needed):
-
-```env
-DATABASE_URL=your_database_url
-NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
-GROQ_API_KEY=your_groq_api_key
-# ...other variables as needed
-```
-
-### 4. Set up the database
-
-If you use Prisma:
-
-```bash
-npx prisma migrate dev
-```
-
-### 5. Run the development server
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
@@ -126,7 +79,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🌐 Deployment
 
-You can deploy on [Vercel](https://vercel.com/) or any platform supporting Next.js.
+YouCode is deployed on [Vercel](https://vercel.com/).  
+Live: [https://youcode-nextjs.vercel.app/](https://youcode-nextjs.vercel.app/)
 
 ---
 
