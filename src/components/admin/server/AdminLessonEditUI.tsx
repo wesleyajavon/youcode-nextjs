@@ -30,7 +30,7 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
             <CardHeader>
                 <Typography variant="h2">Customize your lesson 📝</Typography>
                 <Typography variant="muted" className="mt-2">
-                    Fill in the details below to edit the lesson.
+                    Ready to make changes? Start editing your lesson here. 👇🏻
                 </Typography>
             </CardHeader>
             <CardContent>

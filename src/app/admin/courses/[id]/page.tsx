@@ -27,7 +27,11 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses Hub', href: '/admin/courses' },
+                            {
+                                label: 'Courses Hub',
+                                href: '/admin/courses',
+                                icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" />
+                            },
                             {
                                 label: course.name || 'Course',
                                 href: '/admin/courses/' + course.id,

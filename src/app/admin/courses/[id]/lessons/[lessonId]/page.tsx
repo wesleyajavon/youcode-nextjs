@@ -47,12 +47,17 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
               {
                 label: 'Teaching Center',
                 href: '/admin/courses/' + lesson?.courseId + '/lessons',
+                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
+
               },
               {
                 label: lesson?.name || 'Lesson',
                 href: '/admin/courses/' + lesson?.courseId + '/lessons' + '/' + lesson?.id,
                 active: true,
-                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
+                icon:
+                  <Avatar className="rounded h-5 w-5">
+                    <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                  </Avatar>
               },
             ]}
           />

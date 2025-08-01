@@ -11,7 +11,7 @@ import {
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { buttonVariants } from '@/components/ui/button';
 
-import { PlusIcon, } from '@heroicons/react/24/outline';
+import { HomeIcon, PlusIcon, } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
@@ -27,7 +27,10 @@ export default async function AdminCoursesPage() {
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Dashboard', href: '/admin/' },
+                            { label: 'Dashboard', 
+                                href: '/admin/',
+                                icon: <HomeIcon className="inline-block mr-1 h-4 w-4 text-primary" />
+                            },
                             { label: 'Courses', href: '/admin/courses', active: true, icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" /> },
                         ]}
                     />

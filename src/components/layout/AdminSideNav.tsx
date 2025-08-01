@@ -18,12 +18,11 @@ import {
 } from "@/components/ui/alert-dialog"
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Loader } from "../ui/loader";
-import { toast } from "sonner";
 
 
 const navLinks = [
 	{ href: "/admin", label: "Dashboard", icon: Home },
-	{ href: "/admin/courses", label: "Courses", icon: BookOpen },
+	{ href: "/admin/courses", label: "Hub", icon: BookOpen },
 	{ href: "/admin/courses/new", label: "New Course", icon: PlusCircle },
 	{ href: "/account", label: "Account", icon: User },
 ];

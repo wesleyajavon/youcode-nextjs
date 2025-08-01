@@ -108,7 +108,7 @@ export function AdminCoursesTableUI() {
             <Card>
                 <CardHeader>
                     <CardTitle>
-                        <Typography variant="h2">Courses Hub</Typography>
+                        <Typography variant="h2">Courses Hub 📚</Typography>
                     </CardTitle>
                 </CardHeader>
                 <CardContent>

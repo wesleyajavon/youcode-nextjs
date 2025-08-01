@@ -12,7 +12,7 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import AdminLessonEditUI from '@/components/admin/server/AdminLessonEditUI';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
@@ -59,10 +59,18 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                                         {course?.image && <AvatarImage src={course.image} alt={course.name} />}
                                     </Avatar>
                             },
-                            { label: 'Teaching Center', href: `/admin/courses/${lesson.courseId}/lessons/` },
+                            {
+                                label: 'Teaching Center',
+                                href: `/admin/courses/${lesson.courseId}/lessons/`,
+                                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
+                            },
                             {
                                 label: lesson.name,
                                 href: `/admin/courses/${lesson.courseId}/lessons/` + lesson.id,
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                                    </Avatar>
                             },
                             {
                                 href: `/admin/courses/${lesson.courseId}/lessons/` + lesson.id + '/edit',

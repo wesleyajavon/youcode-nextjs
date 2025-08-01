@@ -101,15 +101,18 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
             <Card>
                 <CardHeader>
                     <CardTitle>
-                        <Typography variant="h2">Teaching Center 📚</Typography>
+                        <Typography variant="h2">Teaching Center 📖</Typography>
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Typography variant="small" className="mb-2">
-                        Here you can manage all lessons. Click on a lesson to view or edit its details.
+                        Looking to update a lesson? Just click on it.
+                    </Typography>
+                    <Typography variant="small" className="mb-2">
+                        Want to add something new? Hit the button above!
                     </Typography>
                     <Typography variant="muted" className="mb-6">
-                        You can also create a new lesson using the button above.
+                        Your AI-powered lessons are waiting on you. Go check it out 👀
                     </Typography>
                     <SearchInput
                         value={search}

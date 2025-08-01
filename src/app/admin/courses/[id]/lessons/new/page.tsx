@@ -6,18 +6,19 @@ import { PlusCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { prisma } from '@/lib/prisma';
 import { AdminLessonCreateUI } from '@/components/admin/server/AdminLessonCreateUI';
+import { DocumentTextIcon } from '@heroicons/react/24/outline';
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const course = await prisma.course.findUnique({
-          where: {
-              id: params.id,
-          },
-          select: {
-              image: true,
-              name: true
-          },
-      });
+    where: {
+      id: params.id,
+    },
+    select: {
+      image: true,
+      name: true
+    },
+  });
 
   return (
     <Layout>
@@ -34,7 +35,11 @@ export default async function NewLessonPage(props: { params: Promise<{ id: strin
                     {course?.image && <AvatarImage src={course.image} alt={course.name} />}
                   </Avatar>
               },
-              { label: 'Teaching Center', href: `/admin/courses/${params.id}/lessons` },
+              {
+                label: 'Teaching Center',
+                href: `/admin/courses/${params.id}/lessons`,
+                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
+              },
               {
                 href: `/admin/courses/${params.id}/lessons/new`,
                 active: true,

@@ -33,11 +33,10 @@ export default async function AdminCourseEditUI(props: { params: Promise<{ id: s
     return (
         <Card>
             <CardHeader>
-                <Typography variant="h2">Edit Course</Typography>
-                <Typography variant="muted" className="mt-2">
-                    Fill in the details below to edit the course.
+                <Typography variant="h2">Customize your course! 🔧</Typography>
+                <Typography variant="muted">
+                    Ready to make edits? Update your course below. 👇🏾
                 </Typography>
-
             </CardHeader>
             <CardContent>
                 <CourseForm defaultValue={course} />
