@@ -8,6 +8,8 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
+import { BookOpen } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
@@ -25,12 +27,17 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses', href: '/admin/courses' },
+                            { label: 'Courses Hub', href: '/admin/courses' },
                             {
-                                label: course.name.slice(0, 30) || 'Course',
+                                label: course.name || 'Course',
                                 href: '/admin/courses/' + course.id,
                                 active: true,
-                            },
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{course.name[0]}</AvatarFallback>
+                                        {course.image && <AvatarImage src={course.image} alt={course.name} />}
+                                    </Avatar>
+                            }
                         ]} />
                 </LayoutTitle>
             </LayoutHeader>

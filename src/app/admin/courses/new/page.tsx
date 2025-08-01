@@ -10,9 +10,10 @@ import { getRequiredAuthSession } from '@/lib/auth';
 import { CourseForm } from '../../../../components/admin/client/CourseForm';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Typography } from '@/components/ui/typography';
-import { AdminCoursesCreateUI } from './AdminCourseCreateUI';
+import { AdminCoursesCreateUI } from '../../../../components/admin/server/AdminCourseCreateUI';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
+import { PlusCircle } from "lucide-react";
 
 export default async function CoursePage() {
     return (
@@ -22,14 +23,16 @@ export default async function CoursePage() {
                     <Breadcrumbs
                         breadcrumbs={[
                             {
-                                label: 'Admin',
+                                label: 'Dashboard',
                                 href: '/admin/'
                             },
                             {
-                                label: 'Courses', href: '/admin/courses'
+                                label: 'Courses Hub', href: '/admin/courses'
                             },
                             {
-                                label: 'New Course', href: '/admin/courses/new', active: true,
+                                href: '/admin/courses/new',
+                                active: true,
+                                icon: <PlusCircle className="inline-block mr-1 h-4 w-4 text-primary" />
                             },
                         ]}
                     />

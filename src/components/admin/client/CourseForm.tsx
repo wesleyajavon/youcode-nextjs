@@ -73,7 +73,7 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
           <FormItem>
             <FormLabel>Image</FormLabel>
             <FormControl>
-              <Input placeholder="https://googleimage.com" {...field} />
+              <Input placeholder="https://img.icons8.com/?size=100&id=Nkym0Ujb8VGI&format=png&color=000000" {...field} />
             </FormControl>
             <FormDescription>
               Host and use an image. You can use{' '}
@@ -90,7 +90,7 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
           <FormItem>
             <FormLabel>Name</FormLabel>
             <FormControl>
-              <Input placeholder="NextReact" {...field} />
+              <Input placeholder="Javascript" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -103,7 +103,7 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
           <FormItem>
             <FormLabel>Presentation</FormLabel>
             <FormControl>
-              <Textarea placeholder="## Course Presentation" {...field} />
+              <Textarea placeholder="Introduce your course. What will students learn? 🧠" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

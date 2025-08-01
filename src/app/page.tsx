@@ -143,7 +143,7 @@ export default async function Home() {
       <section className="relative flex flex-col items-center justify-center py-20 px-6 bg-white">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-pink-100/60 via-transparent to-transparent" />
         <div className="relative z-10 flex flex-col items-center gap-6">
-          <h2 className="text-4xl font-extrabold bg-gradient-to-l from-gray-300 to-gray-700 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-extrabold bg-gradient-to-l from-gray-700 to-gray-700 bg-clip-text text-transparent">
             Start using YouCode today!
           </h2>
           {!session && (

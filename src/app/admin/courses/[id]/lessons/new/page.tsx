@@ -1,13 +1,23 @@
 import React, { Suspense } from 'react';
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { getCourseName } from '../../../_actions/course.query';
-import { AdminLessonCreateUI } from '../../../../../../components/admin/server/AdminLessonCreateUI';
 import { CardSkeleton } from '@/components/ui/skeleton';
+import { PlusCircle } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { prisma } from '@/lib/prisma';
+import { AdminLessonCreateUI } from '@/components/admin/server/AdminLessonCreateUI';
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const course = await getCourseName(params.id);
+  const course = await prisma.course.findUnique({
+          where: {
+              id: params.id,
+          },
+          select: {
+              image: true,
+              name: true
+          },
+      });
 
   return (
     <Layout>
@@ -15,10 +25,21 @@ export default async function NewLessonPage(props: { params: Promise<{ id: strin
         <LayoutTitle>
           <Breadcrumbs
             breadcrumbs={[
-              { label: 'Courses', href: '/admin/courses' },
-              { label: course?.name.slice(0, 15) || 'Course', href: `/admin/courses/${params.id}` },
-              { label: 'Lessons', href: `/admin/courses/${params.id}/lessons` },
-              { label: 'New', href: `/admin/courses/${params.id}/lessons/new`, active: true },
+              {
+                label: course?.name || 'Course',
+                href: `/admin/courses/${params.id}`,
+                icon:
+                  <Avatar className="rounded h-5 w-5">
+                    <AvatarFallback>{course?.name[0]}</AvatarFallback>
+                    {course?.image && <AvatarImage src={course.image} alt={course.name} />}
+                  </Avatar>
+              },
+              { label: 'Teaching Center', href: `/admin/courses/${params.id}/lessons` },
+              {
+                href: `/admin/courses/${params.id}/lessons/new`,
+                active: true,
+                icon: <PlusCircle className="inline-block mr-1 h-4 w-4 text-primary" />
+              },
             ]}
           />
         </LayoutTitle>

@@ -13,6 +13,7 @@ import { BookOpenIcon, UserIcon } from 'lucide-react';
 import { RectangleStackIcon } from '@heroicons/react/24/outline';
 import { DashboardCard } from '@/components/common/server/DashboardCard';
 import { redirect } from 'next/dist/server/api-utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default async function AdminDashboardPage() {
 
@@ -35,7 +36,20 @@ export default async function AdminDashboardPage() {
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Admin', href: '/admin/', active: true },]}
+                            {
+                                label: 'Teacher',
+                                href: '/admin/',
+                                active: true,
+                                icon: <Avatar className="h-8 w-8 mr-2">
+                                    <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback>
+                                    {session.user.image && (
+                                        <AvatarImage
+                                            src={session.user.image}
+                                            alt={session.user.name ?? "user picture"}
+                                        />
+                                    )}
+                                </Avatar>
+                            },]}
                     />
                 </LayoutTitle>
             </LayoutHeader>

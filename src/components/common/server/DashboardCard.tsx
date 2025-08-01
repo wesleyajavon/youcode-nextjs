@@ -13,7 +13,7 @@ export async function DashboardCard({
     <Card>
       <CardHeader>
         <CardTitle>
-          <Typography variant="h2">Dashboard</Typography>
+          <Typography variant="h2">Your Dashboard 📊</Typography>
         </CardTitle>
         <CardDescription>Quick stats</CardDescription>
       </CardHeader>

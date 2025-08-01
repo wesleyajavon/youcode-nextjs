@@ -63,11 +63,11 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="text-2xl font-bold">
+                <CardTitle>
                     <Typography variant={'h2'}>
                         {lesson?.course?.name || 'Course'}
                     </Typography>
-                    <Typography variant={'h3'}>
+                    <Typography variant={'muted' }>
                         {lesson?.name || 'Lesson'}
                     </Typography>
                 </CardTitle>

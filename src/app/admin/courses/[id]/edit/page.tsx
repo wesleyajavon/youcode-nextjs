@@ -12,6 +12,7 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 import AdminCourseEditUI from '../../../../../components/admin/server/AdminCourseEditUI';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
+import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
     const session = await getRequiredAuthSession();
@@ -38,15 +39,16 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Courses', href: '/admin/courses' },
+                            { label: 'Courses Hub', href: '/admin/courses' },
                             {
                                 label: course.name,
                                 href: '/admin/courses/' + course.id,
                             },
                             {
-                                label: 'Edit',
                                 href: '/admin/courses/' + course.id + '/edit',
                                 active: true,
+                                icon: <PencilSquareIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
+
                             },
                         ]}
                     />

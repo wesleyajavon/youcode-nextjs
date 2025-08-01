@@ -5,7 +5,6 @@ import { Typography } from '@/components/ui/typography';
 import { redirect } from 'next/navigation';
 import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
 import remarkGfm from 'remark-gfm';
-import Markdown from "markdown-to-jsx";
 
 
 export default async function AdminLessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
@@ -24,7 +23,7 @@ export default async function AdminLessonPageContentUI(props: { params: Promise<
                     <Typography variant={'h2'}>
                         {lesson?.course?.name || 'Course'}
                     </Typography>
-                    <Typography variant={'h3'}>
+                    <Typography variant={'muted' }>
                         {lesson?.name || 'Lesson'}
                     </Typography>
                 </CardTitle>

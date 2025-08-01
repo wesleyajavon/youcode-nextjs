@@ -9,7 +9,7 @@ import { Typography } from '@/components/ui/typography';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getCourse } from '../../../_actions/course.query';
 import AdminLessonPageContentUI from '../../../../../../components/admin/server/AdminLessonPageContentUI';
@@ -37,17 +37,22 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
           <Breadcrumbs
             breadcrumbs={[
               {
-                label: course?.name.slice(0, 10) || 'Course',
                 href: `/admin/courses/${lesson?.courseId}`,
+                icon:
+                  <Avatar className="rounded h-5 w-5">
+                    <AvatarFallback>{course?.name[0]}</AvatarFallback>
+                    {course?.image && <AvatarImage src={course.image} alt={course.name} />}
+                  </Avatar>
               },
               {
-                label: 'Lessons',
+                label: 'Teaching Center',
                 href: '/admin/courses/' + lesson?.courseId + '/lessons',
               },
               {
-                label: lesson?.name.slice(0, 25) || 'Lesson',
+                label: lesson?.name || 'Lesson',
                 href: '/admin/courses/' + lesson?.courseId + '/lessons' + '/' + lesson?.id,
                 active: true,
+                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
               },
             ]}
           />

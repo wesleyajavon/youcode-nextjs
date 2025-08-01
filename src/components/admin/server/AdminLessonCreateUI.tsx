@@ -10,9 +10,9 @@ export async function AdminLessonCreateUI(params: { courseId: string }) {
     return (
         <Card>
             <CardHeader>
-                <Typography variant="h2">New Lesson</Typography>
+                <Typography variant="h2">Ready to create a new lesson? ✏️</Typography>
                 <Typography variant="small" className="mt-2">
-                    Fill in the details below to create a new lesson.
+                    Feel free to use AI to generate lesson content, or create it manually.
                 </Typography>
                 <Typography variant="muted" className="mt-2">
                     Ensure all fields are filled out correctly before submitting.

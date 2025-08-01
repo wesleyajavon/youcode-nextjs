@@ -101,7 +101,7 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
             <Card>
                 <CardHeader>
                     <CardTitle>
-                        <Typography variant="h2">Lessons Dashboard</Typography>
+                        <Typography variant="h2">Teaching Center 📚</Typography>
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -114,7 +114,7 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
                     <SearchInput
                         value={search}
                         onChange={setSearch}
-                        placeholder="Search lessons..."
+                        placeholder="Search..."
                         onSearchStart={() => setPage(1)}
                     />
                     {isLoading && <Typography variant="muted">Loading lessons...</Typography>}

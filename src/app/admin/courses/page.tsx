@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/skeleton";
 import { AdminCoursesTableServer } from "@/components/admin/server/AdminCoursesTableServer";
+import { BookOpen } from "lucide-react";
 
 export default async function AdminCoursesPage() {
     const session = await getRequiredAuthSession();
@@ -26,8 +27,8 @@ export default async function AdminCoursesPage() {
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Admin', href: '/admin/' },
-                            { label: 'Courses', href: '/admin/courses', active: true },
+                            { label: 'Dashboard', href: '/admin/' },
+                            { label: 'Courses', href: '/admin/courses', active: true, icon: <BookOpen className="inline-block mr-1 h-4 w-4 text-primary" /> },
                         ]}
                     />
                 </LayoutTitle>

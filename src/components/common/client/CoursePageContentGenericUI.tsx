@@ -136,7 +136,7 @@ export default function CoursePageContentGenericUI({
                 <Card className="h-fit flex flex-col ">
                     <CardHeader className="flex items-center justify-between">
                         <Typography variant="h3">
-                            <CardTitle>Presentation</CardTitle>
+                            <CardTitle>Presentation 👨🏻‍🏫</CardTitle>
                         </Typography>
                     </CardHeader>
                     <CardContent>
@@ -178,7 +178,7 @@ export default function CoursePageContentGenericUI({
                                             variant: "outline",
                                         })}
                                     >
-                                        See lessons
+                                        Teaching Center 📚
                                     </Link>
                                 </>
                             )}

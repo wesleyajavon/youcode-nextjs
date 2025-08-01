@@ -7,11 +7,13 @@ import {
 } from '@/components/layout/layout';
 
 import { prisma } from '@/lib/prisma';
-import {  redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import AdminLessonEditUI from '@/components/admin/server/AdminLessonEditUI';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
@@ -29,6 +31,16 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
         },
     });
 
+    const course = await prisma.course.findUnique({
+        where: {
+            id: params.id,
+        },
+        select: {
+            image: true,
+            name: true
+        },
+    });
+
     if (!lesson) {
         redirect(`/admin/courses/${params.id}/lessons`);
     }
@@ -39,15 +51,23 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                 <LayoutTitle>
                     <Breadcrumbs
                         breadcrumbs={[
-                            { label: 'Lessons', href: `/admin/courses/${lesson.courseId}/lessons/` },
+                            {
+                                href: `/admin/courses/${params.id}`,
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{course?.name[0]}</AvatarFallback>
+                                        {course?.image && <AvatarImage src={course.image} alt={course.name} />}
+                                    </Avatar>
+                            },
+                            { label: 'Teaching Center', href: `/admin/courses/${lesson.courseId}/lessons/` },
                             {
                                 label: lesson.name,
                                 href: `/admin/courses/${lesson.courseId}/lessons/` + lesson.id,
                             },
                             {
-                                label: 'Edit',
                                 href: `/admin/courses/${lesson.courseId}/lessons/` + lesson.id + '/edit',
                                 active: true,
+                                icon: <PencilSquareIcon className="inline-block h-5 w-5 text-primary" />,
                             },
                         ]}
                     />

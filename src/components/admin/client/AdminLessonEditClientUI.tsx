@@ -17,7 +17,7 @@ export default function AdminLessonEditClientUI({ lesson }: { lesson: any }) {
     <>
       <CardHeader>
         <CardTitle>
-          <Typography variant="h2">Edit Lesson</Typography>
+          <Typography variant="h2">Customize your lesson 📝</Typography>
           <Typography variant="muted" className="mt-2">
             Fill in the details below to edit the lesson.
           </Typography>

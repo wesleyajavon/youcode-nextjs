@@ -81,7 +81,7 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
                         <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="NextReact" {...field} />
+                                <Input placeholder="JS Fundamentals" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -106,7 +106,7 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Textarea placeholder="## Some content" {...field} />
+                                <Textarea placeholder="## Some content 📝" {...field} />
                             </FormControl>
                             <FormDescription>Markdown is supported.</FormDescription>
                             <FormMessage />

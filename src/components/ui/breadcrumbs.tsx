@@ -1,10 +1,12 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
+import React from 'react';
 
 interface Breadcrumb {
-  label: string;
+  label?: string;
   href: string;
   active?: boolean;
+  icon?: React.ReactNode;
 }
 
 export default function Breadcrumbs({
@@ -23,9 +25,22 @@ export default function Breadcrumbs({
               breadcrumb.active ? 'text-white-foreground' : 'text-gray-500',
             )}
           >
-            <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
+            <Link href={breadcrumb.href}>
+              {breadcrumb.icon && breadcrumb.label && (
+                <span className="inline-flex items-center align-middle gap-2">
+                  {breadcrumb.icon}
+                  {breadcrumb.label}
+                </span>
+              )}
+              {breadcrumb.label && !breadcrumb.icon && (
+                <span className='inline-flex items-center align-middle'>{breadcrumb.label}</span>
+              )}
+              {breadcrumb.icon && !breadcrumb.label && (
+                <span className='inline-flex items-center align-middle'>{breadcrumb.icon}</span>
+              )}
+            </Link>
             {index < breadcrumbs.length - 1 ? (
-              <span className="mx-3 inline-block">/</span>
+              <span className="mx-2 inline-block">/</span>
             ) : null}
           </li>
         ))}
