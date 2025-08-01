@@ -77,7 +77,7 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
             </FormControl>
             <FormDescription>
              Recommendation: Use{' '}
-              <Link className='hover:underline' href="https://icons8.com/icons">icons8.com</Link>. Provide a link to an image that represents your course 👆🏼
+              <Link className='hover:underline' href="https://icons8.com/icons">icons8.com</Link>. Provide a link to a .PNG image that represents your course
             </FormDescription>
             <FormMessage />
           </FormItem>

@@ -235,7 +235,7 @@ export default function CoursePageContentGenericUI({
             <Card className="order-2 lg:order-2 lg:col-span-2">
                 <CardHeader className="flex items-end justify-between gap-6">
                     <Typography variant="h3">
-                        <CardTitle>Participants</CardTitle>
+                        <CardTitle>🧑🏾‍💻👩🏼‍💻🧑🏻‍💻 Participants</CardTitle>
                     </Typography>
                     <div className="flex items-baseline gap-3">
                         <Typography variant="muted" className="">
@@ -282,7 +282,7 @@ export default function CoursePageContentGenericUI({
                                                 </Avatar>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography variant="large" className="font-semibold">
+                                                <Typography variant="small" className="font-semibold">
                                                     {participant.user.name}
                                                 </Typography>
                                             </TableCell>
@@ -307,7 +307,7 @@ export default function CoursePageContentGenericUI({
                         )}
                     </CardContent>
                 ) : (
-                    <CardContent>
+                    <CardContent className="flex flex-col items-center justify-center min-h-[120px]">
                         <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
                     </CardContent>
                 )}

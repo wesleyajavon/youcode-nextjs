@@ -11,12 +11,15 @@ import { Progress } from "@prisma/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import remarkGfm from 'remark-gfm';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 
 
 export async function LessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
     const markdown = await getLessonContent(params.lessonId);
+    const course = await getCourseInfo(params.id);
     const session = await getRequiredAuthSession();
 
 
@@ -64,10 +67,16 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
         <Card>
             <CardHeader>
                 <CardTitle>
-                    <Typography variant={'h2'}>
-                        {lesson?.course?.name || 'Course'}
-                    </Typography>
-                    <Typography variant={'muted' }>
+                    <span className="inline-flex items-center gap-2 mb-2">
+                        <Avatar>
+                            <AvatarFallback>{course?.name[0]}</AvatarFallback>
+                            <AvatarImage className="rounded h-10 w-10 mr-4" src={course?.image} alt={course?.name} />
+                        </Avatar>
+                        <Typography variant={'h2'}>
+                            {lesson?.course?.name || 'Course'}
+                        </Typography>
+                    </span>
+                    <Typography variant={'muted'}>
                         {lesson?.name || 'Lesson'}
                     </Typography>
                 </CardTitle>

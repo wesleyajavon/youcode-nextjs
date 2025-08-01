@@ -113,10 +113,10 @@ export function AdminCoursesTableUI() {
                 </CardHeader>
                 <CardContent>
                     <Typography variant="small" className="mb-2">
-                        Here you can manage all your courses. Click on a course to view or edit its details.
+                        👋 Welcome to the Courses Hub!  
                     </Typography>
                     <Typography variant="muted" className="mb-6">
-                        You can also create a new course using the button above.
+                        Feel like adding a new course? Just hit the button above! 🚀
                     </Typography>
                     <SearchInput
                         value={search}

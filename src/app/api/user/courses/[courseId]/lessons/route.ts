@@ -32,6 +32,7 @@ export async function GET(req: Request) {
       prisma.lesson.findMany({
         where: {
           courseId,
+          state: { in: ['PUBLIC', 'PUBLISHED'] },
           name: {
             contains: search,
             mode: 'insensitive',

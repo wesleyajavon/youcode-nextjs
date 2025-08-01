@@ -62,7 +62,7 @@ export const Footer = () => {
                 </div>
                 <div className="flex w-full items-center justify-center">
                     <Typography variant="base" className="text-xs text-muted-foreground">
-                        &copy; {new Date().getFullYear()} Wesley Ajavon
+                        &copy; {new Date().getFullYear()} Wesley Ajavon - All rights reserved.
                     </Typography>
                 </div>
             </div>

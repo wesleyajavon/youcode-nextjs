@@ -9,9 +9,9 @@ export async function AdminCoursesCreateUI() {
     return (
         <Card className="flex-[2]">
             <CardHeader>
-                <Typography variant="h2">Create a new course 👨🏾‍💻</Typography>
+                <Typography variant="h2">Ready to create your next course? 👨🏾‍💻</Typography>
                 <Typography variant="small" className="mt-2">
-                    Students can enroll in your course once it's published.
+                    ✅ Students can enroll in your course once it's published.
                 </Typography>
                 <Typography variant="muted" className="mt-2">
                     Ensure all fields are filled out correctly before submitting.

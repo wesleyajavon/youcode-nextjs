@@ -22,6 +22,7 @@ export async function GET(req: Request) {
         const [courses, total] = await Promise.all([
             prisma.course.findMany({
                 where: {
+                    state: 'PUBLISHED',
                     name: {
                         contains: search,
                         mode: 'insensitive',
@@ -39,6 +40,7 @@ export async function GET(req: Request) {
             }),
             prisma.course.count({
                 where: {
+                    state: 'PUBLISHED',
                     name: {
                         contains: search,
                         mode: 'insensitive',

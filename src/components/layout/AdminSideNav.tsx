@@ -23,7 +23,7 @@ import { Loader } from "../ui/loader";
 const navLinks = [
 	{ href: "/admin", label: "Dashboard", icon: Home },
 	{ href: "/admin/courses", label: "Hub", icon: BookOpen },
-	{ href: "/admin/courses/new", label: "New Course", icon: PlusCircle },
+	// { href: "/admin/courses/new", label: "New Course", icon: PlusCircle },
 	{ href: "/account", label: "Account", icon: User },
 ];
 
@@ -102,7 +102,7 @@ export function AdminSideNav({ visible = true, onClose }: { visible?: boolean; o
 					{/* Affichage du rôle */}
 					<span className="text-xs text-muted-foreground px-3 py-2 rounded bg-primary/10 w-fit mx-auto">
 						<Typography variant="small">
-							Logged in as: <strong>Admin</strong>
+							Logged in as: <strong>Teacher</strong>
 						</Typography>
 					</span>
 					<span className="text-xs text-muted-foreground px-3 py-2 rounded w-fit mx-auto">
@@ -120,26 +120,29 @@ export function AdminSideNav({ visible = true, onClose }: { visible?: boolean; o
 				<AlertDialog.Portal>
 					<AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" />
 					<AlertDialogContent>
-						<AlertDialogHeader>
-							<AlertDialogTitle>
-								You confirm log out ?
+						<AlertDialogHeader className="items-center text-center">
+							<LogOut className="mx-auto mb-2 h-8 w-8 text-destructive" />
+							<AlertDialogTitle className="text-lg font-bold">
+								Are you sure you want to log out?
 							</AlertDialogTitle>
+							<Typography variant="small" className="text-muted-foreground mt-2">
+								You will be redirected to the homepage and will need to log in again to access your courses.
+							</Typography>
 						</AlertDialogHeader>
-
-						<AlertDialogFooter>
+						<AlertDialogFooter className="flex flex-row gap-2 justify-center mt-4">
 							<AlertDialogCancel asChild>
-								<Button variant="secondary">Cancel</Button>
+								<Button variant="outline">Cancel</Button>
 							</AlertDialogCancel>
 							<Button
 								variant="destructive"
 								disabled={mutation.isPending}
-								onClick={() => {
-									mutation.mutate();
-								}}>
+								onClick={() => mutation.mutate()}
+							>
 								{mutation.isPending ? (
-									<Loader className="ml-1" size={12} />
-								) :
-									<LogOut className="ml-1" size={12} />}
+									<Loader className="mr-2" size={16} />
+								) : (
+									<LogOut className="mr-2" size={16} />
+								)}
 								Log out
 							</Button>
 						</AlertDialogFooter>

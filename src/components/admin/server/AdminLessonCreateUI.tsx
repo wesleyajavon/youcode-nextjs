@@ -12,7 +12,7 @@ export async function AdminLessonCreateUI(params: { courseId: string }) {
             <CardHeader>
                 <Typography variant="h2">Ready to create a new lesson? ✏️</Typography>
                 <Typography variant="small" className="mt-2">
-                    Feel free to use AI to generate lesson content, or create it manually.
+                    🤖 Feel free to use our latest AI lesson generator to help you get started quickly. 
                 </Typography>
                 <Typography variant="muted" className="mt-2">
                     Ensure all fields are filled out correctly before submitting.

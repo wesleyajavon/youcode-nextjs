@@ -20,12 +20,12 @@ export async function DashboardCard({
       <CardContent className="flex flex-col gap-4">
         <span>
           <Typography variant="large">
-            Hey, welcome to YouCode! 👋 
+            👋 Hey, welcome to YouCode!  
           </Typography>
         </span>
         <span className="mb-6">
           <Typography variant="p">
-            Here are some quick stats about your courses and lessons.
+            Here are some quick stats about your courses and lessons 👀
           </Typography>
         </span>
         

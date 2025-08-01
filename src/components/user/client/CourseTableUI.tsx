@@ -26,7 +26,6 @@ import {
     AlertDialogTitle,
     AlertDialogCancel,
 } from '@/components/ui/alert-dialog'
-import { userAgent } from "next/server";
 import { JoinCourseButton } from "./JoinCourseButton";
 
 async function fetchCourses(page: number, limit: number, search: string) {

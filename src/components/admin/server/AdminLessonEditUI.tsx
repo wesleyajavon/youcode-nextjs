@@ -28,9 +28,9 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
     return (
         <Card>
             <CardHeader>
-                <Typography variant="h2">Customize your lesson 📝</Typography>
+                <Typography variant="h2">Customize your lesson with AI ✨</Typography>
                 <Typography variant="muted" className="mt-2">
-                    Ready to make changes? Start editing your lesson here. 👇🏻
+                    Ready to make changes? Use the new AI Lesson Generator. 👇🏻
                 </Typography>
             </CardHeader>
             <CardContent>
