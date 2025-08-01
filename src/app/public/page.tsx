@@ -25,7 +25,7 @@ export default async function PublicLessonsPage() {
                 </LayoutTitle>
             </LayoutHeader>
  
-            <LayoutContent>
+            <LayoutContent className="flex flex-col gap-2 ">
                 <Suspense fallback={<CardSkeleton />}>
                     <PublicLessonsTableServer />
                 </Suspense>

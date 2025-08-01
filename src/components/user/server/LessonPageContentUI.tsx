@@ -68,9 +68,9 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
             <CardHeader>
                 <CardTitle>
                     <span className="inline-flex items-center gap-2 mb-2">
-                        <Avatar>
+                        <Avatar className="rounded h-10 w-10 mr-4">
                             <AvatarFallback>{course?.name[0]}</AvatarFallback>
-                            <AvatarImage className="rounded h-10 w-10 mr-4" src={course?.image} alt={course?.name} />
+                            <AvatarImage src={course?.image} alt={course?.name} />
                         </Avatar>
                         <Typography variant={'h2'}>
                             {lesson?.course?.name || 'Course'}

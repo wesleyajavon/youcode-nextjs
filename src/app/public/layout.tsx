@@ -2,5 +2,11 @@ export default async function PublicLayout({ children }: { children: React.React
 
 
   // Passe les children au composant client
-  return (children)
+  return (
+    <div className={`flex flex-1`}>
+      <main className="flex flex-1 pb-10">
+        {children}
+      </main>
+    </div>
+  )
 }

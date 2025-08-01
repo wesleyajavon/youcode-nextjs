@@ -78,11 +78,11 @@ export function PublicLessonsTableUI() {
                 </CardHeader>
                 <CardContent>
                     <Typography variant="small" className="mb-2">
-                        This is the public teaching center where you can find all the lessons available for public access.
+                        😁 This is the public teaching center where you can find all the lessons available for public access.
                     </Typography>
 
                     <Typography variant="muted" className="mb-6">
-                        Want more lessons? Sign in! 😁
+                        Want more lessons? Sign in! 
                     </Typography>
                     <SearchInput
                         value={search}
