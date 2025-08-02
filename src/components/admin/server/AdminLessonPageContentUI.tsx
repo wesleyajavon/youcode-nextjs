@@ -38,7 +38,7 @@ export default async function AdminLessonPageContentUI(props: { params: Promise<
                     </Typography>
                 </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="max-h-[500px] overflow-y-auto">
                 <div className="prose">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {markdown}

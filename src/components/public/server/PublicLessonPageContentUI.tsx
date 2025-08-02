@@ -45,10 +45,12 @@ export async function PublicLessonPageContentUI(props: { params: Promise<{ lesso
                     </Typography>
                 </CardTitle>
             </CardHeader>
-            <CardContent className="prose max-w-none">
+            <CardContent className="max-h-[500px] overflow-y-auto">
+                <div className="prose">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {markdown}
                     </ReactMarkdown>
+                </div>
             </CardContent>
         </Card>
     )

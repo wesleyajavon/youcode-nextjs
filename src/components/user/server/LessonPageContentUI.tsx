@@ -81,7 +81,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                     </Typography>
                 </CardTitle>
             </CardHeader>
-            <CardContent className="prose max-w-none">
+            <CardContent className="max-h-[500px] overflow-y-auto">
 
                 {alreadyJoined ? (
                     <>
@@ -111,12 +111,12 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                         </form>
                     </>
                 ) : (
-                    <>
+                    <div className="flex flex-col items-center">
                         <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
                         <Typography variant="muted" className="text-center">
                             Start the lesson and update your progress 💪🏽
                         </Typography>
-                    </>
+                    </div>
                 )}
             </CardContent>
         </Card>

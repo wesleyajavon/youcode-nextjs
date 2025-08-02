@@ -92,7 +92,7 @@ export function LessonTableUI({ courseId }: { courseId: string }) {
             </CardHeader>
             <CardContent>
                 <Typography variant="small" className="mb-6">
-                    Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress. 🗒
+                     🗒 Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress.
                 </Typography>
                 <SearchInput
                     value={search}
