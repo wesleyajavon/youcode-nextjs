@@ -1,15 +1,9 @@
-import { getRequiredAuthSession } from '@/lib/auth';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Typography } from '@/components/ui/typography';
 import { redirect } from 'next/navigation';
 import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
-import { Button } from '@/components/ui/button';
-import { prisma } from '@/lib/prisma';
-import { Progress } from "@prisma/client";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LockClosedIcon } from '@heroicons/react/24/outline';
 import remarkGfm from 'remark-gfm';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';

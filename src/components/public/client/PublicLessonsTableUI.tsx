@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -13,21 +13,9 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Typography } from '@/components/ui/typography';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import Link from 'next/link';
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogCancel,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/search-bar";
 import { Pagination } from "@/components/ui/pagination";
-import { toast } from "sonner";
 
 type Lesson = {
     id: string;
