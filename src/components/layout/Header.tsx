@@ -13,7 +13,7 @@ export function Header() {
                 <div className="flex items-center gap-1 md:gap-3">
                     <Link href="/" className="flex items-center gap-2">
                         <img
-                            src="/logo.svg" // Put logo.png inside your /public folder
+                            src="/logo-2.png" // Put logo.png inside your /public folder
                             alt="Site logo"
                             className="h-16 w-12 object-contain"
                         />

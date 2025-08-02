@@ -9,7 +9,7 @@ import FacebookProvider from 'next-auth/providers/facebook';
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   theme: {
-    logo: '/logo.svg',
+    logo: '/logo-2.png',
   },
   providers: [
     GithubProvider({

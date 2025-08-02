@@ -46,15 +46,15 @@ type LessonsResponse = {
 }
 
 function getProgressBadgeColor(progress: Progress) {
-    switch (progress) {
-        case Progress.COMPLETED:
-            return "bg-green-500 text-white";
-        case Progress.IN_PROGRESS:
-            return "bg-yellow-400 text-black";
-        case Progress.NOT_STARTED:
-        default:
-            return "bg-gray-300 text-gray-700";
-    }
+  switch (progress) {
+    case "COMPLETED":
+      return "bg-primary text-primary-foreground"; // vibrant blue on light bg / light on dark bg
+    case "IN_PROGRESS":
+      return "bg-accent text-accent-foreground";   // purple accent in your system
+    case "NOT_STARTED":
+    default:
+      return "bg-muted text-muted-foreground";      // subtle gray style
+  }
 }
 
 function getProgressLabel(progress: Progress) {

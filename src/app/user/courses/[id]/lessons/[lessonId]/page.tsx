@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/ui/breadcrumbs';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
-import { getLesson} from '@/app/admin/courses/_actions/lesson.query';
+import { getLesson } from '@/app/admin/courses/_actions/lesson.query';
 import { CardSkeleton } from '@/components/ui/skeleton';
 import { LessonPageContentUI } from '@/components/user/server/LessonPageContentUI';
 import { JoinLessonButton } from '@/components/user/client/JoinLessonButton';
@@ -40,32 +40,32 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
             <LayoutHeader>
                 <LayoutTitle>
                     <Breadcrumbs
-            breadcrumbs={[
-              {
-                href: `/user/courses/${lesson?.courseId}`,
-                icon:
-                  <Avatar className="rounded h-5 w-5">
-                    <AvatarFallback>{course?.name[0]}</AvatarFallback>
-                    {course?.image && <AvatarImage src={course.image} alt={course.name} />}
-                  </Avatar>
-              },
-              {
-                label: 'Teaching Center',
-                href: '/user/courses/' + lesson?.courseId + '/lessons',
-                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
+                        breadcrumbs={[
+                            {
+                                href: `/user/courses/${lesson?.courseId}`,
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{course?.name[0]}</AvatarFallback>
+                                        {course?.image && <AvatarImage src={course.image} alt={course.name} />}
+                                    </Avatar>
+                            },
+                            {
+                                label: 'Teaching Center',
+                                href: '/user/courses/' + lesson?.courseId + '/lessons',
+                                icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
 
-              },
-              {
-                label: lesson?.name || 'Lesson',
-                href: '/user/courses/' + lesson?.courseId + '/lessons' + '/' + lesson?.id,
-                active: true,
-                icon:
-                  <Avatar className="rounded h-5 w-5">
-                    <AvatarFallback>{lesson.name[0]}</AvatarFallback>
-                  </Avatar>
-              },
-            ]}
-          />
+                            },
+                            {
+                                label: lesson?.name || 'Lesson',
+                                href: '/user/courses/' + lesson?.courseId + '/lessons' + '/' + lesson?.id,
+                                active: true,
+                                icon:
+                                    <Avatar className="rounded h-5 w-5">
+                                        <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                                    </Avatar>
+                            },
+                        ]}
+                    />
                 </LayoutTitle>
             </LayoutHeader>
             <LayoutActions>
@@ -88,7 +88,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                 )}
 
             </LayoutActions>
-            <LayoutContent className="flex flex-col gap-2 ">
+            <LayoutContent className="flex flex-col gap-2">
                 <Suspense fallback={<CardSkeleton />}>
                     <LessonPageContentUI params={props.params} />
                 </Suspense>

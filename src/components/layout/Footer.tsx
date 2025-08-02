@@ -13,7 +13,7 @@ export const Footer = () => {
                     <div className="flex flex-row items-center gap-2">
                         <Link href="/" className="flex items-center gap-2">
                             <img
-                                src="/logo.svg" // Put logo.png inside your /public folder
+                                src="/logo-2.png" // Put logo.png inside your /public folder
                                 alt="Site logo"
                                 className="h-16 w-12 object-contain"
                             />

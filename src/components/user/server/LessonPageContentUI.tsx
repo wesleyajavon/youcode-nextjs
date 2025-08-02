@@ -81,11 +81,11 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                     </Typography>
                 </CardTitle>
             </CardHeader>
-            <CardContent className="max-h-[500px] overflow-y-auto">
+            <CardContent className="flex flex-col h-[500px] overflow-y-auto">
 
                 {alreadyJoined ? (
                     <>
-                        <div className="prose">
+                        <div className="prose flex-1 overflow-y-auto">
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {markdown}
                             </ReactMarkdown>
@@ -109,6 +109,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                                 Save progress 💪
                             </Button>
                         </form>
+
                     </>
                 ) : (
                     <div className="flex flex-col items-center">
