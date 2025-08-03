@@ -9,6 +9,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect('/')
   }
 
+
+
+
   // Passe les children au composant client
-  return <AdminLayoutClient>{children}</AdminLayoutClient>
+  return <AdminLayoutClient children={children} />;
 }

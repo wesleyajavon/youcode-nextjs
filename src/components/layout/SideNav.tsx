@@ -18,15 +18,24 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Loader } from "../ui/loader";
+import { LogoutDialog } from "@/lib/features/auth/LogoutDialog";
 
 
-const navLinks = [
+const userNavLinks = [
     { href: "/user", label: "Dashboard", icon: Home },
     { href: "/user/courses", label: "My Hub", icon: BookOpen },
     { href: "/account", label: "Account", icon: User },
 ];
 
-export function UserSideNav({ visible = true, onClose }: { visible?: boolean; onClose?: () => void }) {
+const adminNavLinks = [
+    { href: "/admin", label: "Dashboard", icon: Home },
+    { href: "/admin/courses", label: "Hub", icon: BookOpen },
+    { href: "/account", label: "Account", icon: User },
+];
+
+type Role = "USER" | "ADMIN"; // Adjust this type based on your application's role management
+
+export function SideNav({ role, visible = true, onClose }: { role: Role; visible?: boolean; onClose?: () => void }) {
     const pathname = usePathname();
     const [open, setOpen] = useState(false)
     const mutation = useMutation({
@@ -41,13 +50,13 @@ export function UserSideNav({ visible = true, onClose }: { visible?: boolean; on
         },
     })
 
-
     if (!visible) return null;
 
     return (
         <>
             <nav className="flex flex-col gap-2 py-8 px-4 bg-primary/5 border-r border-border min-h-screen justify-between" aria-label="User main navigation">
                 <div>
+                    {/* Header with navigation title and close button */}
                     <div className="flex items-center justify-between mb-4">
                         <Typography variant="h2">Panel</Typography>
                         {onClose && (
@@ -55,15 +64,17 @@ export function UserSideNav({ visible = true, onClose }: { visible?: boolean; on
                                 variant="ghost"
                                 className="ml-2"
                                 onClick={onClose}
-                                aria-label="Masquer la navigation"
+                                aria-label="Hide side navigation bar"
                                 type="button"
                             >
                                 <ArrowLeft className="h-6 w-6" />
                             </Button>
                         )}
                     </div>
+
+                    {/* Navigation links based on user role */}
                     <ul className="flex flex-col gap-2 mt-2">
-                        {navLinks.map(({ href, label, icon: Icon }) => {
+                        {role === "USER" && userNavLinks.map(({ href, label, icon: Icon }) => {
                             const isActive = href === "/user"
                                 ? pathname === "/user"
                                 : pathname?.startsWith(href);
@@ -86,15 +97,41 @@ export function UserSideNav({ visible = true, onClose }: { visible?: boolean; on
                                 </li>
                             );
                         })}
+                        {role === "ADMIN" && adminNavLinks.map(({ href, label, icon: Icon }) => {
+                            const isActive = href === "/admin"
+                                ? pathname === "/admin"
+                                : pathname?.startsWith(href);
+
+                            return (
+                                <li key={href}>
+                                    <Link
+                                        href={href}
+                                        className={cn(
+                                            "flex items-center gap-3 rounded px-3 py-2 text-base font-medium transition-colors hover:bg-primary/10 hover:text-primary",
+                                            isActive
+                                                ? "bg-primary/10 text-primary font-semibold"
+                                                : "text-muted-foreground"
+                                        )}
+                                        aria-current={isActive ? "page" : undefined}
+                                    >
+                                        <Icon className="h-5 w-5" />
+                                        {label}
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
+
                 <div className="flex flex-col gap-6 mb-2">
                     {/* Affichage du rôle */}
                     <span className="text-xs text-muted-foreground px-3 py-2 rounded bg-primary/10 w-fit mx-auto">
                         <Typography variant="small">
-                            Logged in as: <strong>Student</strong>
+                            Logged in as: <strong>{role === "ADMIN" ? "Teacher" : "Student"}</strong>
                         </Typography>
                     </span>
+
+                    {/* Logout button */}
                     <span className="text-xs text-muted-foreground px-3 py-2 rounded w-fit mx-auto">
                         <button
                             onClick={() => setOpen(true)}
@@ -106,39 +143,12 @@ export function UserSideNav({ visible = true, onClose }: { visible?: boolean; on
                     </span>
                 </div>
             </nav>
-            <AlertDialog.Root open={open} onOpenChange={setOpen}>
-                <AlertDialog.Portal>
-                    <AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" />
-                    <AlertDialogContent>
-                        <AlertDialogHeader className="items-center text-center">
-                            <LogOut className="mx-auto mb-2 h-8 w-8 text-destructive" />
-                            <AlertDialogTitle className="text-lg font-bold">
-                                Are you sure you want to log out?
-                            </AlertDialogTitle>
-                            <Typography variant="small" className="text-muted-foreground mt-2">
-                                You will be redirected to the homepage and will need to log in again to access your courses.
-                            </Typography>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-4">
-                            <AlertDialogCancel asChild>
-                                <Button variant="outline">Cancel</Button>
-                            </AlertDialogCancel>
-                            <Button
-                                variant="destructive"
-                                disabled={mutation.isPending}
-                                onClick={() => mutation.mutate()}
-                            >
-                                {mutation.isPending ? (
-                                    <Loader className="mr-2" size={16} />
-                                ) : (
-                                    <LogOut className="mr-2" size={16} />
-                                )}
-                                Log out
-                            </Button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog.Portal>
-            </AlertDialog.Root>
+            <LogoutDialog
+                open={open}
+                setOpen={setOpen}
+                isPending={mutation.isPending}
+                onConfirm={() => mutation.mutate()}
+            />
         </>
     );
 }

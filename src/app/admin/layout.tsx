@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { AdminSideNav } from '@/components/layout/AdminSideNav';
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import { SideNav } from "@/components/layout/SideNav";
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -11,7 +11,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
   return (
     <div className={`flex flex-1`}>
       {/* Sidebar */}
-      <AdminSideNav visible={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <SideNav role={"ADMIN"} visible={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Bouton burger flottant si sidebar masquée */}
       {!sidebarOpen && (
@@ -19,7 +19,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
           variant="ghost"
           className="fixed top-22 left-4 z-50 p-2 bg-primary/10 rounded "
           onClick={() => setSidebarOpen(true)}
-          aria-label="Afficher la navigation"
+          aria-label="Show navigation bar"
         >
           <Menu className="h-5 w-5" />
         </Button>

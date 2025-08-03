@@ -10,5 +10,5 @@ export default async function UserLayout({ children }: { children: React.ReactNo
   }
 
   // Passe les children au composant client
-  return <UserLayoutClient>{children}</UserLayoutClient>
+  return <UserLayoutClient children={children} />
 }
