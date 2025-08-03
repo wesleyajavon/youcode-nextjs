@@ -13,7 +13,6 @@ import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
-import { LeaveCourseDialog } from "@/lib/features/dialogs/LeaveCourseDialog";
 import { Loader } from "@/components/ui/common/loader";
 import { CourseDialog } from "@/lib/features/dialogs/CourseDialog";
 

@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/common/button";
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
 import { toast } from "sonner";
+import { DeleteDialog } from "@/lib/features/dialogs/DeleteDialog";
 
 
 type FetchCourseInfoResponse = {
@@ -189,32 +190,20 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
                     )}
                 </CardContent>
             </Card>
-            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            Are you sure you want to delete this lesson:
-                        </AlertDialogTitle>
-                        <AlertDialogTitle>
-                            {selectedLesson?.name}
-                        </AlertDialogTitle>
-                        <Typography variant="small" className="text-muted-foreground">
-                            This action cannot be undone. All data related to this lesson will be permanently deleted.
-                        </Typography>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel asChild>
-                            <Button variant="secondary">Cancel</Button>
-                        </AlertDialogCancel>
-                        <Button
-                            variant="destructive"
-                            onClick={handleConfirmDelete}
-                        >
-                            Delete
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+
+            <DeleteDialog
+                open={dialogOpen}
+                onOpenChange={setDialogOpen}
+                onConfirm={handleConfirmDelete}
+                isPending={deleteMutation.isPending}
+                cancelText="Cancel"
+                confirmText="Delete Lesson"
+                title="Are you sure you want to delete this lesson?"
+                description="This action cannot be undone. All data related to this lesson will be permanently deleted."
+                itemName={selectedLesson?.name}
+            />
+
+            
         </>
     );
 }

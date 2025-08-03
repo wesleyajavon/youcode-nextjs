@@ -3,17 +3,20 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/common/alert-dialog";
 import { Button } from "@/components/ui/common/button";
 import { Typography } from "@/components/ui/common/typography";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 
 type DeleteDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title?: string;
   itemName?: string;
+  image?: string;
   description?: string;
   isPending?: boolean;
   onConfirm: () => void;
@@ -31,20 +34,31 @@ export function DeleteDialog({
   onConfirm,
   cancelText = "Cancel",
   confirmText = "Delete",
+  image,
 }: DeleteDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          {itemName && <AlertDialogTitle>{itemName}</AlertDialogTitle>}
-          <Typography variant="small" className="text-muted-foreground">
+      <AlertDialogContent className="rounded-xl shadow-lg">
+        <AlertDialogHeader className="items-center text-center">
+          <Avatar className="mx-auto mb-3 h-15 w-15">
+            <AvatarFallback>{itemName?.[0] ?? "?"}</AvatarFallback>
+            {image && <AvatarImage src={image} alt={itemName ?? ""} />}
+          </Avatar>
+          <AlertDialogTitle className="text-xl font-bold">
+            🗑️ {title}
+          </AlertDialogTitle>
+          {itemName && (
+            <AlertDialogTitle>
+              <span className="text-primary">{itemName}</span>
+            </AlertDialogTitle>
+          )}
+          <AlertDialogDescription>
             {description}
-          </Typography>
+          </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-6">
           <AlertDialogCancel asChild>
-            <Button variant="secondary">{cancelText}</Button>
+            <Button variant="outline">{cancelText}</Button>
           </AlertDialogCancel>
           <Button variant="destructive" onClick={onConfirm} disabled={isPending}>
             {isPending ? 'Deleting...' : confirmText}

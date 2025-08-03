@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/common/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card'
 import {
     Table,
     TableBody,
@@ -20,18 +20,10 @@ import { Typography } from '@/components/ui/common/typography'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
 import Link from 'next/link'
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogCancel,
-} from '@/components/ui/common/alert-dialog'
-import { Button } from '@/components/ui/common/button'
 import { toast } from 'sonner'
 import { SearchInput } from '@/components/ui/common/search-bar'
 import { Pagination } from '@/components/ui/common/pagination'
+import { DeleteDialog } from '@/lib/features/dialogs/DeleteDialog'
 
 // ✅ Fetch function
 const fetchCourses = async ({
@@ -50,8 +42,8 @@ const fetchCourses = async ({
 type Course = {
     id: string
     name: string
-    image?: string | null
-    presentation?: string | null
+    image?: string 
+    presentation?: string 
 }
 
 type CoursesResponse = {
@@ -65,7 +57,7 @@ type CoursesResponse = {
 export function AdminCoursesTableUI() {
     const queryClient = useQueryClient()
     const [dialogOpen, setDialogOpen] = useState(false)
-    const [selectedCourse, setSelectedCourse] = useState<{ id: string; name: string } | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<{ id: string; name: string; image?: string ; } | null>(null)
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState('')
 
@@ -89,11 +81,11 @@ export function AdminCoursesTableUI() {
             queryClient.invalidateQueries({ queryKey: ['courses'] })
             setDialogOpen(false)
             setSelectedCourse(null)
-            toast.success('Course deleted successfully!')
+            toast.success('Course successfully deleted!')
         },
     })
 
-    const handleDeleteClick = (course: { id: string; name: string }) => {
+    const handleDeleteClick = (course: { id: string; name: string; image?: string ; }) => {
         setSelectedCourse(course)
         setDialogOpen(true)
     }
@@ -165,7 +157,7 @@ export function AdminCoursesTableUI() {
                                         <TableCell>
                                             <button
                                                 type="button"
-                                                onClick={() => handleDeleteClick({ id: course.id, name: course.name })}
+                                                onClick={() => handleDeleteClick({ id: course.id, name: course.name, image: course.image })}
                                                 className="hover:text-red-600"
                                                 aria-label="Delete course"
                                             >
@@ -187,9 +179,21 @@ export function AdminCoursesTableUI() {
                 </CardContent>
             </Card>
 
+            <DeleteDialog
+                open={dialogOpen}
+                onOpenChange={setDialogOpen}
+                title="Are you sure you want to delete this course?"
+                itemName={selectedCourse?.name}
+                image={selectedCourse?.image}
+                description="This action cannot be undone. All data related to this course will be permanently deleted."
+                isPending={deleteMutation.isPending}
+                onConfirm={handleConfirmDelete}
+                cancelText="Cancel"
+                confirmText="Delete"
+            />
 
 
-            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            {/* <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
@@ -209,7 +213,7 @@ export function AdminCoursesTableUI() {
                         </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>
-            </AlertDialog>
+            </AlertDialog> */}
         </>
     )
 }

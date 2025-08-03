@@ -18,7 +18,6 @@ import { CheckIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
-import { JoinCourseDialog } from "@/lib/features/dialogs/JoinCourseDialog";
 import { CourseDialog } from "@/lib/features/dialogs/CourseDialog";
 
 async function fetchCourses(page: number, limit: number, search: string) {
