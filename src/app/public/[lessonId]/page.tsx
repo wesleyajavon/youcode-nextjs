@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/Layout';
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { redirect } from 'next/navigation';
 import { getLesson } from '@/app/admin/courses/_actions/lesson.query';

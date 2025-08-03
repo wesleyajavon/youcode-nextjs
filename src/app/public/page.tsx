@@ -3,7 +3,7 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/Layout';
+} from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { Suspense } from "react";

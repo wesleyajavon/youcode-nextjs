@@ -1,6 +1,6 @@
 import { getRequiredAuthSession } from '@/lib/auth';
 import React, { Suspense } from 'react';
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/Layout';
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/common/button';

@@ -4,7 +4,7 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/Layout';
+} from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { Suspense } from 'react';

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/Layout';
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { buttonVariants } from '@/components/ui/common/button';
 import { getRequiredAuthSession } from '@/lib/auth';

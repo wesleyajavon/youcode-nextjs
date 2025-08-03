@@ -1,5 +1,5 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/Layout";
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";

@@ -1,5 +1,5 @@
 import { getCourse } from "../_actions/course.query";
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/Layout";
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/common/button";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";

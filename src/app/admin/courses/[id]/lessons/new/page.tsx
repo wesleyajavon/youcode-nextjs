@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/Layout';
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { PlusCircle } from 'lucide-react';

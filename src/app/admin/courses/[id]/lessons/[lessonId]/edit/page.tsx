@@ -4,7 +4,7 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/Layout';
+} from '@/components/layout/LayoutTemp';
 
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';

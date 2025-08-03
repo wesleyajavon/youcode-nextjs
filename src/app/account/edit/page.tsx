@@ -1,10 +1,8 @@
-import { getAuthSession } from '@/lib/auth'
-import { redirect } from 'next/navigation'
-import { Role } from '@prisma/client'
+
 import { Suspense } from 'react'
 import { CardSkeleton } from '@/components/ui/common/skeleton'
 import { AccountEditUI } from '@/components/common/server/AccountEditUI'
-import { Layout, LayoutContent } from '@/components/layout/Layout'
+import { Layout, LayoutContent } from '@/components/layout/LayoutTemp'
 
 export default async function EditAccountPage() {
 

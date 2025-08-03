@@ -4,7 +4,7 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/Layout';
+} from '@/components/layout/LayoutTemp';
 import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { CourseForm } from '../../../../components/admin/client/CourseForm';
