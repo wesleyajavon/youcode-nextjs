@@ -18,11 +18,6 @@ const FAQValues = [
       "With YouCode, the only limits are your creativity and the content you are legally allowed to share. There are no restrictions on the number of courses or lessons you can create.",
   },
   {
-    question: "Can I use YouCode to publish paid courses?",
-    answer:
-      "Currently, YouCode is focused on open learning. While payment support is not built-in yet, you can share links or gated content manually if needed.",
-  },
-  {
     question: "Who can create courses on YouCode?",
     answer:
       "Anyone with a YouCode account can create and publish courses.",
@@ -35,10 +30,10 @@ const FAQValues = [
   {
     question: "How do I enroll in a course?",
     answer:
-      "Simply browse the course catalog, click on a course you're interested in, and hit the enroll button. Enrollment is instant.",
+      "Simply browse the course catalog, click on a course you're interested in, and hit the Join button. Enrollment is instant. You'll then have access to all course materials.",
   },
   {
-    question: "Can I track my progress through a course?",
+    question: "Can I track my progress through a lesson ?",
     answer:
       "Yes, YouCode tracks which lessons you’ve completed, making it easy to resume where you left off.",
   },
@@ -82,10 +77,10 @@ export default async function Home() {
           </h1>
           <h2 className="text-2xl font-bold text-muted-foreground">
             {!session
-              ? "YouCode is the YouTube of education. Create or enroll in online courses in seconds."
+              ? "YouCode is your gateway to modern learning. Discover, create, and join courses in just a few clicks!"
               : session.user.role === "ADMIN"
                 ? "YouCode lets you create and publish online courses in seconds."
-                : "YouCode is the YouTube of education. Discover and enroll in courses in seconds."}
+                : "YouCode makes learning easy and fast. Explore new subjects and join courses instantly to boost your skills!"}
           </h2>
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-1 text-yellow-500 dark:text-yellow-300">
@@ -126,13 +121,13 @@ export default async function Home() {
       </section>
 
       {/* VALUES */}
-      <section className="bg-gradient-to-b from-primary/10 to-white py-16 text-white-foreground">
+      <section className="bg-gradient-to-b from-primary/10 to-primary/50 py-16 text-white-foreground">
         <div className="m-auto flex max-w-5xl flex-col gap-8 px-6 md:flex-row md:gap-12">
           <div className="flex flex-1 flex-col items-center gap-3 text-center">
             <PencilLine size={36} />
             <Typography variant="h3">Markdown Based</Typography>
             <Typography variant="large">
-              YouCode is based on MDX. You can write your courses in Markdown language.
+              YouCode supports Markdown. You can write your courses in this lightweight markup language.
             </Typography>
           </div>
           <div className="flex flex-1 flex-col items-center gap-3 text-center">
@@ -165,14 +160,14 @@ export default async function Home() {
       <section className="relative flex flex-col items-center justify-center py-20 px-6 bg-white">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-pink-100/60 via-transparent to-transparent" />
         <div className="relative z-10 flex flex-col items-center gap-6">
-          <h2 className="text-4xl font-extrabold bg-gradient-to-l from-gray-700 to-gray-700 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-extrabold bg-gradient-to-l text-gray-600 bg-clip-text ">
             Start using YouCode today 
           </h2>
           {!session && (
             <Link href="/public">
               <Button className={cn(
                 buttonVariants({ size: "lg" }),
-                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0 hover:cursor-pointer"
+                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-primary to-primary-foreground text-white border-0"
               )} >
                 Public Teaching Center
               </Button>
@@ -183,7 +178,7 @@ export default async function Home() {
               href="/admin"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-primary to-pink-200 text-primary-foreground border-0"
+                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-primary to-primary-foreground text-white border-0"
               )}
             >
               Go to Teacher Dashboard
@@ -194,10 +189,10 @@ export default async function Home() {
               href="/user"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-gray-900 to-gray-300 text-white border-0"
+                "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-primary to-primary-foreground text-white border-0"
               )}
             >
-              Lets go!
+              Go to Student Dashboard
             </Link>
           )}
         </div>

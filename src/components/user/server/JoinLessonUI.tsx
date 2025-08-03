@@ -9,12 +9,16 @@ import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
 import { redirect } from "next/navigation";
 import { JoinLessonButton } from "../client/JoinLessonButton";
 import { LeaveLessonButton } from "../client/LeaveLessonButton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
 
 export async function JoinLessonUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
 
     const session = await getRequiredAuthSession();
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
+    const course = await getCourseInfo(params.id);
+
     // await new Promise(res => setTimeout(res, 5000));
 
 
@@ -35,7 +39,15 @@ export async function JoinLessonUI(props: { params: Promise<{ id: string, lesson
         <Card>
             <CardHeader>
                 <CardTitle>
-                    <Typography variant="h2">{lesson.course.name}</Typography>
+                    <span className="inline-flex items-center gap-2 mb-2">
+                        <Avatar className="rounded h-10 w-10 mr-4">
+                            <AvatarFallback>{course?.name[0]}</AvatarFallback>
+                            <AvatarImage src={course?.image} alt={course?.name} />
+                        </Avatar>
+                        <Typography variant={'h2'}>
+                            {course?.name || 'Course'}
+                        </Typography>
+                    </span>
                 </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">

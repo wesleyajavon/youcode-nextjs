@@ -312,24 +312,33 @@ export default function CoursePageContentGenericUI({
                     </CardContent>
                 )}
             </Card>
+
+            {/* Dialog for leaving course confirmation */}
             <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            You are about to leave the course :
+                <AlertDialogContent className="rounded-xl shadow-lg">
+                    <AlertDialogHeader className="items-center text-center">
+                        <Avatar className="mx-auto mb-3 h-12 w-12">
+                            <AvatarFallback>{course?.name?.[0]}</AvatarFallback>
+                            {course?.image && (
+                                <AvatarImage src={course.image} alt={course.name ?? ""} />
+                            )}
+                        </Avatar>
+                        <AlertDialogTitle className="text-xl font-bold">
+                            Leave <span className="text-primary">{course?.name}</span>?
                         </AlertDialogTitle>
-                        <AlertDialogTitle>{course?.name}</AlertDialogTitle>
-                        <Typography variant="small" className="text-muted-foreground">
-                            Content will be locked after leaving.
+                        <Typography variant="small" className="text-muted-foreground mt-2">
+                            If you leave, the course content will be locked and your progress will be reset.
                         </Typography>
                     </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        {courseId && (
-                            <LeaveCourseButton courseId={courseId} userId={userId} />
-                        )}
+                    <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-6">
                         <AlertDialogCancel asChild>
-                            <Button variant="secondary">Cancel</Button>
+                            <Button variant="outline">
+                                Cancel
+                            </Button>
                         </AlertDialogCancel>
+                        {courseId && (
+                            <LeaveCourseButton courseId={courseId} userId={userId}/>
+                        )}
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

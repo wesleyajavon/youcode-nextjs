@@ -26,8 +26,6 @@ export function LessonProgressForm({ userId, lessonId, progress }: { userId: str
     const handleSubmit = async (data: LessonProgressFormValues) => {
 
         startTransition(async () => {
-            console.log("Submitting progress:", data.progress);
-
             const res = await updateLessonProgress(userId, lessonId, data.progress);
             if (res.success) {
                 toast.success("Progress updated successfully !");

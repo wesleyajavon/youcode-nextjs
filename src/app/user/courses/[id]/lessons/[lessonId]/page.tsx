@@ -27,6 +27,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
     const course = await getCourse(params.id);
     const session = await getRequiredAuthSession();
 
+
     if (!lesson) {
         redirect(`/user/courses/${params.id}/lessons`);
     }

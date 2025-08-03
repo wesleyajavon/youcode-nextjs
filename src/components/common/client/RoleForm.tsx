@@ -7,8 +7,9 @@ import { CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import { updateRoleAction } from "@/app/account/edit/_actions/account.query";
 import { Form } from "../../ui/form";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 type Role = "USER" | "ADMIN";
 
@@ -41,13 +42,22 @@ export function EditRoleForm({ id, role }: { id: string; role: Role }) {
             <CardContent className="flex flex-col gap-4 mb-30">
                 <div>
                     <Typography variant="small">Role</Typography>
-                    <select
-                        {...form.register("role")}
-                        className="mt-2 block w-full rounded-md border px-3 py-2"
-                    >
-                        <option value="USER">Student</option>
-                        <option value="ADMIN">Teacher</option>
-                    </select>
+                    <Controller
+                        name="role"
+                        control={form.control}
+                        defaultValue={role}
+                        render={({ field }) => (
+                            <Select value={field.value} onValueChange={field.onChange}>
+                                <SelectTrigger className="mt-2 w-full">
+                                    <SelectValue placeholder="Select role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="USER">Student</SelectItem>
+                                    <SelectItem value="ADMIN">Teacher</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        )}
+                    />
                 </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2 mt-4 ml-30">

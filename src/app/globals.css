@@ -71,7 +71,7 @@
 
   /* Accent (for tags, badges) */
 --accent: oklch(0.75 0.15 250); /* Lighter blue-violet */
---accent-foreground: oklch(0.15 0.02 250); /* Deep blue text */
+--accent-foreground: oklch(100% 0.00011 271.152); /* Deep blue text */
 
   /* Destructive (errors) */
   --destructive: oklch(54.907% 0.22386 27.642);          /* Vivid red */
@@ -79,7 +79,7 @@
 
   /* Borders & Inputs */
   --border: oklch(0.92 0.01 100);
-  --input: oklch(0.97 0.005 100);
+  --input: oklch(86.54% 0.01083 100.941);
   --ring: oklch(0.7 0.08 250);                /* Light blue focus ring */
 
   /* Chart Colors */
@@ -126,7 +126,7 @@
 
   /* Accent (badges, tags) */
   --accent: oklch(0.65 0.18 300);                   /* Soft purple */
-  --accent-foreground: oklch(0.16 0.02 320);        /* Deep purple text */
+  --accent-foreground: oklch(0.98 0.01 260);         /* Deep purple text */
 
   /* Destructive */
   --destructive: oklch(0.62 0.23 25);               /* Vibrant red-orange */
@@ -134,7 +134,7 @@
 
   /* Borders & Inputs */
   --border: oklch(0.25 0.01 250 / 40%);
-  --input: oklch(0.2 0.01 250 / 60%);
+  --input: oklch(35.326% 0.02205 256.423 / 0.6);
   --ring: oklch(0.65 0.2 250);                      /* Blue ring */
 
   /* Charts */

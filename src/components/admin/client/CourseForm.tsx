@@ -119,7 +119,6 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
           name="presentation"
           render={({ field }) => (
             <FormItem>
-              {/* <FormLabel>Presentation</FormLabel> */}
               <FormControl>
                 <Textarea placeholder="Introduce your course. What will students learn? 🧠" {...field} />
               </FormControl>
@@ -139,6 +138,10 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
                     <SelectValue placeholder="Select a state" />
                   </SelectTrigger>
                 </FormControl>
+                <FormDescription>
+                  Draft: Not published yet. <br />
+                  Published: Available to all users. <br />
+                </FormDescription>
                 <SelectContent>
                   {COURSE_STATE.map((state) => (
                     <SelectItem key={state} value={state} className="capitalize">

@@ -23,7 +23,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
 
     // await new Promise(res => setTimeout(res, 5000));
 
-    if (!lesson || !lessonOnUser) {
+    if (!lesson ) {
         redirect(`/user/courses/${params.id}/lessons`);
     }
 
@@ -53,7 +53,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
 
                 {alreadyJoined ? (
                     <>
-                        <div className="prose flex-1 overflow-y-auto">
+                        <div className="prose flex-1 overflow-y-auto py-4">
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {markdown}
                             </ReactMarkdown>
@@ -62,7 +62,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                         <LessonProgressForm
                             userId={session.user.id}
                             lessonId={lesson.id}
-                            progress={lessonOnUser.progress}
+                            progress={lessonOnUser?.progress || 'IN_PROGRESS'}
                         />
 
                     </>

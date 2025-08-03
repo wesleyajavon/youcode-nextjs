@@ -48,7 +48,7 @@ type LessonsResponse = {
 function getProgressBadgeColor(progress: Progress) {
   switch (progress) {
     case "COMPLETED":
-      return "bg-primary text-primary-foreground"; // vibrant blue on light bg / light on dark bg
+      return "bg-primary text-accent-foreground"; // vibrant blue on light bg / light on dark bg
     case "IN_PROGRESS":
       return "bg-accent text-accent-foreground";   // purple accent in your system
     case "NOT_STARTED":

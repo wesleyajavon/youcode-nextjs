@@ -1,16 +1,10 @@
-import { getRequiredAuthSession } from '@/lib/auth';
 import React, { Suspense } from 'react';
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
-import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
 import { getLesson } from '@/app/admin/courses/_actions/lesson.query';
 import { CardSkeleton } from '@/components/ui/skeleton';
-import { LessonPageContentUI } from '@/components/user/server/LessonPageContentUI';
-import { JoinLessonButton } from '@/components/user/client/JoinLessonButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getCourse } from '@/app/admin/courses/_actions/course.query';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { PublicLessonPageContentUI } from '@/components/public/server/PublicLessonPageContentUI';
 

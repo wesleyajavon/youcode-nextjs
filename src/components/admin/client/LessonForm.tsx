@@ -27,7 +27,6 @@ import { LESSON_STATE, LessonFormSchema } from '../../../app/admin/courses/[id]/
 import { GenerateLessonModal } from './GenerateLessonModal';
 import { Sparkles } from 'lucide-react';
 import { useState } from 'react';
-import { de } from 'zod/v4/locales';
 
 
 
