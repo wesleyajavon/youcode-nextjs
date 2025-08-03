@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
 import { JoinCourseDialog } from "@/lib/features/dialogs/JoinCourseDialog";
+import { CourseDialog } from "@/lib/features/dialogs/CourseDialog";
 
 async function fetchCourses(page: number, limit: number, search: string) {
     const params = new URLSearchParams({
@@ -170,12 +171,13 @@ export function CourseTableUI({ userId }: { userId: string }) {
             </CardContent>
 
             {/* Join Course Dialog */}
-            <JoinCourseDialog
+            <CourseDialog
                 open={dialogOpen}
                 onOpenChange={setDialogOpen}
-                course={{ name: selectedCourse?.name, image: selectedCourse.image, id: selectedCourse?.id }}
-                userId={userId}
+                course={{ id: selectedCourse?.id, name: selectedCourse?.name, image: selectedCourse?.image, userId: userId }}
+                join={!selectedCourse.alreadyJoined}
             />
+            
         </Card>
 
 

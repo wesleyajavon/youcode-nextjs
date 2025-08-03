@@ -15,6 +15,7 @@ import { LockClosedIcon } from "@heroicons/react/24/outline";
 import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
 import { LeaveCourseDialog } from "@/lib/features/dialogs/LeaveCourseDialog";
 import { Loader } from "@/components/ui/common/loader";
+import { CourseDialog } from "@/lib/features/dialogs/CourseDialog";
 
 
 type FetchCourseInfoResponse = {
@@ -284,13 +285,12 @@ export default function CoursePageContentGenericUI({
             </Card>
 
             {/* Dialog for leaving course confirmation */}
-            <LeaveCourseDialog
+            <CourseDialog
                 open={dialogOpen}
                 onOpenChange={setDialogOpen}
-                course={{ name: course?.name, image: course?.image }}
-                courseId={courseId}
-                userId={userId}
-            />
+                course={{ id: course.id, name: course.name, image: course?.image, userId: userId }}
+                join={!alreadyJoined}
+            />  
         </div>
 
     );
