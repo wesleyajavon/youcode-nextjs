@@ -4,15 +4,15 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/layout';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+} from '@/components/layout/Layout';
+import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { CourseForm } from '../../../../components/admin/client/CourseForm';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { Typography } from '@/components/ui/typography';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
+import { Typography } from '@/components/ui/common/typography';
 import { AdminCoursesCreateUI } from '../../../../components/admin/server/AdminCourseCreateUI';
 import { Suspense } from 'react';
-import { CardSkeleton } from '@/components/ui/skeleton';
+import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { PlusCircle } from "lucide-react";
 import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
 import { BookOpenIcon } from '@heroicons/react/24/outline';

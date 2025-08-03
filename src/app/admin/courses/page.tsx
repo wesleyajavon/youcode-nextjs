@@ -7,14 +7,14 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { buttonVariants } from '@/components/ui/button';
+} from '@/components/layout/Layout';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
+import { buttonVariants } from '@/components/ui/common/button';
 
 import { HomeIcon, PlusIcon, } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
-import { CardSkeleton } from "@/components/ui/skeleton";
+import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { AdminCoursesTableServer } from "@/components/admin/server/AdminCoursesTableServer";
 import { BookOpen } from "lucide-react";
 

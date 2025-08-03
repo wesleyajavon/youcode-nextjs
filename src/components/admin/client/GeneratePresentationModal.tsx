@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Loader } from "@/components/ui/loader";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/common/dialog";
+import { Button } from "@/components/ui/common/button";
+import { Textarea } from "@/components/ui/common/textarea";
+import { Loader } from "@/components/ui/common/loader";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 

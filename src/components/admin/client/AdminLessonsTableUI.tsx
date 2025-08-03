@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback } from '@/components/ui/common/avatar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
 import {
     Table,
     TableBody,
@@ -11,8 +11,8 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/components/ui/table';
-import { Typography } from '@/components/ui/typography';
+} from '@/components/ui/common/table';
+import { Typography } from '@/components/ui/common/typography';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import Link from 'next/link';
@@ -23,10 +23,10 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogCancel,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { SearchInput } from "@/components/ui/search-bar";
-import { Pagination } from "@/components/ui/pagination";
+} from "@/components/ui/common/alert-dialog";
+import { Button } from "@/components/ui/common/button";
+import { SearchInput } from "@/components/ui/common/search-bar";
+import { Pagination } from "@/components/ui/common/pagination";
 import { toast } from "sonner";
 
 

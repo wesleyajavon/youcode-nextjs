@@ -8,10 +8,10 @@ import {
   AlertDialogCancel,
   AlertDialogDescription,
   AlertDialog,
-} from "@/components/ui/alert-dialog";
+} from "@/components/ui/common/alert-dialog";
 import { LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Loader } from "@/components/ui/loader";
+import { Button } from "@/components/ui/common/button";
+import { Loader } from "@/components/ui/common/loader";
 
 
 export function LogoutDialog({ open, setOpen, isPending, onConfirm }: {

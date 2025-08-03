@@ -11,7 +11,11 @@ export async function joinLessonAction(lessonId: string, userId: string) {
                 progress: "IN_PROGRESS", // Default progress when joining
             },
         });
-        return { success: true };
+        const lesson = await prisma.lesson.findUnique({
+            where: { id: lessonId },
+            select: { name: true },
+        });
+        return { success: true, lessonName: lesson?.name };
     } catch {
         return { success: false };
     }
@@ -28,7 +32,11 @@ export async function leaveLessonAction(lessonId: string, userId: string) {
                 },
             },
         });
-        return { success: true };
+        const lesson = await prisma.lesson.findUnique({
+            where: { id: lessonId },
+            select: { name: true },
+        });
+        return { success: true, lessonName: lesson?.name };
     } catch {
         return { success: false };
     }

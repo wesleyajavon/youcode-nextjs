@@ -5,8 +5,8 @@ import {
   CardHeader,
   CardTitle,
   CardDescription
-} from '@/components/ui/card'
-import { Typography } from '@/components/ui/typography'
+} from '@/components/ui/common/card'
+import { Typography } from '@/components/ui/common/typography'
 import { Role } from '@prisma/client'
 import { EditRoleForm } from '@/components/common/client/RoleForm'
 

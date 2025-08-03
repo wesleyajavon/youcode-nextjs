@@ -3,11 +3,11 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
+} from '@/components/layout/Layout';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { Suspense } from "react";
-import { CardSkeleton } from "@/components/ui/skeleton";
+import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { PublicLessonsTableServer } from "@/components/public/server/PublicLessonsTableServer";
 import { getAuthSession } from '@/lib/auth';
 

@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Typography } from "@/components/ui/typography";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/common/card";
+import { Typography } from "@/components/ui/common/typography";
 
 export async function DashboardCard({
   stats

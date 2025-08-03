@@ -1,15 +1,15 @@
 import { getRequiredAuthSession } from '@/lib/auth';
 import React, { Suspense } from 'react';
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/Layout';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/common/button';
 import { redirect } from 'next/navigation';
 import { getLesson } from '@/app/admin/courses/_actions/lesson.query';
-import { CardSkeleton } from '@/components/ui/skeleton';
+import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { LessonPageContentUI } from '@/components/user/server/LessonPageContentUI';
-import { JoinLessonButton } from '@/components/user/client/JoinLessonButton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { JoinLessonButton } from '@/components/ui/user/JoinLessonButton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { getCourse } from '@/app/admin/courses/_actions/course.query';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 
@@ -84,7 +84,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                     <JoinLessonButton
                         lessonId={lesson.id}
                         courseId={lesson.course.id}
-                        userId={session.user.id} // Assuming user ID is available in session
+                        userId={session.user.id} 
                     />
                 )}
 

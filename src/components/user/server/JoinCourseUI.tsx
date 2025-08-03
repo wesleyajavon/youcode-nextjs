@@ -1,10 +1,10 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Typography } from "@/components/ui/typography";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
+import { Typography } from "@/components/ui/common/typography";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
-import { JoinCourseButton } from "../client/JoinCourseButton";
-import { LeaveCourseButton } from "../client/LeaveCourseButton";
+import { LeaveCourseButton } from "@/components/ui/user/LeaveCourseButton";
+import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
 
 export async function JoinCourseUI(props: { params: Promise<{ id: string }> }) {
 

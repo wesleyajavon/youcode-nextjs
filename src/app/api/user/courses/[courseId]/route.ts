@@ -20,7 +20,7 @@ export async function GET(req: Request) {
 
   try {
 
-    // Infos du cours (hors users)
+    // await new Promise(res => setTimeout(res, 10000))
     const course = await prisma.course.findUnique({
       where: { id: courseId },
       select: {
@@ -31,7 +31,7 @@ export async function GET(req: Request) {
       },
     });
 
-    // Compte le nombre d'utilisateurs inscrits à ce cours
+    // Count the total number of users enrolled in the course
     const totalUsers = await prisma.courseOnUser.count({
       where: { courseId },
     });

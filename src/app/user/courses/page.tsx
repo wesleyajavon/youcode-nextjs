@@ -4,9 +4,9 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { CardSkeleton } from '@/components/ui/skeleton';
+} from '@/components/layout/Layout';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
+import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { Suspense } from 'react';
 import { CourseTableServer } from '../../../components/user/server/CourseTableServer';
 import HomeIcon from '@heroicons/react/24/outline/HomeIcon';

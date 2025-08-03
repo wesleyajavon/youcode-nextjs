@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { Loader } from "@/components/ui/loader"
+import { Button } from "@/components/ui/common/button"
+import { Loader } from "@/components/ui/common/loader"
 import { useMutation } from "@tanstack/react-query"
 import { LogIn } from "lucide-react"
 import { signIn } from "next-auth/react"

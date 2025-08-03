@@ -1,7 +1,7 @@
 "use client";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/common/button";
 import { useRouter } from "next/navigation";
 import { joinCourseAction } from "@/app/user/courses/[id]/join/_actions/join.query";
 
@@ -13,7 +13,7 @@ export function JoinCourseButton({ courseId, userId }: { courseId: string; userI
     startTransition(async () => {
       const res = await joinCourseAction(courseId, userId);
       if (res.success) {
-        toast.success("You joined the course!");
+        toast.success(`You joined the course: ${res.courseName} !`);
         router.push(`/user/courses/${courseId}`);
       } else {
         toast.error("Failed to join the course.");

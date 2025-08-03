@@ -1,15 +1,15 @@
 import { getCourse } from "../_actions/course.query";
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/Layout";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { buttonVariants } from "@/components/ui/common/button";
+import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
+import { CoursePageContentSkeleton } from "@/components/ui/common/skeleton";
 import { Suspense } from "react";
 import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
 import { BookOpen } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {

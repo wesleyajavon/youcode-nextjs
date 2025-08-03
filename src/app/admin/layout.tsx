@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/common/button";
 import { Menu } from "lucide-react";
 import { SideNav } from "@/components/layout/SideNav";
 

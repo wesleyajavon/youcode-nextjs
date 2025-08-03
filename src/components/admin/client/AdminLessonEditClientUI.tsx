@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/common/button";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
 import { Sparkles } from "lucide-react";
-import { Typography } from "@/components/ui/typography";
+import { Typography } from "@/components/ui/common/typography";
 import { GenerateLessonModal } from "./GenerateLessonModal";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/common/textarea";
 import { LessonForm } from "@/components/admin/client/LessonForm";
 
 export default function AdminLessonEditClientUI({ lesson }: { lesson: any }) {

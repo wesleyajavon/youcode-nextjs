@@ -1,10 +1,10 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/Layout";
+import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { Suspense } from "react";
-import { CardSkeleton } from "@/components/ui/skeleton";
+import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { JoinCourseUI } from "@/components/user/server/JoinCourseUI";
 
 export default async function JoinCoursePage(props: { params: Promise<{ id: string }> }) {

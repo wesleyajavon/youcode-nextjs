@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Typography } from '@/components/ui/typography';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
+import { Typography } from '@/components/ui/common/typography';
 import { redirect } from 'next/navigation';
 import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
 import remarkGfm from 'remark-gfm';
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 import { Avatar } from '@radix-ui/react-avatar';
-import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 
 
 export default async function AdminLessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {

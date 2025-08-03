@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/common/button';
 import {
     Form,
     FormControl,
@@ -10,16 +10,16 @@ import {
     FormLabel,
     FormMessage,
     useZodForm,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/ui/common/form';
+import { Input } from '@/components/ui/common/input';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/ui/common/select';
+import { Textarea } from '@/components/ui/common/textarea';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { lessonActionCreate, lessonActionEdit } from '../../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.action';

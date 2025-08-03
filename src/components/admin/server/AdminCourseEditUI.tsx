@@ -1,9 +1,9 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { CourseForm } from '../client/CourseForm';
-import { Typography } from '@/components/ui/typography';
+import { Typography } from '@/components/ui/common/typography';
 
 export default async function AdminCourseEditUI(props: { params: Promise<{ id: string }> }) {
     const session = await getRequiredAuthSession();

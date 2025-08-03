@@ -1,16 +1,16 @@
 import { getRequiredAuthSession } from '@/lib/auth';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Typography } from '@/components/ui/typography';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
+import { Typography } from '@/components/ui/common/typography';
 import { redirect } from 'next/navigation';
 import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import remarkGfm from 'remark-gfm';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
-import { LessonProgressForm } from '../client/LessonProgressForm';
 import { getLessonOnUser } from '@/app/user/courses/_actions/lesson.query';
+import { LessonProgressForm } from '../client/LessonProgressForm';
 
 
 export async function LessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {

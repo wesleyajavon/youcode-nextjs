@@ -4,16 +4,16 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/layout';
+} from '@/components/layout/Layout';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { CardSkeleton } from '@/components/ui/skeleton';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
+import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { Suspense } from 'react';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import { BookOpen } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import AdminCourseEditUI from '@/components/admin/server/AdminCourseEditUI';
 
 export default async function CourseEditPage(props: { params: Promise<{ id: string }> }) {

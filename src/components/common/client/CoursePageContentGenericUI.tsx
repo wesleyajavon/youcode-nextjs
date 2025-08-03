@@ -3,54 +3,29 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Typography } from "@/components/ui/typography";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { SearchInput } from "@/components/ui/search-bar";
-import { Pagination } from "@/components/ui/pagination";
+import { Button, buttonVariants } from "@/components/ui/common/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/common/table";
+import { Typography } from "@/components/ui/common/typography";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
+import { Badge } from "@/components/ui/common/badge";
+import { SearchInput } from "@/components/ui/common/search-bar";
+import { Pagination } from "@/components/ui/common/pagination";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
-import { JoinCourseButton } from "@/components/user/client/JoinCourseButton";
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogCancel,
-} from '@/components/ui/alert-dialog'
-import { LeaveCourseButton } from "@/components/user/client/LeaveCourseButton";
+import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
+import { LeaveCourseDialog } from "@/lib/features/dialogs/LeaveCourseDialog";
+import { Loader } from "@/components/ui/common/loader";
 
-type User = {
-    user: {
-        id: string;
-        name: string;
-        email?: string;
-        image?: string;
-    };
-};
-
-type Course = {
-    id: string;
-    name: string;
-    presentation: string;
-    image?: string;
-    createdAt?: string;
-    state?: string;
-    totalUsers?: number; // Optional, if you want to display the total users in the course info
-};
 
 type FetchCourseInfoResponse = {
     course: {
         id: string;
         name: string;
         presentation: string;
-        image?: string;
-        createdAt?: string;
-        state?: string;
-        totalUsers?: number;
+        image: string;
+        createdAt: string;
+        state: string;
+        totalUsers: number;
     };
 };
 
@@ -59,8 +34,8 @@ type FetchParticipantsResponse = {
         user: {
             id: string;
             name: string;
-            email?: string;
-            image?: string;
+            email: string;
+            image: string;
         };
     }[];
     total: number;
@@ -110,29 +85,26 @@ export default function CoursePageContentGenericUI({
     const [dialogOpen, setDialogOpen] = useState(false)
 
 
-    const { data: courseData, isLoading: loadingCourse } = useQuery<FetchCourseInfoResponse>({
+    const { data: courseData, isLoading: loadingCourse, error: courseError } = useQuery<FetchCourseInfoResponse>({
         queryKey: ["course-info", courseId],
         queryFn: () => fetchCourseInfo(courseId, role.toLowerCase()),
     });
 
-    const { data: participantsData, isLoading, error } = useQuery<FetchParticipantsResponse>({
+    const { data: participantsData, isLoading: loadingParticipants, error: participantsError } = useQuery<FetchParticipantsResponse>({
         queryKey: ["participants", courseId, page, limit, search],
         queryFn: () => fetchParticipants(courseId, page, limit, search, role.toLowerCase()),
     });
 
-    const handleLeaveClick = () => {
-        setDialogOpen(true)
-    }
-
-    const course: Course | undefined = courseData?.course;
-    const participants: User[] = participantsData?.users ?? [];
+    const course = courseData?.course ?? { id: '', name: '', presentation: '', image: undefined, createdAt: '', state: '', totalUsers: 0 };
+    const participants = participantsData?.users ?? [];
     const total: number = course?.totalUsers ?? 0;
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Colonne gauche : Présentation + Infos du cours */}
+            {/* Left column : Course presentation and information */}
             <div className="flex flex-col gap-6 order-1 lg:order-1 lg:col-span-1">
-                {/* Présentation du cours */}
+
+                {/* Course presentation */}
                 <Card className="h-fit flex flex-col ">
                     <CardHeader className="flex items-center justify-between">
                         <Typography variant="h3">
@@ -140,19 +112,17 @@ export default function CoursePageContentGenericUI({
                         </Typography>
                     </CardHeader>
                     <CardContent>
-                        {loadingCourse && (
-                            <Typography variant="base">
-                                Loading presentation...
-                            </Typography>
-                        )}
+                        {courseError && <Typography variant="muted" color="red">Failed to load course information</Typography>}
+                        {loadingCourse && <Loader />}
                         {!loadingCourse && (
                             <Typography variant="quote">
-                                {course?.presentation || "No presentation available."}
+                                {course.presentation}
                             </Typography>
                         )}
                     </CardContent>
                 </Card>
-                {/* Infos du cours et actions for admin */}
+
+                {/* Course info and actions for admin */}
                 {role === "ADMIN" && (
                     <Card className="h-fit flex flex-col">
                         <CardHeader className="flex items-end justify-between gap-6">
@@ -161,24 +131,21 @@ export default function CoursePageContentGenericUI({
                             </Typography>
                         </CardHeader>
                         <CardContent className="flex flex-col gap-3 flex-1">
-                            {loadingCourse && (
-                                <Typography variant="base">Loading course info...</Typography>
-                            )}
+                            {loadingCourse && <Loader />}
                             {!loadingCourse && (
                                 <>
-                                    <Badge className="w-fit">{course?.state}</Badge>
+                                    <Badge className="w-fit">{course.state}</Badge>
                                     <Typography variant={"base"}>{total} users</Typography>
                                     <Typography variant={"muted"}>
-                                        Created: {course?.createdAt ? new Date(course.createdAt).toLocaleDateString() : "Unknown"}
+                                        Created: {new Date(course.createdAt).toLocaleDateString()}
                                     </Typography>
-                                    <div className="flex-1" />
                                     <Link
-                                        href={`/admin/courses/${course?.id}/lessons`}
+                                        href={`/admin/courses/${course.id}/lessons`}
                                         className={buttonVariants({
                                             variant: "outline",
                                         })}
                                     >
-                                        Teaching Center 👀
+                                        Teaching Center 🧠
                                     </Link>
                                 </>
                             )}
@@ -186,40 +153,37 @@ export default function CoursePageContentGenericUI({
                     </Card>
                 )}
 
-                {/* Infos du cours et actions for user */}
+                {/* Course info and actions for user */}
                 {role === "USER" && (
                     <Card className="h-fit flex flex-col">
                         <CardContent className="flex flex-col gap-3 flex-1">
-                            {alreadyJoined && (
-                                <Link
-                                    href={`/user/courses/${course?.id}/lessons`}
-                                    className={buttonVariants({
-                                        variant: "outline",
-                                    })}
-                                >
-                                    Teaching Center 🧠
-                                </Link>
+                            {loadingCourse && <Loader />}
+                            {!loadingCourse && alreadyJoined && (
+                                <>
+                                    <Link
+                                        href={`/user/courses/${course?.id}/lessons`}
+                                        className={buttonVariants({
+                                            variant: "outline",
+                                        })}
+                                    >
+                                        Teaching Center 🧠
+                                    </Link>
+                                    <Button
+                                        onClick={() => {
+                                            setDialogOpen(true);
+                                        }}
+                                        aria-label="Leave course"
+                                        variant={'destructive'}
+                                    >
+                                        Leave this course
+                                    </Button>
+                                </>
                             )}
-
-                            <div className="flex-2" />
-
-                            {alreadyJoined ? (
-                                <Button
-                                    onClick={() => {
-                                        setDialogOpen(true);
-                                    }}
-                                    aria-label="Leave course"
-                                    variant={'destructive'}
-                                >
-                                    Leave this course
-                                </Button>
-
-                            ) : (
+                            {!loadingCourse && !alreadyJoined && (
                                 <>
                                     <JoinCourseButton
-                                        courseId={course?.id ?? ""}
-                                        userId={userId} // Replace with actual user ID if needed
-                                    />
+                                        courseId={course.id}
+                                        userId={userId} />
                                     <Typography variant="muted" className="mt-2">
                                         Enroll in this course to access lessons and more 🔓
                                     </Typography>
@@ -231,7 +195,7 @@ export default function CoursePageContentGenericUI({
                 )}
             </div>
 
-            {/* Colonne droite : Liste des utilisateurs */}
+            {/* Right column : Participants list */}
             <Card className="order-2 lg:order-2 lg:col-span-2">
                 <CardHeader className="flex items-end justify-between gap-6">
                     <Typography variant="h3">
@@ -249,17 +213,18 @@ export default function CoursePageContentGenericUI({
                         </Avatar>
                     </div>
                 </CardHeader>
-                {alreadyJoined || role === "ADMIN" ? (
-                    <CardContent>
-                        <SearchInput
-                            value={search}
-                            onChange={setSearch}
-                            placeholder="Search participants..."
-                            onSearchStart={() => setPage(1)}
-                        />
-                        {isLoading && <Typography variant="muted">Loading participants...</Typography>}
-                        {error && <Typography variant="muted" color="red">Failed to load participants</Typography>}
-                        {!isLoading && participantsData && (
+
+                <CardContent>
+                    {loadingParticipants && <Loader />}
+                    {participantsError && <Typography variant="muted" color="red">Failed to load participants</Typography>}
+                    {!loadingParticipants && (alreadyJoined || role === "ADMIN") && (
+                        <>
+                            <SearchInput
+                                value={search}
+                                onChange={setSearch}
+                                placeholder="Search participants..."
+                                onSearchStart={() => setPage(1)}
+                            />
                             <Table>
                                 <TableHeader>
                                     <TableRow>
@@ -297,51 +262,35 @@ export default function CoursePageContentGenericUI({
                                     ))}
                                 </TableBody>
                             </Table>
-                        )}
-                        {participants.length > 0 && (
-                            <Pagination
-                                page={page}
-                                onPageChange={setPage}
-                                hasNext={page * limit < total}
-                            />
-                        )}
-                    </CardContent>
-                ) : (
-                    <CardContent className="flex flex-col items-center justify-center min-h-[120px]">
-                        <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
-                    </CardContent>
-                )}
+
+                            {participants.length > 0 && (
+                                <Pagination
+                                    page={page}
+                                    onPageChange={setPage}
+                                    hasNext={page * limit < total}
+                                />
+                            )}
+                        </>
+                    )}
+                    {!loadingParticipants && !alreadyJoined && role === "USER" && (
+                        <div className="flex items-center justify-center p-6">
+                            <LockClosedIcon className="h-6 w-6 text-muted-foreground" />
+                            <Typography variant="muted" className="ml-2">
+                                You need to join the course to see participants.
+                            </Typography>
+                        </div>
+                    )}
+                </CardContent>
             </Card>
 
             {/* Dialog for leaving course confirmation */}
-            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <AlertDialogContent className="rounded-xl shadow-lg">
-                    <AlertDialogHeader className="items-center text-center">
-                        <Avatar className="mx-auto mb-3 h-12 w-12">
-                            <AvatarFallback>{course?.name?.[0]}</AvatarFallback>
-                            {course?.image && (
-                                <AvatarImage src={course.image} alt={course.name ?? ""} />
-                            )}
-                        </Avatar>
-                        <AlertDialogTitle className="text-xl font-bold">
-                            Leave <span className="text-primary">{course?.name}</span>?
-                        </AlertDialogTitle>
-                        <Typography variant="small" className="text-muted-foreground mt-2">
-                            If you leave, the course content will be locked and your progress will be reset.
-                        </Typography>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-6">
-                        <AlertDialogCancel asChild>
-                            <Button variant="outline">
-                                Cancel
-                            </Button>
-                        </AlertDialogCancel>
-                        {courseId && (
-                            <LeaveCourseButton courseId={courseId} userId={userId}/>
-                        )}
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            <LeaveCourseDialog
+                open={dialogOpen}
+                onOpenChange={setDialogOpen}
+                course={{ name: course?.name, image: course?.image }}
+                courseId={courseId}
+                userId={userId}
+            />
         </div>
 
     );

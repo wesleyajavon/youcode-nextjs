@@ -1,11 +1,11 @@
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/Layout";
+import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { Suspense } from "react";
-import { CardSkeleton } from "@/components/ui/skeleton";
+import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { LessonTableServer } from "@/components/user/server/LessonTableServer";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
 
 

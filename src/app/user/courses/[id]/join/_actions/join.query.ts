@@ -6,7 +6,11 @@ export async function joinCourseAction(courseId: string, userId: string) {
     await prisma.courseOnUser.create({
       data: { userId, courseId },
     });
-    return { success: true };
+    const course = await prisma.course.findUnique({
+      where: { id: courseId },
+      select: { name: true },
+    });
+    return { success: true, courseName: course?.name };
   } catch {
     return { success: false };
   }
@@ -22,7 +26,11 @@ export async function leaveCourseAction(courseId: string, userId: string) {
         },
       },
     });
-    return { success: true };
+    const course = await prisma.course.findUnique({
+      where: { id: courseId },
+      select: { name: true },
+    });
+    return { success: true, courseName: course?.name };
   } catch {
     return { success: false };
   }

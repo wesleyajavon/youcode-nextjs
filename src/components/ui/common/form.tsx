@@ -17,7 +17,7 @@ import {
   useFormContext,
 } from 'react-hook-form';
 
-import { Label } from '@/components/ui/label';
+import { Label } from '@/components/ui/common/label';
 import { cn } from '@/lib/utils';
 import { TypeOf, ZodType } from 'zod';
 

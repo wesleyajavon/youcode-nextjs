@@ -4,16 +4,16 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/layout';
+} from '@/components/layout/Layout';
 
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { Suspense } from 'react';
-import { CardSkeleton } from '@/components/ui/skeleton';
+import { CardSkeleton } from '@/components/ui/common/skeleton';
 import AdminLessonEditUI from '@/components/admin/server/AdminLessonEditUI';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;

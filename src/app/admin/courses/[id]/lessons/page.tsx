@@ -6,16 +6,16 @@ import {
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
-} from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { buttonVariants } from '@/components/ui/button';
+} from '@/components/layout/Layout';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
+import { buttonVariants } from '@/components/ui/common/button';
 
 import { DocumentTextIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
-import { CardSkeleton } from "@/components/ui/skeleton";
+import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { AdminLessonsTableServer } from "@/components/admin/server/AdminLessonsTableServer";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params

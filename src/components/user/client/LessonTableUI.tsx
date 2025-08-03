@@ -3,15 +3,14 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Typography } from "@/components/ui/typography";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { useSession } from "next-auth/react";
-import { SearchInput } from "@/components/ui/search-bar";
-import { Pagination } from "@/components/ui/pagination";
-import clsx from "clsx"; // Si tu utilises clsx, sinon remplace par une fonction utilitaire ou des templates
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/common/table";
+import { Typography } from "@/components/ui/common/typography";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
+import { Badge } from "@/components/ui/common/badge";
+import { SearchInput } from "@/components/ui/common/search-bar";
+import { Pagination } from "@/components/ui/common/pagination";
+import clsx from "clsx"; 
 
 
 async function fetchLessons(courseId: string, page: number, limit: number, search: string) {
@@ -48,12 +47,12 @@ type LessonsResponse = {
 function getProgressBadgeColor(progress: Progress) {
   switch (progress) {
     case "COMPLETED":
-      return "bg-primary text-accent-foreground"; // vibrant blue on light bg / light on dark bg
+      return "bg-primary text-accent-foreground";
     case "IN_PROGRESS":
-      return "bg-accent text-accent-foreground";   // purple accent in your system
+      return "bg-accent text-accent-foreground";  
     case "NOT_STARTED":
     default:
-      return "bg-muted text-muted-foreground";      // subtle gray style
+      return "bg-muted text-muted-foreground"; 
   }
 }
 
@@ -100,8 +99,17 @@ export function LessonTableUI({ courseId }: { courseId: string }) {
                     placeholder="Search lessons..."
                     onSearchStart={() => setPage(1)}
                 />
+                {/* Conditional rendering based on loading state */}
                 {isLoading && <Typography variant="muted">Loading lessons...</Typography>}
+                
+                {/* Conditional rendering based on error state */}
                 {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
+                
+                {/* Conditional rendering based on lessons data */}
+                {!isLoading && !error && lessons.length === 0 && (
+                    <Typography variant="muted">No lessons found</Typography>
+                )}
+                {/* Conditional rendering based on lessons data */}
                 {!isLoading && data && (
                     <Table>
                         <TableHeader>
@@ -148,6 +156,8 @@ export function LessonTableUI({ courseId }: { courseId: string }) {
                         </TableBody>
                     </Table>
                 )}
+
+                {/* Pagination controls */}
                 {lessons.length > 0 && (
                     <Pagination
                         page={page}

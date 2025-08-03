@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback } from '@/components/ui/common/avatar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
 import {
     Table,
     TableBody,
@@ -11,11 +11,11 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/components/ui/table';
-import { Typography } from '@/components/ui/typography';
+} from '@/components/ui/common/table';
+import { Typography } from '@/components/ui/common/typography';
 import Link from 'next/link';
-import { SearchInput } from "@/components/ui/search-bar";
-import { Pagination } from "@/components/ui/pagination";
+import { SearchInput } from "@/components/ui/common/search-bar";
+import { Pagination } from "@/components/ui/common/pagination";
 
 type Lesson = {
     id: string;

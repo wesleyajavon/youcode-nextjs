@@ -19,6 +19,8 @@ export async function GET(req: Request) {
 
     try {
         // Récupère les cours paginés
+        await new Promise(res => setTimeout(res, 10000)); // Simule un délai de 5 secondes
+
         const [courses, total] = await Promise.all([
             prisma.course.findMany({
                 where: {

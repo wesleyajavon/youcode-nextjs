@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react';
 import { getLesson } from '../../../_actions/lesson.query';
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/Layout';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/common/button';
 import { redirect } from 'next/navigation';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { CardSkeleton } from '@/components/ui/skeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
+import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { getCourse } from '../../../_actions/course.query';
 import AdminLessonPageContentUI from '@/components/admin/server/AdminLessonPageContentUI';
 

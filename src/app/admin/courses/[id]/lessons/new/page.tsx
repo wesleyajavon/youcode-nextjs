@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/layout';
-import Breadcrumbs from '@/components/ui/breadcrumbs';
-import { CardSkeleton } from '@/components/ui/skeleton';
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/Layout';
+import Breadcrumbs from '@/components/ui/common/breadcrumbs';
+import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { PlusCircle } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { prisma } from '@/lib/prisma';
 import { AdminLessonCreateUI } from '@/components/admin/server/AdminLessonCreateUI';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';

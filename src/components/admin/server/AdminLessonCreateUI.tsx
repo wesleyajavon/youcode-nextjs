@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Typography } from '@/components/ui/typography';
+import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
+import { Typography } from '@/components/ui/common/typography';
 import { LessonForm } from '../client/LessonForm'; // adapte le chemin si besoin
 
 

@@ -1,9 +1,9 @@
 // src/components/layout/Header.
-import { SiteConfig } from '../../lib/site-config';
 import Link from 'next/link';
-import { ThemeToggle } from '../theme/ThemeToggle';
-import { Typography } from '../ui/typography';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
+import { Typography } from '@/components/ui/common/typography';
 import { AuthButton } from '@/lib/features/auth/AuthButton';
+import { SiteConfig } from '@/lib/site-config';
 
 export function Header() {
     return (

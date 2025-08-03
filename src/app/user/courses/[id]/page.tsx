@@ -1,12 +1,12 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/Layout";
+import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
 import { getCourse } from "@/app/admin/courses/_actions/course.query";
-import { CoursePageContentSkeleton } from "@/components/ui/skeleton";
+import { CoursePageContentSkeleton } from "@/components/ui/common/skeleton";
 import { Suspense } from "react";
 import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import { BookOpen } from "lucide-react";
 
 

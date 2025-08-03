@@ -7,10 +7,11 @@ import {
     CardDescription,
     CardContent,
     CardFooter,
-} from '@/components/ui/card'
+} from '@/components/ui/common/card'
 import Link from 'next/link'
 import SignOutButton from '@/lib/features/auth/SignOutButton'
-import { Typography } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/common/typography'
+import { prisma } from '@/lib/prisma'
 
 export async function AccountUI() {
     const session = await getRequiredAuthSession()
@@ -21,7 +22,11 @@ export async function AccountUI() {
     // await new Promise(res => setTimeout(res, 5000));
 
 
-    const { name, email, image, role } = session.user
+    const { name, image, role } = session.user
+    const email = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { email: true }
+    }).then(user => user?.email);
 
     return (
         <Card>
@@ -58,6 +63,8 @@ export async function AccountUI() {
                 </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
+                
+                {/*  Conditional rendering based on user role */}
                 {session.user.role === 'ADMIN' && (<Link
                     href="/admin"
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
@@ -70,6 +77,7 @@ export async function AccountUI() {
                 >
                     Student
                 </Link>)}
+
                 <Link
                     href="/account/edit"
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"

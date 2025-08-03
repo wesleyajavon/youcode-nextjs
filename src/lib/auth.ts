@@ -22,10 +22,9 @@ export const getRequiredAuthSession = async (...parameters: ParametersGetServerS
   return session as {
     user: {
         id: string;
-        email?: string;
         image?: string;
-        name?: string;
-        role?: string
+        name: string;
+        role: string
     }
   };
 };

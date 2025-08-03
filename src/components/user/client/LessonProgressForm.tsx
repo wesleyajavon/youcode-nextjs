@@ -2,11 +2,11 @@
 
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/common/button";
 import { Form } from "../../ui/form";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/common/select";
 import { updateLessonProgress } from "@/app/user/courses/_actions/lesson.query";
 
 

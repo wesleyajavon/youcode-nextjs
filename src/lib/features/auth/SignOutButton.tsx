@@ -1,21 +1,11 @@
 'use client'
 
 import { signOut } from 'next-auth/react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/common/button'
 import { LogOut } from 'lucide-react'
-import { Loader } from '@/components/ui/loader'
+import { Loader } from '@/components/ui/common/loader'
 import { useMutation } from '@tanstack/react-query'
-import {
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogCancel,
-} from "@/components/ui/alert-dialog"
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import { toast } from 'sonner'
 import { useState } from 'react'
-import { Typography } from '@/components/ui/typography'
 import { LogoutDialog } from './LogoutDialog'
 
 export default function SignOutButton() {

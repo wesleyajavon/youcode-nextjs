@@ -3,7 +3,7 @@
 
 import { SiteConfig } from '@/lib/site-config';
 import Link from 'next/link';
-import { Typography } from '../ui/typography';
+import { Typography } from '@/components/ui/common/typography';
 
 export const Footer = () => {
     return (

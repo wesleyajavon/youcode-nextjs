@@ -1,15 +1,15 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/Layout";
+import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { prisma } from "@/lib/prisma";
 import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { CardSkeleton } from "@/components/ui/skeleton";
+import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { JoinLessonUI } from "@/components/user/server/JoinLessonUI";
 import { BookOpen } from "lucide-react";
 import { DocumentTextIcon, UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/common/avatar";
 
 export default async function JoinLessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const session = await getRequiredAuthSession();

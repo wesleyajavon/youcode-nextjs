@@ -1,15 +1,12 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/layout";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Typography } from "@/components/ui/typography";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
+import { Typography } from "@/components/ui/common/typography";
 import { prisma } from "@/lib/prisma";
 import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
 import { redirect } from "next/navigation";
-import { JoinLessonButton } from "../client/JoinLessonButton";
-import { LeaveLessonButton } from "../client/LeaveLessonButton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { JoinLessonButton } from "@/components/ui/user/JoinLessonButton";
+import { LeaveLessonButton } from "@/components/ui/user/LeaveLessonButton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
 
 export async function JoinLessonUI(props: { params: Promise<{ id: string, lessonId: string }> }) {

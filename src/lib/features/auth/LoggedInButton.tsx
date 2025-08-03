@@ -1,31 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import {
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogCancel,
-} from "@/components/ui/alert-dialog"
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
-
-import { AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { AvatarImage } from "@/components/ui/common/avatar"
+import { Button } from "@/components/ui/common/button"
 import {
     DropdownMenu,
     DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/common/dropdown-menu"
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
 import { LogOut, User } from "lucide-react"
 import { Session } from "next-auth"
 import { useMutation } from "@tanstack/react-query"
 import { signOut } from "next-auth/react"
-import { Loader } from "@/components/ui/loader"
 import { redirect } from "next/navigation"
-import { Typography } from "@/components/ui/typography";
 import { LogoutDialog } from "./LogoutDialog";
 
 export type LoggedInButtonProps = {

@@ -3,9 +3,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Typography } from "@/components/ui/typography";
+} from "@/components/ui/common/accordion";
+import { Button, buttonVariants } from "@/components/ui/common/button";
+import { Typography } from "@/components/ui/common/typography";
 import { getAuthSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { CircleDollarSign, PencilLine, Rocket, Sparkles, Star } from "lucide-react";

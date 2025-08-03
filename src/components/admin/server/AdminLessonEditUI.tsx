@@ -1,6 +1,6 @@
 import { LessonForm } from '@/components/admin/client/LessonForm';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Typography } from '@/components/ui/typography';
+import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
+import { Typography } from '@/components/ui/common/typography';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 
