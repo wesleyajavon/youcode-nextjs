@@ -21,7 +21,7 @@ export default async function CoursePageContentGeneric(props: { params: Promise<
         <CoursePageContentGenericUI
             courseId={params.id}
             alreadyJoined={alreadyJoined}
-            role={session.user.role ?? "USER"}
+            role={session.user.role}
             userId={session.user.id} // Assuming user ID is available in session
         />
     );
