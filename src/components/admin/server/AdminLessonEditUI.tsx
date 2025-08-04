@@ -2,6 +2,7 @@ import { LessonForm } from '@/components/admin/client/LessonForm';
 import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
 import { Typography } from '@/components/ui/common/typography';
 import { prisma } from '@/lib/prisma';
+import { redis } from '@/lib/redis';
 import { redirect } from 'next/navigation';
 
 // This component is used to edit an existing lesson in the admin panel.
@@ -28,6 +29,10 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
     if (!lesson) {
         redirect(`/admin/courses/${params.id}/lessons`);
     }
+
+    // Clear the cached lesson content in Redis to ensure the latest content is fetched
+    // This is important to avoid displaying stale content after editing.
+    await redis.del(`lesson-content:${params.lessonId}`);
 
     return (
         <Card>

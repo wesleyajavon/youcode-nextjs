@@ -1,14 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ratelimitlesson } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
     try {
+        // Getting the prompt from the request body
+        // The prompt should be a description of the course you want to generate
+        // The generated content can then be used to populate the course form.
         const { prompt } = await req.json();
-
         if (!prompt) {
-            return NextResponse.json({ error: "Prompt requis" }, { status: 400 });
+            return NextResponse.json({ error: "Prompt needed" }, { status: 400 });
         }
 
-        // Appel à l'API Groq (compatible OpenAI)
+        // Checking rate limit 
+        // This will limit the user to 5 requests per hour
+        // If the limit is exceeded, it will return a 429 status code
+        // This is to prevent abuse of the AI generation feature
+        const ip = req.headers.get("x-forwarded-for") || "unknown";
+        const { success } = await ratelimitlesson.limit(ip);
+        if (!success) {
+            return NextResponse.json({ error: "Too many requests. You can only generate 5 requests per hour. Try again later." }, { status: 429 });
+        }
+
+        // Call to Groq API (compatible OpenAI)
         const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -46,7 +59,7 @@ You are an educational assistant. Generate clear, structured, and engaging lesso
 
         return NextResponse.json({ content });
     } catch (e) {
-        console.error("Erreur lors de la génération de contenu IA (Groq):", e);
-        return NextResponse.json({ error: "Erreur IA" }, { status: 500 });
+        console.error("Error generating AI content (Groq):", e);
+        return NextResponse.json({ error: "AI Error" }, { status: 500 });
     }
 }

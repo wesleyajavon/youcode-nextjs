@@ -32,11 +32,11 @@ export function GeneratePresentationModal({ open, onOpenChange, onResult }: Gene
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt }),
             });
-            if (!res.ok) throw new Error("Error during generation");
+            if (!res.ok) throw new Error(await res.json().then(data => data.error || "Error during generation."));
             const data = await res.json();
             setResult(data.content);
-        } catch (e) {
-            toast.error("Error generating content.");
+        } catch (error: any) {
+            toast.error(error.message || "Error generating content.");
         } finally {
             setLoading(false);
         }

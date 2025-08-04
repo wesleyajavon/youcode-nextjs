@@ -3,11 +3,14 @@ import ReactMarkdown from 'react-markdown';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
 import { Typography } from '@/components/ui/common/typography';
 import { redirect } from 'next/navigation';
-import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
+import { getLesson, getLessonContentWithRedis } from '@/app/admin/courses/_actions/lesson.query';
 import remarkGfm from 'remark-gfm';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 
+// Incremental Static Regeneration (ISR) allows the page to be rebuilt every 60 seconds
+// This is useful for keeping the lesson content up-to-date without requiring a full rebuild of the site.
+export const revalidate = 60; 
 
 // This component is used to display the content of a lesson in the public teaching center.
 // It fetches the lesson data and course information based on the lesson ID from the URL parameters.
@@ -17,7 +20,9 @@ export async function PublicLessonPageContentUI(props: { params: Promise<{ lesso
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
     const course = await getCourseInfo(lesson?.courseId || '');
-    const markdown = await getLessonContent(params.lessonId);
+    const markdown = await getLessonContentWithRedis(params.lessonId);
+
+    // const markdown = await getLessonContent(params.lessonId);
 
     // await new Promise(res => setTimeout(res, 5000));
 

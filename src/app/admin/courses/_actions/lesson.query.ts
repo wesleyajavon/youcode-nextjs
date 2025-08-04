@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import {redis} from "@/lib/redis";
+
 
 export async function getLessons(courseId: string) {
     const lessons = await prisma.lesson.findMany({
@@ -28,6 +30,26 @@ export async function getLessonContent(lessonId: string): Promise<string | null>
     });
 
     return lesson?.content ?? null;
+}
+
+
+export async function getLessonContentWithRedis(lessonId: string) {
+  const cacheKey = `lesson-content:${lessonId}`;
+  let content: string | null = await redis.get(cacheKey);
+
+  if (!content) {
+    const lesson = await prisma.lesson.findUnique({
+        where: { id: lessonId },
+        select: { content: true },
+    });
+    content = lesson?.content ?? null;
+    await redis.set(cacheKey, content, {
+        // Set expiration time to 1 hour
+        ex: 3600,
+    });
+  }
+
+  return content;
 }
 
 export async function getLesson(lessonId: string) {

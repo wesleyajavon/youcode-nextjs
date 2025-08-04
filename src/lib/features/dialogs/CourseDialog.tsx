@@ -38,7 +38,7 @@ export function CourseDialog({
                     {join === true && (
                         <>
                             <AlertDialogTitle className="text-xl font-bold">
-                                👋🏻 Join <span className="text-primary">{course.name}</span> ?
+                                🙌🏽 Join <span className="text-primary">{course.name}</span> ?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
                                 By joining, you will have access to all course materials and can track your progress.

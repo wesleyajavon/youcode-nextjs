@@ -24,7 +24,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { lessonActionCreate, lessonActionEdit } from '../../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.action';
 import { LESSON_STATE, LessonFormSchema } from '../../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.schema';
-import { GenerateLessonModal } from './GenerateLessonModal';
+import { GenerateLessonModal } from '../../../lib/features/ai/GenerateLessonModal';
 import { Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { LessonFormProps } from '@/types/lesson';

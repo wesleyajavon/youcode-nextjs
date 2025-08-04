@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/common/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
 import { Sparkles } from "lucide-react";
 import { Typography } from "@/components/ui/common/typography";
-import { GenerateLessonModal } from "./GenerateLessonModal";
+import { GenerateLessonModal } from "../../../lib/features/ai/GenerateLessonModal";
 import { Textarea } from "@/components/ui/common/textarea";
 import { LessonForm } from "@/components/admin/client/LessonForm";
 
@@ -45,11 +45,6 @@ export default function AdminLessonEditClientUI({ lesson }: { lesson: any }) {
         />
         <LessonForm defaultValue={{ ...lesson, content }} />
       </CardContent>
-      <GenerateLessonModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        onResult={setContent}
-      />
     </>
   );
 }

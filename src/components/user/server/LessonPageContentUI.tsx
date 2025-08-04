@@ -4,13 +4,17 @@ import ReactMarkdown from 'react-markdown';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
 import { Typography } from '@/components/ui/common/typography';
 import { redirect } from 'next/navigation';
-import { getLesson, getLessonContent } from '@/app/admin/courses/_actions/lesson.query';
+import { getLesson, getLessonContentWithRedis } from '@/app/admin/courses/_actions/lesson.query';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import remarkGfm from 'remark-gfm';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 import { getLessonOnUser } from '@/app/user/courses/_actions/lesson.query';
 import { LessonProgressForm } from '../client/LessonProgressForm';
+
+// Incremental Static Regeneration (ISR) allows the page to be rebuilt every 60 seconds
+// This is useful for keeping the lesson content up-to-date without requiring a full rebuild of the site.
+export const revalidate = 60; 
 
 // This component is used to display the content of a lesson for a user.
 // It fetches the lesson data and course information based on the IDs from the URL parameters.
@@ -24,10 +28,11 @@ import { LessonProgressForm } from '../client/LessonProgressForm';
 export async function LessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
-    const markdown = await getLessonContent(params.lessonId);
+    // const markdown = await getLessonContent(params.lessonId);
     const course = await getCourseInfo(params.id);
     const session = await getRequiredAuthSession();
     const lessonOnUser = await getLessonOnUser(session.user.id, params.lessonId);
+    const markdown = await getLessonContentWithRedis(params.lessonId);
 
     // await new Promise(res => setTimeout(res, 5000));
 

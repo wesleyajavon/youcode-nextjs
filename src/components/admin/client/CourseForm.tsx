@@ -27,7 +27,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { GeneratePresentationModal } from './GeneratePresentationModal';
+import { GeneratePresentationModal } from '../../../lib/features/ai/GeneratePresentationModal';
 import { CourseFormProps } from '@/types/course';
 
 // This component is used to create or edit a course in the admin panel.

@@ -8,6 +8,7 @@ import { Loader } from "@/components/ui/common/loader";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { GenerateLessonModalProps } from "@/types/lesson";
+import { NextResponse } from "next/server";
 
 // This component is used to generate lesson content using AI.
 // It provides a modal interface where users can input a prompt for the AI to generate lesson content.
@@ -34,11 +35,11 @@ export function GenerateLessonModal({ courseId, open, onOpenChange, onResult }: 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt }),
             });
-            if (!res.ok) throw new Error("Error during generation");
+            if (!res.ok) throw new Error(await res.json().then(data => data.error || "Error during generation."));
             const data = await res.json();
             setResult(data.content);
-        } catch (e) {
-            toast.error("Error generating content.");
+        } catch (error: any) {
+            toast.error(error.message || "Error generating content.");
         } finally {
             setLoading(false);
         }
