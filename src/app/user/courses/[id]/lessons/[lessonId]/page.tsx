@@ -10,7 +10,7 @@ import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { LessonPageContentUI } from '@/components/user/server/LessonPageContentUI';
 import { JoinLessonButton } from '@/components/ui/user/JoinLessonButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
-import { getCourse } from '@/app/admin/courses/_actions/course.query';
+import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 
 // This page is used to display the content of a lesson in markdown format
@@ -24,7 +24,7 @@ import { DocumentTextIcon } from '@heroicons/react/24/outline';
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
-    const course = await getCourse(params.id);
+    const course = await getCourseInfo(params.id);
     const session = await getRequiredAuthSession();
 
 
@@ -52,13 +52,13 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                             },
                             {
                                 label: 'Teaching Center',
-                                href: '/user/courses/' + lesson?.courseId + '/lessons',
+                                href: `/user/courses/${lesson?.courseId}/lessons`,
                                 icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
 
                             },
                             {
                                 label: lesson?.name || 'Lesson',
-                                href: '/user/courses/' + lesson?.courseId + '/lessons' + '/' + lesson?.id,
+                                href: `/user/courses/${lesson?.courseId}/lessons/${lesson?.id}`,
                                 active: true,
                                 icon:
                                     <Avatar className="rounded h-5 w-5">
@@ -80,6 +80,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                     >
                         Leave this lesson
                     </Link>
+                    
                 ) : (
                     <JoinLessonButton
                         lessonId={lesson.id}

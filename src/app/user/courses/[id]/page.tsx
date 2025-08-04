@@ -1,8 +1,7 @@
-import { getRequiredAuthSession } from "@/lib/auth";
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
-import { getCourse } from "@/app/admin/courses/_actions/course.query";
+import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
 import { CoursePageContentSkeleton } from "@/components/ui/common/skeleton";
 import { Suspense } from "react";
 import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
@@ -11,18 +10,12 @@ import { BookOpen } from "lucide-react";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
-    const session = await getRequiredAuthSession();
     const params = await props.params;
-    const course = await getCourse(params.id);
+    const course = await getCourseInfo(params.id);
 
     if (!course) {
         redirect('/user/courses');
     }
-
-    // Vérifie si l'utilisateur est déjà inscrit
-    const alreadyJoined = course.users.some(
-        (u: any) => u.user.id === session.user.id
-    );
 
     return (
 
@@ -38,7 +31,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                             },
                             {
                                 label: course.name || 'Course',
-                                href: '/user/courses/' + course.id,
+                                href: `/user/courses/${course.id}`,
                                 active: true,
                                 icon:
                                     <Avatar className="rounded h-5 w-5">

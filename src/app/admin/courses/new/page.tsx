@@ -1,21 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 import {
     Layout,
     LayoutContent,
     LayoutHeader,
     LayoutTitle,
 } from '@/components/layout/LayoutTemp';
-import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
-import { getRequiredAuthSession } from '@/lib/auth';
-import { CourseForm } from '../../../../components/admin/client/CourseForm';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
-import { Typography } from '@/components/ui/common/typography';
-import { AdminCoursesCreateUI } from '../../../../components/admin/server/AdminCourseCreateUI';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { PlusCircle } from "lucide-react";
 import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
 import { BookOpenIcon } from '@heroicons/react/24/outline';
+import { AdminCoursesCreateUI } from '@/components/admin/server/AdminCourseCreateUI';
 
 export default async function CoursePage() {
     return (

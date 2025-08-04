@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { getLesson } from '../../../_actions/lesson.query';
+import { getLessonInfo } from '../../../_actions/lesson.query';
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
-import { getCourse } from '../../../_actions/course.query';
+import { getCourseInfo } from '../../../_actions/course.query';
 import AdminLessonPageContentUI from '@/components/admin/server/AdminLessonPageContentUI';
 
 // This page is used to display the content of a lesson in markdown format
@@ -18,8 +18,12 @@ import AdminLessonPageContentUI from '@/components/admin/server/AdminLessonPageC
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
   const params = await props.params;
-  const course = await getCourse(params.id);
-  const lesson = await getLesson(params.lessonId);
+  const course = await getCourseInfo(params.id);
+  const lesson = await getLessonInfo(params.lessonId);
+
+  if (!course) {
+    redirect('/admin/courses');
+  }
 
   if (!lesson) {
     redirect(`/admin/courses/${params.id}/lessons`);
@@ -42,13 +46,13 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
               },
               {
                 label: 'Teaching Center',
-                href: '/admin/courses/' + lesson?.courseId + '/lessons',
+                href: `/admin/courses/${lesson?.courseId}/lessons`,
                 icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
 
               },
               {
                 label: lesson?.name || 'Lesson',
-                href: '/admin/courses/' + lesson?.courseId + '/lessons' + '/' + lesson?.id,
+                href: `/admin/courses/${lesson?.courseId}/lessons/${lesson?.id}`,
                 active: true,
                 icon:
                   <Avatar className="rounded h-5 w-5">

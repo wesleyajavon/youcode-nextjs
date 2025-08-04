@@ -1,4 +1,4 @@
-import { getCourse } from "../_actions/course.query";
+import { getCourseInfo } from "../_actions/course.query";
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/common/button";
@@ -14,14 +14,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avat
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
-    const course = await getCourse(params.id);
+    const course = await getCourseInfo(params.id);
 
     if (!course) {
         redirect('/admin/courses');
     }
 
     return (
-
         <Layout>
             <LayoutHeader>
                 <LayoutTitle>
@@ -34,7 +33,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                             },
                             {
                                 label: course.name || 'Course',
-                                href: '/admin/courses/' + course.id,
+                                href: `/admin/courses/${course.id}`,
                                 active: true,
                                 icon:
                                     <Avatar className="rounded h-5 w-5">

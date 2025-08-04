@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
                     {
                         role: "system",
                         content: `
-You are an educational assistant. Write a concise, engaging, and well-written course description for students in under 30 words.
+You are an educational assistant. Generate a clear, engaging, and student-friendly course description. Use simple language, highlight key benefits, and keep it under 300 characters. Do not generate any thing else but the course description.
 `
                     },
                     { role: "user", content: prompt },

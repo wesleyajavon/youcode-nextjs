@@ -34,7 +34,6 @@ export default async function UserCoursesPage() {
                 <Suspense fallback={<CardSkeleton />}>
                     <CourseTableServer />
                 </Suspense>
-
             </LayoutContent>
         </Layout>
     );

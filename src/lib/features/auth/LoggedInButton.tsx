@@ -15,7 +15,7 @@ import { Session } from "next-auth"
 import { useMutation } from "@tanstack/react-query"
 import { signOut } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { LogoutDialog } from "./LogoutDialog";
+import { LogoutDialog } from "../dialogs/LogoutDialog";
 
 export type LoggedInButtonProps = {
     user: Session["user"]

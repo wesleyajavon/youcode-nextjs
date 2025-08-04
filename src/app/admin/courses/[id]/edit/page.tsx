@@ -5,8 +5,6 @@ import {
     LayoutHeader,
     LayoutTitle,
 } from '@/components/layout/LayoutTemp';
-import { getRequiredAuthSession } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
@@ -15,22 +13,11 @@ import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import { BookOpen } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import AdminCourseEditUI from '@/components/admin/server/AdminCourseEditUI';
+import { getCourseInfo } from '../../_actions/course.query';
 
 export default async function CourseEditPage(props: { params: Promise<{ id: string }> }) {
-    const session = await getRequiredAuthSession();
     const params = await props.params;
-
-    const course = await prisma.course.findUnique({
-        where: {
-            id: params.id,
-            creatorId: session.user.id,
-        },
-        select: {
-            id: true,
-            name: true,
-            image: true,
-        },
-    });
+    const course = await getCourseInfo(params.id);
 
     if (!course) {
         redirect(`/admin/courses/`);

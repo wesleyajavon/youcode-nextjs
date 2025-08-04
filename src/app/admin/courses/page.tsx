@@ -1,6 +1,4 @@
 // page.tsx (server)
-import { getRequiredAuthSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import {
     Layout,
     LayoutActions,
@@ -10,7 +8,6 @@ import {
 } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { buttonVariants } from '@/components/ui/common/button';
-
 import { HomeIcon, PlusIcon, } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
@@ -19,7 +16,6 @@ import { AdminCoursesTableServer } from "@/components/admin/server/AdminCoursesT
 import { BookOpen } from "lucide-react";
 
 export default async function AdminCoursesPage() {
-    const session = await getRequiredAuthSession();
 
     return (
         <Layout>

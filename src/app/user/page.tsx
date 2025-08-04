@@ -5,7 +5,6 @@ import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { buttonVariants } from '@/components/ui/common/button';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { BookOpenIcon, RectangleStackIcon } from '@heroicons/react/24/outline';
-
 import Link from 'next/link';
 import { getCoursesNumberAsUser } from './courses/_actions/course.query';
 import { getLessonsNumberAsUser } from './courses/_actions/lesson.query';
@@ -18,11 +17,20 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avat
 export default async function UserDashboardPage() {
 
     const session = await getRequiredAuthSession();
-
+    const coursesCount = await getCoursesNumberAsUser(session.user.id);
+    const lessonsCount = await getLessonsNumberAsUser(session.user.id);
 
     const stats = [
-        { icon: <RectangleStackIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'You are subscribed to', value: (await getCoursesNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' courses.' },
-        { icon: <BookOpenIcon className="h-5 w-5 text-white-foreground inline-block" />, label: 'You are currently following', value: (await getLessonsNumberAsUser(await getRequiredAuthSession().then(session => session.user.id))) + ' lessons.' }
+        {
+            icon: <RectangleStackIcon className="h-5 w-5 text-white-foreground inline-block" />,
+            label: 'You are subscribed to',
+            value: coursesCount + ' courses.'
+        },
+        {
+            icon: <BookOpenIcon className="h-5 w-5 text-white-foreground inline-block" />,
+            label: 'You are currently following',
+            value: lessonsCount + ' lessons.'
+        }
     ];
 
     return (

@@ -276,7 +276,7 @@ export default function CoursePageContentGenericUI({
                         <div className="flex items-center justify-center p-6">
                             <LockClosedIcon className="h-6 w-6 text-muted-foreground" />
                             <Typography variant="muted" className="ml-2">
-                                You need to join the course to see participants.
+                                You need to join the course to see the course participants.
                             </Typography>
                         </div>
                     )}

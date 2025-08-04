@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/common/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/common/dialog";
 import { Button } from "@/components/ui/common/button";
 import { Textarea } from "@/components/ui/common/textarea";
 import { Loader } from "@/components/ui/common/loader";
@@ -58,14 +58,17 @@ export function GeneratePresentationModal({ open, onOpenChange, onResult }: Gene
                 <DialogHeader>
                     <DialogTitle>
                         <Sparkles className="inline-block mr-2 text-primary" />
-                        Generate a lesson with AI
+                        Generate a course presentation with AI
                     </DialogTitle>
+                    <DialogDescription>
+                        Describe the course that you want to create. Our AI will generate a clear and engaging presentation based on your prompt.
+                    </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col gap-3">
                     <Textarea
                         value={prompt}
                         onChange={e => setPrompt(e.target.value)}
-                        placeholder="Describe the lesson you want to generate..."
+                        placeholder="Your course description..."
                         rows={3}
                         disabled={loading}
                     />

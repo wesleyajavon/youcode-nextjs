@@ -1,5 +1,5 @@
-import { getCourse } from "../../_actions/course.query";
-import { notFound } from "next/navigation";
+import { getCourseInfo } from "../../_actions/course.query";
+import { redirect } from "next/navigation";
 import {
     Layout,
     LayoutActions,
@@ -9,7 +9,6 @@ import {
 } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { buttonVariants } from '@/components/ui/common/button';
-
 import { DocumentTextIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
@@ -20,9 +19,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avat
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params
     const courseId = params.id;
-    const course = await getCourse(courseId);
+    const course = await getCourseInfo(courseId);
+    
     if (!course) {
-        notFound()
+        redirect('/admin/courses');
     }
 
     return (

@@ -1,23 +1,22 @@
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
-import { getCourse } from "@/app/admin/courses/_actions/course.query";
+import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
-import { LessonTableServer } from "@/components/user/server/LessonTableServer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
+import { LessonsTable } from "@/components/common/server/LessonTable";
 
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
 
     const params = await props.params;
-    const course = await getCourse(params.id)
+    const course = await getCourseInfo(params.id)
 
     if (!course) {
         redirect('/user/courses');
     }
-
 
     return (
 
@@ -48,7 +47,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
 
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <LessonTableServer params={props.params} />
+                    <LessonsTable params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

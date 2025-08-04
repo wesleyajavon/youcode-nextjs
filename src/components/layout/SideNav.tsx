@@ -9,7 +9,7 @@ import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/common/button";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { LogoutDialog } from "@/lib/features/auth/LogoutDialog";
+import { LogoutDialog } from "@/lib/features/dialogs/LogoutDialog";
 
 
 const userNavLinks = [
@@ -125,7 +125,7 @@ export function SideNav({ role, visible = true, onClose }: { role: Role; visible
                 <span className="text-xs text-muted-foreground px-3 py-2 rounded w-fit mx-auto">
                     <button
                         onClick={() => setOpen(true)}
-                        className="flex items-center gap-3 rounded  text-base font-medium text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        className="flex items-center gap-3 rounded  text-base font-medium text-destructive hover:bg-destructive/10 hover:text-destructive  hover:cursor-pointer"
                     >
                         <LogOut className="h-5 w-5" />
                         Log out

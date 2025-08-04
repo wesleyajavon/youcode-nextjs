@@ -6,7 +6,7 @@ import { LogOut } from 'lucide-react'
 import { Loader } from '@/components/ui/common/loader'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { LogoutDialog } from './LogoutDialog'
+import { LogoutDialog } from '../dialogs/LogoutDialog'
 
 export default function SignOutButton() {
 

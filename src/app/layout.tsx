@@ -1,4 +1,3 @@
-// app/layout.
 import { Header } from '@/components/layout/Header';
 import { TailwindIndicator } from '@/components/utils/TailwindIndicator';
 import { SiteConfig } from '@/lib/site-config';

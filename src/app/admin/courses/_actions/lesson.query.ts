@@ -57,3 +57,20 @@ export async function getLesson(lessonId: string) {
 
     return lesson
 }
+
+export async function getLessonInfo (lessonId: string) {
+    const lesson = await prisma.lesson.findUnique({
+        where: { id: lessonId },
+        select: {
+            id: true,
+            name: true,
+            state: true,
+            content: true,
+            courseId: true,
+        },
+    });
+
+    if (!lesson) return null;
+
+    return lesson;
+}

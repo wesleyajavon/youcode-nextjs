@@ -199,7 +199,7 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
                 cancelText="Cancel"
                 confirmText="Delete Lesson"
                 title="Are you sure you want to delete this lesson?"
-                description="This action cannot be undone. All data related to this lesson will be permanently deleted."
+                description="This action cannot be undone. All data and progress related to this lesson will be permanently deleted."
                 itemName={selectedLesson?.name}
             />
 

@@ -2,6 +2,7 @@
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../pages/api/auth/[...nextauth]';
+import { redirect } from 'next/navigation';
 
 type ParametersGetServerSession =
   | []
@@ -17,7 +18,7 @@ export const getRequiredAuthSession = async (...parameters: ParametersGetServerS
   const session = await getServerSession(...parameters, authOptions);
 
   if(!session?.user.id) {
-    throw new Error('Unauthorized: You must be logged in to access this resource.');
+    redirect(`/`);
   }
   return session as {
     user: {

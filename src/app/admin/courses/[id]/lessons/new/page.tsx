@@ -4,21 +4,13 @@ import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { PlusCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
-import { prisma } from '@/lib/prisma';
 import { AdminLessonCreateUI } from '@/components/admin/server/AdminLessonCreateUI';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
+import { getCourseInfo } from '../../../_actions/course.query';
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const course = await prisma.course.findUnique({
-    where: {
-      id: params.id,
-    },
-    select: {
-      image: true,
-      name: true
-    },
-  });
+  const course = await getCourseInfo(params.id);
 
   return (
     <Layout>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/common/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/common/dialog";
 import { Button } from "@/components/ui/common/button";
 import { Textarea } from "@/components/ui/common/textarea";
 import { Loader } from "@/components/ui/common/loader";
@@ -61,12 +61,15 @@ export function GenerateLessonModal({ courseId, open, onOpenChange, onResult }: 
                         <Sparkles className="inline-block mr-2 text-primary" />
                         Generate a lesson with AI
                     </DialogTitle>
+                    <DialogDescription>
+                        Describe the lesson that you want to create. Our AI will generate a clear and engaging presentation based on your prompt.
+                    </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col gap-3">
                     <Textarea
                         value={prompt}
                         onChange={e => setPrompt(e.target.value)}
-                        placeholder="Describe the lesson you want to generate..."
+                        placeholder="I want to create a lesson about..."
                         rows={3}
                         disabled={loading}
                     />
