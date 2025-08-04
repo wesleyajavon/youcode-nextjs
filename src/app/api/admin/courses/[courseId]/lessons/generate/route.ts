@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ratelimitlesson } from "@/lib/rate-limit";
+import { getRequiredAuthSession } from "@/lib/auth";
+import { fetchWithTimeout } from "@/lib/api/ai";
 
 export async function POST(req: NextRequest) {
+    const session = await getRequiredAuthSession()
+
+    if (!session || session.user.role !== 'ADMIN') {
+        return new NextResponse('Unauthorized', { status: 401 })
+    }
+
     try {
         // Getting the prompt from the request body
         // The prompt should be a description of the course you want to generate
@@ -22,7 +30,11 @@ export async function POST(req: NextRequest) {
         }
 
         // Call to Groq API (compatible OpenAI)
-        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        // This is where the AI generates the course presentation based on the prompt
+        // Timeout is handled by the fetchWithTimeout function
+        // Timeout is set to 15 seconds
+        const groqRes = await fetchWithTimeout("https://api.groq.com/openai/v1/chat/completions", {
+
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -58,8 +70,8 @@ You are an educational assistant. Generate clear, structured, and engaging lesso
         const content = data.choices?.[0]?.message?.content ?? "";
 
         return NextResponse.json({ content });
-    } catch (e) {
-        console.error("Error generating AI content (Groq):", e);
-        return NextResponse.json({ error: "AI Error" }, { status: 500 });
+    } catch (error: any) {
+        console.error("Error generating AI content (Groq):", error);
+        return NextResponse.json({ error: error.message || "Unknown error" }, { status: 500 });
     }
 }
