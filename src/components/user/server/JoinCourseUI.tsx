@@ -6,18 +6,21 @@ import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { LeaveCourseButton } from "@/components/ui/user/LeaveCourseButton";
 import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
 
+// This component is used to display the UI for joining or leaving a course.
+// It fetches the course data based on the course ID from the URL parameters.
+// If the course does not exist, it redirects to the courses list page.
+// The component checks if the user is already enrolled in the course and displays appropriate buttons
+// for joining or leaving the course.
 export async function JoinCourseUI(props: { params: Promise<{ id: string }> }) {
 
     const params = await props.params;
     const session = await getRequiredAuthSession();
     const course = await getCourse(params.id);
-    // await new Promise(res => setTimeout(res, 5000));
 
     if (!course) {
         redirect('/user/courses');
     }
 
-    // Vérifie si l'utilisateur est déjà inscrit
     const alreadyJoined = course.users.some(
         (u: any) => u.user.id === session.user.id
     );

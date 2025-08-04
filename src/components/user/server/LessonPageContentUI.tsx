@@ -12,6 +12,14 @@ import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 import { getLessonOnUser } from '@/app/user/courses/_actions/lesson.query';
 import { LessonProgressForm } from '../client/LessonProgressForm';
 
+// This component is used to display the content of a lesson for a user.
+// It fetches the lesson data and course information based on the IDs from the URL parameters.
+// The lesson content is rendered using ReactMarkdown to support Markdown formatting.
+// If the lesson does not exist, it redirects to the lessons list page for the corresponding course.
+// The header includes the course name and lesson name, along with an avatar for the course image.
+// The component also checks if the user has joined the lesson and displays the content or a lock icon
+// if the user has not joined. If the user has joined, it displays the lesson content and a form
+// to update the lesson progress.
 
 export async function LessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;

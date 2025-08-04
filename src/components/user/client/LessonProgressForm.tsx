@@ -8,14 +8,13 @@ import { useRouter } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/common/select";
 import { updateLessonProgress } from "@/app/user/courses/_actions/lesson.query";
 import { Form } from "@/components/ui/common/form";
+import { LessonProgressFormValues, Progress } from "@/types/progress";
 
 
-type Progress = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
-
-type LessonProgressFormValues = {
-    progress: Progress;
-};
-
+// This component is used to update the progress of a lesson for a user.
+// It allows the user to select their progress status (e.g., "In Progress" or "Completed") and submit the form to save the changes.
+// The component uses React Hook Form for form handling and validation.
+// It also uses the `useTransition` hook to handle form submission asynchronously.
 export function LessonProgressForm({ userId, lessonId, progress }: { userId: string; lessonId: string; progress: Progress }) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();

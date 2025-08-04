@@ -9,6 +9,11 @@ import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 import { Avatar } from '@radix-ui/react-avatar';
 import { AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 
+// This component is used to display the content of a lesson in the admin panel.
+// It fetches the lesson data and course information based on the IDs from the URL parameters.
+// The lesson content is rendered using ReactMarkdown to support Markdown formatting.
+// If the lesson does not exist, it redirects to the lessons list page for the corresponding course.
+// The header includes the course name and lesson name, along with an avatar for the course image.
 
 export default async function AdminLessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;

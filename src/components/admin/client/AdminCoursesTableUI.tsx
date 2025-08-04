@@ -24,52 +24,32 @@ import { toast } from 'sonner'
 import { SearchInput } from '@/components/ui/common/search-bar'
 import { Pagination } from '@/components/ui/common/pagination'
 import { DeleteDialog } from '@/lib/features/dialogs/DeleteDialog'
-
-// ✅ Fetch function
-const fetchCourses = async ({
-    page = 1,
-    search = '',
-}: {
-    page?: number
-    search?: string
-}): Promise<CoursesResponse> => {
-    const params = new URLSearchParams({ page: page.toString(), search })
-    const res = await fetch(`/api/admin/courses?${params.toString()}`)
-    if (!res.ok) throw new Error('Failed to fetch courses')
-    return res.json()
-}
-
-type Course = {
-    id: string
-    name: string
-    image?: string 
-    presentation?: string 
-}
-
-type CoursesResponse = {
-    data: Course[]
-    page: number
-    limit: number
-    total: number
-}
+import { Loader } from '@/components/ui/common/loader'
+import { Course, CoursesResponse } from '@/types/course'
+import { fetchCourses } from '@/lib/api/course'
 
 
-export function AdminCoursesTableUI() {
+// This component is used to display a table of courses in the admin panel.
+// It allows administrators to view, search, and manage courses.
+// The table includes options to create, edit, and delete courses.
+// It also includes a search input to filter courses by name or other criteria.
+
+export function AdminCoursesTableUI({role}: {role: string}) {
     const queryClient = useQueryClient()
     const [dialogOpen, setDialogOpen] = useState(false)
     const [selectedCourse, setSelectedCourse] = useState<{ id: string; name: string; image?: string ; } | null>(null)
-    const [page, setPage] = useState(1)
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [limit] = useState(5);
 
     // ✅ Fetch courses with useQuery
     const { data, isLoading, error } = useQuery<CoursesResponse>({
         queryKey: ['courses', page, search],
-        queryFn: () => fetchCourses({ page, search }),
+        queryFn: () => fetchCourses( page,limit ,search, role ),
     })
 
     const courses: Course[] = data?.data ?? [];
     const total: number = data?.total ?? 0;
-    const limit: number = data?.limit ?? 5;
 
     // ✅ Delete mutation
     const deleteMutation = useMutation({
@@ -117,7 +97,7 @@ export function AdminCoursesTableUI() {
                         onSearchStart={() => setPage(1)}
                     />
 
-                    {isLoading && <p>Loading courses...</p>}
+                    {isLoading && <Loader />}
                     {error && <p className="text-red-600">Failed to load courses</p>}
                     {!isLoading && data && (
                         <Table>
@@ -192,28 +172,6 @@ export function AdminCoursesTableUI() {
                 confirmText="Delete"
             />
 
-
-            {/* <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            Are you sure you want to delete this course:
-                        </AlertDialogTitle>
-                        <AlertDialogTitle>{selectedCourse?.name}</AlertDialogTitle>
-                        <Typography variant="small" className="text-muted-foreground">
-                            This action cannot be undone. All data related to this course will be permanently deleted.
-                        </Typography>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel asChild>
-                            <Button variant="secondary">Cancel</Button>
-                        </AlertDialogCancel>
-                        <Button variant="destructive" onClick={handleConfirmDelete} disabled={deleteMutation.isPending}>
-                            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog> */}
         </>
     )
 }

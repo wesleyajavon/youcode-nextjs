@@ -27,6 +27,7 @@ export async function GET(req: Request) {
           id: true,
           name: true,
           state: true,
+          content: true,
         },
         orderBy: { createdAt: 'asc' },
         skip,

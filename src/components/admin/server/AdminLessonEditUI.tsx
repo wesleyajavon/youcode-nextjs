@@ -4,6 +4,12 @@ import { Typography } from '@/components/ui/common/typography';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 
+// This component is used to edit an existing lesson in the admin panel.
+// It fetches the lesson data based on the ID from the URL parameters and renders a form
+// for editing the lesson details. If the lesson does not exist, it redirects to the lessons
+// list page for the corresponding course.
+// It also includes a header with instructions for editing the lesson.
+
 export default async function AdminLessonEditUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;
     const lesson = await prisma.lesson.findUnique({
@@ -22,8 +28,6 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
     if (!lesson) {
         redirect(`/admin/courses/${params.id}/lessons`);
     }
-
-
 
     return (
         <Card>

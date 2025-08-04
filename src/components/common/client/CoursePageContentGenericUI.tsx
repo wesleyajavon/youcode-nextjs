@@ -15,59 +15,14 @@ import { LockClosedIcon } from "@heroicons/react/24/outline";
 import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
 import { Loader } from "@/components/ui/common/loader";
 import { CourseDialog } from "@/lib/features/dialogs/CourseDialog";
+import { FetchCourseInfoResponse, FetchParticipantsResponse } from "@/types/fetch";
+import { fetchCourseInfo, fetchParticipants } from "@/lib/api/course";
 
 
-type FetchCourseInfoResponse = {
-    course: {
-        id: string;
-        name: string;
-        presentation: string;
-        image: string;
-        createdAt: string;
-        state: string;
-        totalUsers: number;
-    };
-};
-
-type FetchParticipantsResponse = {
-    users: {
-        user: {
-            id: string;
-            name: string;
-            email: string;
-            image: string;
-        };
-    }[];
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-};
-
-
-async function fetchCourseInfo(courseId: string, role: string) {
-    const res = await fetch(`/api/${role}/courses/${courseId}`, {
-        method: "GET",
-    });
-    if (!res.ok) throw new Error("Failed to fetch course info");
-    return res.json();
-}
-
-async function fetchParticipants(courseId: string, page: number, limit: number, search: string, role: string) {
-    const params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-        search,
-    });
-    const res = await fetch(`/api/${role}/courses/${courseId}/participants?${params.toString()}`, {
-        method: "GET",
-    });
-    if (!res.ok) throw new Error("Failed to fetch participants");
-    return res.json();
-}
-
-
-
+// This component is used to display the content of a course page.
+// It fetches course information and participants based on the course ID.
+// The course information includes the course name, presentation, image, and state.
+// The participants list shows users enrolled in the course.
 export default function CoursePageContentGenericUI({
     courseId,
     alreadyJoined,
@@ -87,12 +42,12 @@ export default function CoursePageContentGenericUI({
 
     const { data: courseData, isLoading: loadingCourse, error: courseError } = useQuery<FetchCourseInfoResponse>({
         queryKey: ["course-info", courseId],
-        queryFn: () => fetchCourseInfo(courseId, role.toLowerCase()),
+        queryFn: () => fetchCourseInfo(courseId, role),
     });
 
     const { data: participantsData, isLoading: loadingParticipants, error: participantsError } = useQuery<FetchParticipantsResponse>({
         queryKey: ["participants", courseId, page, limit, search],
-        queryFn: () => fetchParticipants(courseId, page, limit, search, role.toLowerCase()),
+        queryFn: () => fetchParticipants(courseId, page, limit, search, role),
     });
 
     const course = courseData?.course ?? { id: '', name: '', presentation: '', image: undefined, createdAt: '', state: '', totalUsers: 0 };

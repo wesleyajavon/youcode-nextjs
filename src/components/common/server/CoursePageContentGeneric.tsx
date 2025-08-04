@@ -3,6 +3,9 @@ import { getCourse } from "@/app/admin/courses/_actions/course.query";
 import { getRequiredAuthSession } from "@/lib/auth";
 import CoursePageContentGenericUI from "../client/CoursePageContentGenericUI";
 
+
+// This component is used to display the content of a course page.
+// It fetches course information and participants based on the course ID.   
 export default async function CoursePageContentGeneric(props: { params: Promise<{ id: string }> }) {
 
     const params = await props.params;
@@ -22,7 +25,7 @@ export default async function CoursePageContentGeneric(props: { params: Promise<
             courseId={params.id}
             alreadyJoined={alreadyJoined}
             role={session.user.role}
-            userId={session.user.id} // Assuming user ID is available in session
+            userId={session.user.id}
         />
     );
 

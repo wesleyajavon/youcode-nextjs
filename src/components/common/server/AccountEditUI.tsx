@@ -1,5 +1,4 @@
-import { getAuthSession } from '@/lib/auth'
-import { redirect } from 'next/navigation'
+import { getRequiredAuthSession } from '@/lib/auth'
 import {
   Card,
   CardHeader,
@@ -10,17 +9,14 @@ import { Typography } from '@/components/ui/common/typography'
 import { Role } from '@prisma/client'
 import { EditRoleForm } from '@/components/common/client/RoleForm'
 
+// This component is used to edit the user's account settings.
+// It allows the user to update their role (Teacher or Student) in the account settings.
+// The component fetches the user's session to determine their current role and provides a form to update it.
+// If the user is not authenticated, it redirects them to the login page.
+
 export async function AccountEditUI() {
-  const session = await getAuthSession()
+  const session = await getRequiredAuthSession()
 
-    // await new Promise(res => setTimeout(res, 5000));
-
-  if (!session?.user) {
-    redirect('/login')
-  }
-
-  const { id } = session.user
-  // If 'role' might not exist, provide a fallback or fetch it separately
   const role = (session.user as { role?: Role }).role ?? 'USER'
 
     return (
@@ -31,7 +27,7 @@ export async function AccountEditUI() {
                 </CardTitle>
                 <CardDescription>Update your role here 👇</CardDescription>
             </CardHeader>
-            <EditRoleForm id={id ?? ''} role={role} />
+            <EditRoleForm id={session.user.id} role={role} />
         </Card>
     )
 }

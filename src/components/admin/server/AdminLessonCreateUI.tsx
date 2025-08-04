@@ -3,8 +3,11 @@ import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
 import { Typography } from '@/components/ui/common/typography';
 import { LessonForm } from '../client/LessonForm'; // adapte le chemin si besoin
 
-
-
+// This component is used to create a new lesson in the admin panel.
+// It renders a form for creating a lesson and provides a header with instructions.
+// The lesson form allows the user to input lesson details such as name, state, content,
+// and course ID. The form is initialized with default values, which can be empty for a new lesson.
+// If the lesson is successfully created, it redirects to the lesson details page and refreshes the page.
 export async function AdminLessonCreateUI(params: { courseId: string }) {
 
     return (

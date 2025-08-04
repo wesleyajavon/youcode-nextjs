@@ -10,13 +10,10 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/common/select";
 import { Form } from "@/components/ui/common/form";
+import { EditRoleFormValues, Role } from "@/types/role";
 
-type Role = "USER" | "ADMIN";
-
-type EditRoleFormValues = {
-    role: Role;
-};
-
+// This component is used to edit a user's role in the account settings.
+// It allows the user to change their role between "Student" and "Teacher".
 export function EditRoleForm({ id, role }: { id: string; role: Role }) {
     const [isPending, startTransition] = useTransition();
     const form = useForm<EditRoleFormValues>({

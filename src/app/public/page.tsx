@@ -8,8 +8,7 @@ import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
-import { PublicLessonsTableServer } from "@/components/public/server/PublicLessonsTableServer";
-import { getAuthSession } from '@/lib/auth';
+import { LessonsTable } from '@/components/common/server/LessonTable';
 
 export default async function PublicLessonsPage() {
 
@@ -27,7 +26,7 @@ export default async function PublicLessonsPage() {
  
             <LayoutContent className="flex flex-col gap-2 ">
                 <Suspense fallback={<CardSkeleton />}>
-                    <PublicLessonsTableServer />
+                    <LessonsTable params={undefined} />
                 </Suspense>
             </LayoutContent>
         </Layout>

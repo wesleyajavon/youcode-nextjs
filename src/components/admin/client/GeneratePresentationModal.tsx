@@ -7,37 +7,36 @@ import { Textarea } from "@/components/ui/common/textarea";
 import { Loader } from "@/components/ui/common/loader";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { GeneratePresentationModalProps } from "@/types/lesson";
 
-type GenerateLessonModalProps = {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    onResult: (content: string) => void;
-};
+// This component is used to generate a course presentation using AI.
+// It provides a modal interface where users can input a prompt for the AI to generate course content.
+// The generated content can then be used to populate the course form.  
 
-export function GeneratePresentationModal({ open, onOpenChange, onResult }: GenerateLessonModalProps) {
+export function GeneratePresentationModal({ open, onOpenChange, onResult }: GeneratePresentationModalProps) {
     const [prompt, setPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<string | null>(null);
 
     const handleGenerate = async () => {
         if (!prompt.trim()) {
-            toast.error("Merci de saisir un prompt.");
+            toast.error("Please enter a prompt.");
             return;
         }
         setLoading(true);
         setResult(null);
         try {
-            // Appel à ton API IA (à adapter selon ton backend)
+            // Call your AI API (adapt to your backend)
             const res = await fetch(`/api/admin/courses/generate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt }),
             });
-            if (!res.ok) throw new Error("Erreur lors de la génération");
+            if (!res.ok) throw new Error("Error during generation");
             const data = await res.json();
             setResult(data.content);
         } catch (e) {
-            toast.error("Erreur lors de la génération du contenu.");
+            toast.error("Error generating content.");
         } finally {
             setLoading(false);
         }

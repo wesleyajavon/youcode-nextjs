@@ -9,14 +9,19 @@ import { LeaveLessonButton } from "@/components/ui/user/LeaveLessonButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
 
+
+// This component is used to display the UI for joining or leaving a lesson.
+// It fetches the lesson data based on the lesson ID from the URL parameters.
+// If the lesson does not exist, it redirects to the lessons list page for the corresponding course.
+// The component checks if the user has already joined the lesson and displays appropriate buttons
+// for joining or leaving the lesson.
+
 export async function JoinLessonUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
 
     const session = await getRequiredAuthSession();
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
     const course = await getCourseInfo(params.id);
-
-    // await new Promise(res => setTimeout(res, 5000));
 
 
     if (!lesson) {

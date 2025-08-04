@@ -5,6 +5,14 @@ import { redirect } from 'next/navigation';
 import { CourseForm } from '../client/CourseForm';
 import { Typography } from '@/components/ui/common/typography';
 
+// This component is used to edit an existing course in the admin panel.
+// It fetches the course data based on the ID from the URL parameters and renders a form
+// for editing the course details. If the course does not exist or the user is not authorized,
+// it redirects to the courses list page.
+// It also includes a header with instructions for editing the course.
+// The course form allows the user to update the course name, image, and presentation.
+// If the course is successfully updated, it redirects to the course details page and refreshes the page.
+
 export default async function AdminCourseEditUI(props: { params: Promise<{ id: string }> }) {
     const session = await getRequiredAuthSession();
     const params = await props.params;

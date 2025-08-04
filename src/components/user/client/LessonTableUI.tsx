@@ -6,76 +6,26 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/common/table";
 import { Typography } from "@/components/ui/common/typography";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/common/avatar";
 import { Badge } from "@/components/ui/common/badge";
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
-import clsx from "clsx"; 
+import clsx from "clsx";
+import { fetchLessons, getProgressBadgeColor, getProgressLabel } from "@/lib/api/lesson";
+import { LessonsInfoResponse } from "@/types/lesson";
+import { Loader } from "@/components/ui/common/loader";
 
-
-async function fetchLessons(courseId: string, page: number, limit: number, search: string) {
-    const params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-        search,
-    });
-    const res = await fetch(`/api/user/courses/${courseId}/lessons?${params.toString()}`);
-    if (!res.ok) throw new Error("Failed to fetch lessons");
-    return res.json();
-}
-
-enum Progress {
-    NOT_STARTED = "NOT_STARTED",
-    IN_PROGRESS = "IN_PROGRESS",
-    COMPLETED = "COMPLETED",
-}
-
-type Lesson = {
-    id: string
-    name: string
-    rank: string
-    progress: Progress
-}
-
-type LessonsResponse = {
-    data: Lesson[]
-    page: number
-    limit: number
-    total: number
-}
-
-function getProgressBadgeColor(progress: Progress) {
-  switch (progress) {
-    case "COMPLETED":
-      return "bg-primary text-accent-foreground";
-    case "IN_PROGRESS":
-      return "bg-accent text-accent-foreground";  
-    case "NOT_STARTED":
-    default:
-      return "bg-muted text-muted-foreground"; 
-  }
-}
-
-function getProgressLabel(progress: Progress) {
-    switch (progress) {
-        case Progress.COMPLETED:
-            return "Completed";
-        case Progress.IN_PROGRESS:
-            return "In Progress";
-        case Progress.NOT_STARTED:
-        default:
-            return "Not Started";
-    }
-}
-
-export function LessonTableUI({ courseId }: { courseId: string }) {
+// This component is used to display a table of lessons for a specific course.
+// It allows users to search for lessons and view their details.
+// The lessons are fetched from the server and displayed in a paginated table format.
+export function LessonTableUI({ courseId, role }: { courseId: string, role: string }) {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState(3);
 
-    const { data, isLoading, error } = useQuery<LessonsResponse>({
+    const { data, isLoading, error } = useQuery<LessonsInfoResponse>({
         queryKey: ["user-lessons", courseId, page, limit, search],
-        queryFn: () => fetchLessons(courseId, page, limit, search),
+        queryFn: () => fetchLessons(courseId, page, limit, search, role),
         enabled: !!courseId,
     });
 
@@ -86,12 +36,12 @@ export function LessonTableUI({ courseId }: { courseId: string }) {
         <Card >
             <CardHeader>
                 <CardTitle>
-                        <Typography variant="h2">My Teaching Center 📖</Typography>
+                    <Typography variant="h2">My Teaching Center 📖</Typography>
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 <Typography variant="small" className="mb-6">
-                     🗒 Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress.
+                    🗒 Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress.
                 </Typography>
                 <SearchInput
                     value={search}
@@ -100,11 +50,11 @@ export function LessonTableUI({ courseId }: { courseId: string }) {
                     onSearchStart={() => setPage(1)}
                 />
                 {/* Conditional rendering based on loading state */}
-                {isLoading && <Typography variant="muted">Loading lessons...</Typography>}
-                
+                {isLoading && <Loader />}
+
                 {/* Conditional rendering based on error state */}
                 {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
-                
+
                 {/* Conditional rendering based on lessons data */}
                 {!isLoading && !error && lessons.length === 0 && (
                     <Typography variant="muted">No lessons found</Typography>

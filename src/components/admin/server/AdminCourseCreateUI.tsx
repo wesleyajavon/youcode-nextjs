@@ -4,8 +4,8 @@ import { CourseForm } from '../client/CourseForm';
 
 export async function AdminCoursesCreateUI() {
 
-    // await new Promise(res => setTimeout(res, 5000));
-
+    // This component is used to create a new course in the admin panel.
+    // It renders a form for creating a course and provides a header with instructions.
     return (
         <Card className="flex-[2]">
             <CardHeader>

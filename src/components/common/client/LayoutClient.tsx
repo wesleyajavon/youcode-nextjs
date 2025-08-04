@@ -6,9 +6,10 @@ import { Menu } from "lucide-react";
 import { SideNav } from "@/components/layout/SideNav";
 import { Role } from "@/types/role";
 
+// This component is used to provide a layout for client-side pages.
+// It includes a sidebar for navigation and a main content area.  
 export default function LayoutClient({ children, role }: { children: React.ReactNode; role: Role }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-
 
   return (
     <div className={`flex flex-1`}>

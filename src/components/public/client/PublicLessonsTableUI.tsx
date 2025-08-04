@@ -16,40 +16,22 @@ import { Typography } from '@/components/ui/common/typography';
 import Link from 'next/link';
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
-
-type Lesson = {
-    id: string;
-    name: string;
-    content: string;
-}
-
-type FetchLessonsResponse = {
-    data: Lesson[];
-    page: number;
-    limit: number;
-    total: number;
-};
+import { LessonsResponse } from "@/types/lesson";
+import { fetchPublicLessons } from "@/lib/api/lesson";
+import { Loader } from "@/components/ui/common/loader";
 
 
-
-async function fetchPublicLessons(page: number, limit: number, search: string) {
-    const params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-        search,
-    });
-    const res = await fetch(`/api/public/lessons?${params.toString()}`);
-    if (!res.ok) throw new Error("Failed to fetch lessons");
-    return res.json();
-}
+// This component is used to display a table of public lessons.
+// It allows users to search for lessons and view their details.
+// The lessons are fetched from the server and displayed in a paginated table format.
 
 export function PublicLessonsTableUI() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
 
-    const { data, isLoading, error } = useQuery<FetchLessonsResponse>({
-        queryKey: ["lessons", page, limit, search],
+    const { data, isLoading, error } = useQuery<LessonsResponse>({
+        queryKey: ["public-lessons", page, limit, search],
         queryFn: () => fetchPublicLessons(page, limit, search),
     });
 
@@ -78,7 +60,7 @@ export function PublicLessonsTableUI() {
                         placeholder="Search..."
                         onSearchStart={() => setPage(1)}
                     />
-                    {isLoading && <Typography variant="muted">Loading lessons...</Typography>}
+                    {isLoading && <Loader />}
                     {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
                     {!isLoading && data && (
                         <Table>

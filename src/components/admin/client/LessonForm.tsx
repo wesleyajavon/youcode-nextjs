@@ -27,14 +27,10 @@ import { LESSON_STATE, LessonFormSchema } from '../../../app/admin/courses/[id]/
 import { GenerateLessonModal } from './GenerateLessonModal';
 import { Sparkles } from 'lucide-react';
 import { useState } from 'react';
+import { LessonFormProps } from '@/types/lesson';
 
-
-
-export type LessonFormProps = {
-    defaultValue?: LessonFormSchema & {
-        id: string;
-    };
-};
+// This component is used to create or edit a lesson in the admin panel.
+// It renders a form for lesson details including name, content, and state. 
 
 export const LessonForm = ({ defaultValue }: LessonFormProps) => {
     const form = useZodForm({

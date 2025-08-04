@@ -9,6 +9,12 @@ import { GenerateLessonModal } from "./GenerateLessonModal";
 import { Textarea } from "@/components/ui/common/textarea";
 import { LessonForm } from "@/components/admin/client/LessonForm";
 
+// This component is used to edit a lesson in the admin panel.
+// It allows the user to customize the lesson content using a form.
+// The form includes fields for lesson name, state, and content.
+// It also provides a button to generate lesson content using AI.
+// The component uses a modal to display the AI generation options and updates the lesson content accordingly.
+
 export default function AdminLessonEditClientUI({ lesson }: { lesson: any }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [content, setContent] = useState(lesson.content ?? "");

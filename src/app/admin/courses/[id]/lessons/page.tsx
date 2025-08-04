@@ -13,8 +13,8 @@ import { DocumentTextIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
-import { AdminLessonsTableServer } from "@/components/admin/server/AdminLessonsTableServer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
+import { LessonsTable } from "@/components/common/server/LessonTable";
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params
@@ -57,7 +57,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
             </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <AdminLessonsTableServer params={props.params} />
+                    <LessonsTable params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

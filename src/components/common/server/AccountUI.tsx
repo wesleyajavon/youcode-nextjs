@@ -13,14 +13,16 @@ import SignOutButton from '@/lib/features/auth/SignOutButton'
 import { Typography } from '@/components/ui/common/typography'
 import { prisma } from '@/lib/prisma'
 
+// This component is used to display the user's account information.
+// It fetches the user's session to get their name, email, and role.
+// It also provides links to update the profile and sign out.
+// If the user is not authenticated, it redirects them to the home page.
+
 export async function AccountUI() {
     const session = await getRequiredAuthSession()
     if (!session?.user) {
         redirect('/')
     }
-
-    // await new Promise(res => setTimeout(res, 5000));
-
 
     const { name, image, role } = session.user
     const email = await prisma.user.findUnique({

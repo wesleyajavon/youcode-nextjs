@@ -9,6 +9,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avat
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 
 
+// This component is used to display the content of a lesson in the public teaching center.
+// It fetches the lesson data and course information based on the lesson ID from the URL parameters.
+// The lesson content is rendered using ReactMarkdown to support Markdown formatting.
+// If the lesson does not exist, it redirects to the public lessons page.
 export async function PublicLessonPageContentUI(props: { params: Promise<{ lessonId: string }> }) {
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);

@@ -1,13 +1,17 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/common/card";
 import { Typography } from "@/components/ui/common/typography";
+import React from "react";
 
-export async function DashboardCard({
+
+// This component is used to display a dashboard card with quick stats.
+// It includes a header with a title and description, and a content area that lists various statistics.
+// The stats are passed as props and displayed in a formatted manner.
+// The card is styled using the Card component from the UI library.
+export  async function DashboardCard({
   stats
 }: {
   stats: { icon: React.ReactNode; label: string; value: number | string }[];
 }) {
-
-        // await new Promise(res => setTimeout(res, 5000));
 
   return (
     <Card>

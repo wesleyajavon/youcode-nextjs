@@ -19,34 +19,16 @@ import Link from 'next/link';
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
 import { CourseDialog } from "@/lib/features/dialogs/CourseDialog";
+import { fetchCourses } from "@/lib/api/course";
+import { CoursesResponse } from "@/types/course";
+import { Course } from "@/types/course";
+import { Loader } from "@/components/ui/common/loader";
 
-async function fetchCourses(page: number, limit: number, search: string) {
-    const params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-        search,
-    });
-    const res = await fetch(`/api/user/courses?${params.toString()}`);
-    if (!res.ok) throw new Error("Failed to fetch courses");
-    return res.json();
-}
 
-type Course = {
-    id: string
-    name: string
-    image: string 
-    presentation?: string | null
-    alreadyJoined: boolean
-}
-
-type CoursesResponse = {
-    data: Course[]
-    page: number
-    limit: number
-    total: number
-}
-
-export function CourseTableUI({ userId }: { userId: string }) {
+// This component is used to display a table of courses for the user.
+// It allows users to search for courses and view their details.
+// The courses are fetched from the server and displayed in a paginated table format.
+export function CourseTableUI({ userId, role }: { userId: string, role: string }) {
     const [dialogOpen, setDialogOpen] = useState(false)
     const [selectedCourse, setSelectedCourse] = useState<Course>({ id: '', name: '', image: '', presentation: '', alreadyJoined: false });
 
@@ -56,7 +38,7 @@ export function CourseTableUI({ userId }: { userId: string }) {
 
     const { data, isLoading, error } = useQuery<CoursesResponse>({
         queryKey: ["user-courses", page, limit, search],
-        queryFn: () => fetchCourses(page, limit, search),
+        queryFn: () => fetchCourses(page, limit, search, role),
     });
 
     const handleJoinClick = (course: Course) => {
@@ -89,7 +71,7 @@ export function CourseTableUI({ userId }: { userId: string }) {
                     onSearchStart={() => setPage(1)}
                 />
                 {/*  Display loading state */}
-                {isLoading && <Typography variant="muted">Loading courses...</Typography>}
+                {isLoading && <Loader />}
 
                 {/* Display error state */}
                 {error && <Typography variant="muted" color="red">Failed to load courses</Typography>}

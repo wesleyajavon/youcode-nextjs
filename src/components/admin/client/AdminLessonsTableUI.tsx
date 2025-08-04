@@ -16,42 +16,19 @@ import { Typography } from '@/components/ui/common/typography';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import Link from 'next/link';
-import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogCancel,
-} from "@/components/ui/common/alert-dialog";
-import { Button } from "@/components/ui/common/button";
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
 import { toast } from "sonner";
 import { DeleteDialog } from "@/lib/features/dialogs/DeleteDialog";
+import { Loader } from "@/components/ui/common/loader";
+import { fetchLessons } from "@/lib/api/lesson";
+import { LessonsResponse } from "@/types/lesson";
 
+// This component is used to display a table of lessons in the admin panel.
+// It allows administrators to view, search, and manage lessons for a specific course.
+// The table includes options to create, edit, and delete lessons.
 
-type FetchCourseInfoResponse = {
-    course: {
-        id: string;
-        name: string;
-    };
-};
-
-
-
-async function fetchLessons(courseId: string, page: number, limit: number, search: string) {
-    const params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-        search,
-    });
-    const res = await fetch(`/api/admin/courses/${courseId}/lessons?${params.toString()}`);
-    if (!res.ok) throw new Error("Failed to fetch lessons");
-    return res.json();
-}
-
-export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
+export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role: string }) {
     const queryClient = useQueryClient()
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
@@ -60,9 +37,9 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedLesson, setSelectedLesson] = useState<{ id: string, name: string } | null>(null);
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error } = useQuery<LessonsResponse>({
         queryKey: ["lessons", courseId, page, limit, search],
-        queryFn: () => fetchLessons(courseId, page, limit, search),
+        queryFn: () => fetchLessons(courseId, page, limit, search, role),
         enabled: !!courseId,
     });
 
@@ -118,7 +95,7 @@ export function AdminLessonsTableUI({ courseId }: { courseId: string }) {
                         placeholder="Search..."
                         onSearchStart={() => setPage(1)}
                     />
-                    {isLoading && <Typography variant="muted">Loading lessons...</Typography>}
+                    {isLoading && <Loader />}
                     {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
                     {!isLoading && data && (
                         <Table>

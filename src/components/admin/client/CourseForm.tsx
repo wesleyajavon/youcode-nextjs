@@ -28,13 +28,11 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { GeneratePresentationModal } from './GeneratePresentationModal';
+import { CourseFormProps } from '@/types/course';
 
-
-export type CourseFormProps = {
-  defaultValue?: CourseFormSchema & {
-    id: string;
-  };
-};
+// This component is used to create or edit a course in the admin panel.
+// It renders a form for course details including name, image, presentation, and state.
+// The form uses Zod for validation and handles submission to create or edit a course.
 
 export const CourseForm = ({ defaultValue }: CourseFormProps) => {
   const form = useZodForm({
@@ -44,7 +42,6 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
   const router = useRouter();
 
   const [modalOpen, setModalOpen] = useState(false);
-
 
   return (
     <>
