@@ -107,6 +107,7 @@ export default async function Home() {
             </p>
             {session?.user.role === "ADMIN" && (
               <Link
+                aria-label="Try AI Lesson Generator"
                 href="/admin/courses"
                 className={cn(
                   buttonVariants({ size: "sm" }),
@@ -161,20 +162,22 @@ export default async function Home() {
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-pink-100/60 via-transparent to-transparent" />
         <div className="relative z-10 flex flex-col items-center gap-6">
           <h2 className="text-4xl font-extrabold bg-gradient-to-l text-gray-600 bg-clip-text ">
-            Start using YouCode today 
+            Start using YouCode today
           </h2>
           {!session && (
-            <Link href="/public">
-              <Button className={cn(
+            <Link 
+            aria-label="Explore lessons with public access"
+            href="/public"
+              className={cn(
                 buttonVariants({ size: "lg" }),
                 "px-8 py-6 text-lg font-bold shadow-lg bg-gradient-to-t from-primary to-primary-foreground text-white border-0"
-              )} >
-                Public Teaching Center
-              </Button>
+              )}>
+              Explore Lessons
             </Link>
           )}
           {session?.user.role === "ADMIN" && (
             <Link
+              aria-label="Go to teacher dashboard"
               href="/admin"
               className={cn(
                 buttonVariants({ size: "lg" }),
@@ -186,6 +189,7 @@ export default async function Home() {
           )}
           {session?.user.role === "USER" && (
             <Link
+              aria-label="Go to student dashboard"
               href="/user"
               className={cn(
                 buttonVariants({ size: "lg" }),

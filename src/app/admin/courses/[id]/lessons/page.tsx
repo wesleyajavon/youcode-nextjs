@@ -47,6 +47,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
             </LayoutHeader>
             <LayoutActions>
                 <Link
+                    aria-label="Create new lesson"
                     href={`/admin/courses/${courseId}/lessons/new`}
                     className={buttonVariants({
                         variant: 'default',

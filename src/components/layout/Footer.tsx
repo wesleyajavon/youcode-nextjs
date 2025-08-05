@@ -11,7 +11,7 @@ export const Footer = () => {
             <div className="m-auto w-full max-w-3xl px-2 py-4">
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
                     <div className="flex flex-row items-center gap-2">
-                        <Link href="/" className="flex items-center gap-2">
+                        <Link aria-label='Go to home page' href="/" className="flex items-center gap-2">
                             <img
                                 src="/logo-2.png" // Put logo.png inside your /public folder
                                 alt="Site logo"
@@ -23,18 +23,14 @@ export const Footer = () => {
                         </Typography>
                     </div>
                     <div className="flex flex-col items-end gap-2 text-sm text-muted-foreground">
-                        <Link className="hover:underline"
+                        <Link
+                            aria-label='Portfolio of Wesley Ajavon'
+                            className="hover:underline"
                             href="https://portfolio-wesleyajavon.vercel.app/"
                             target="_blank"
                             rel="noopener noreferrer">
                             Portfolio
                         </Link>
-                        {/* <Link className="hover:underline"
-                            href="https://youcode.sh"
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            YouCode.sh
-                        </Link> */}
                         <div className="flex gap-6 justify-center text-2xl">
                             <a
                                 href="https://github.com/wesleyajavon"

@@ -20,6 +20,7 @@ export const LoginButton = ({ label = "Sign in", className }: LoginButtonProps) 
 
   return (
     <Button
+      aria-label="Sign in"
       variant="outline"
       size="sm"
       disabled={mutation.isPending}

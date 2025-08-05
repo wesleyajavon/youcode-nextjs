@@ -81,7 +81,10 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
               </FormControl>
               <FormDescription>
                 Recommendation: Use{' '}
-                <Link className='hover:underline' href="https://icons8.com/icons">icons8.com</Link>. Provide a link to a .PNG image that represents your course
+                <Link
+                  aria-label="Icons8"
+                  className='hover:underline'
+                  href="https://icons8.com/icons">icons8.com</Link>. Provide a link to a .PNG image that represents your course
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -101,6 +104,7 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
         <div className="flex items-center justify-between">
           <FormLabel>Presentation</FormLabel>
           <Button
+            aria-label='Generate presentation with AI'
             type="button"
             variant="outline"
             size="sm"
@@ -151,8 +155,8 @@ export const CourseForm = ({ defaultValue }: CourseFormProps) => {
             </FormItem>
           )} />
 
-        <Button type="submit">Submit</Button>
-        <Button asChild variant="outline">
+        <Button aria-label='Submit form' type="submit">Submit</Button>
+        <Button aria-label='Cancel form' asChild variant="outline">
           <a href="/admin/courses">Cancel</a>
         </Button>
       </Form>

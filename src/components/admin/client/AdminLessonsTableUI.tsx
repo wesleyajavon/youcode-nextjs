@@ -139,7 +139,9 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Link href={`/admin/courses/${courseId}/lessons/${lesson.id}/edit`}>
+                                            <Link
+                                                    aria-label="Edit lesson"
+                                                    href={`/admin/courses/${courseId}/lessons/${lesson.id}/edit`}>
                                                 <PencilSquareIcon className="h-5 w-5" />
                                             </Link>
                                         </TableCell>
@@ -180,7 +182,7 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                 itemName={selectedLesson?.name}
             />
 
-            
+
         </>
     );
 }

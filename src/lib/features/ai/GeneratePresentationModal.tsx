@@ -71,7 +71,7 @@ export function GeneratePresentationModal({ open, onOpenChange, onResult }: Gene
                         rows={3}
                         disabled={loading}
                     />
-                    <Button onClick={handleGenerate} disabled={loading} className="w-full mt-2">
+                    <Button aria-label="Generate presentation content" onClick={handleGenerate} disabled={loading} className="w-full mt-2">
                         {loading ? <Loader className="mr-2 h-4 w-4" /> : <Sparkles className="mr-2 h-4 w-4" />}
                         Generate
                     </Button>
@@ -83,10 +83,10 @@ export function GeneratePresentationModal({ open, onOpenChange, onResult }: Gene
                     )}
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+                    <Button aria-label="Cancel changes" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
                         Cancel
                     </Button>
-                    <Button onClick={handleValidate} disabled={!result || loading}>
+                    <Button aria-label="Use generated content" onClick={handleValidate} disabled={!result || loading}>
                         Use this content
                     </Button>
                 </DialogFooter>

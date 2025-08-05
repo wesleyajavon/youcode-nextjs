@@ -11,7 +11,7 @@ export function Header() {
             <div className="container mx-auto flex items-center justify-between h-16 px-0 sm:px-0 lg:px-0">
                 {/* Left side - site title */}
                 <div className="flex items-center gap-1 md:gap-3">
-                    <Link href="/" className="flex items-center gap-2">
+                    <Link aria-label='Go to home page' href="/" className="flex items-center gap-2">
                         <img
                             src="/logo-2.png" // Put logo.png inside your /public folder
                             alt="Site logo"
@@ -26,7 +26,10 @@ export function Header() {
                 </div>
 
                 {/* Right side - nav / theme toggle */}
-                <nav className="flex items-center space-x-1">
+                <nav
+                    aria-label="Header navigation"
+                    className="flex items-center space-x-1"
+                >
                     <AuthButton />
                     <ThemeToggle />
                 </nav>

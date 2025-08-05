@@ -73,6 +73,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
 
                 {alreadyJoined ? (
                     <Link
+                        aria-label="Leave lesson"
                         href={`/user/courses/${lesson.course.id}/lessons/${lesson.id}/join`}
                         className={buttonVariants({
                             variant: 'destructive',

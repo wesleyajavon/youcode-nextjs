@@ -22,7 +22,7 @@ export function JoinLessonButton({ courseId, lessonId, userId }: { courseId: str
   };
 
   return (
-    <Button onClick={handleJoin} disabled={isPending} variant={"default"}>
+    <Button aria-label="Start lesson" onClick={handleJoin} disabled={isPending} variant={"default"}>
       Start
     </Button>
   );

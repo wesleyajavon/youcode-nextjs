@@ -60,7 +60,7 @@ export function CourseDialog({
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-6">
                     <AlertDialogCancel asChild>
-                        <Button variant="outline">
+                        <Button aria-label="Cancel changes" variant="outline">
                             Cancel
                         </Button>
                     </AlertDialogCancel>

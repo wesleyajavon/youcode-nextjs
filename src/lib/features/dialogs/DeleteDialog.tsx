@@ -58,9 +58,9 @@ export function DeleteDialog({
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-6">
           <AlertDialogCancel asChild>
-            <Button variant="outline">{cancelText}</Button>
+            <Button aria-label="Cancel changes" variant="outline">{cancelText}</Button>
           </AlertDialogCancel>
-          <Button variant="destructive" onClick={onConfirm} disabled={isPending}>
+          <Button aria-label="Confirm deletion" variant="destructive" onClick={onConfirm} disabled={isPending}>
             {isPending ? 'Deleting...' : confirmText}
           </Button>
         </AlertDialogFooter>

@@ -34,10 +34,10 @@ import { fetchCourses } from '@/lib/api/course'
 // The table includes options to create, edit, and delete courses.
 // It also includes a search input to filter courses by name or other criteria.
 
-export function AdminCoursesTableUI({role}: {role: string}) {
+export function AdminCoursesTableUI({ role }: { role: string }) {
     const queryClient = useQueryClient()
     const [dialogOpen, setDialogOpen] = useState(false)
-    const [selectedCourse, setSelectedCourse] = useState<{ id: string; name: string; image?: string ; } | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<{ id: string; name: string; image?: string; } | null>(null)
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
@@ -45,7 +45,7 @@ export function AdminCoursesTableUI({role}: {role: string}) {
     // ✅ Fetch courses with useQuery
     const { data, isLoading, error } = useQuery<CoursesResponse>({
         queryKey: ['courses', page, search],
-        queryFn: () => fetchCourses( page,limit ,search, role ),
+        queryFn: () => fetchCourses(page, limit, search, role),
     })
 
     const courses: Course[] = data?.data ?? [];
@@ -65,7 +65,7 @@ export function AdminCoursesTableUI({role}: {role: string}) {
         },
     })
 
-    const handleDeleteClick = (course: { id: string; name: string; image?: string ; }) => {
+    const handleDeleteClick = (course: { id: string; name: string; image?: string; }) => {
         setSelectedCourse(course)
         setDialogOpen(true)
     }
@@ -85,7 +85,7 @@ export function AdminCoursesTableUI({role}: {role: string}) {
                 </CardHeader>
                 <CardContent>
                     <Typography variant="small" className="mb-2">
-                        👋 Welcome to the Courses Hub!  
+                        👋 Welcome to the Courses Hub!
                     </Typography>
                     <Typography variant="muted" className="mb-6">
                         Feel like adding a new course? Just hit the button above! 🚀
@@ -130,7 +130,9 @@ export function AdminCoursesTableUI({role}: {role: string}) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Link href={`/admin/courses/${course.id}/edit`}>
+                                            <Link
+                                                aria-label='Edit course'
+                                                href={`/admin/courses/${course.id}/edit`}>
                                                 <PencilSquareIcon className="h-5 w-5" />
                                             </Link>
                                         </TableCell>

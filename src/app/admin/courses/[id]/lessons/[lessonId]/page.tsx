@@ -65,6 +65,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
       </LayoutHeader>
       <LayoutActions>
         <Link
+          aria-label="Edit lesson"
           href={`/admin/courses/${lesson?.courseId}/lessons/${lesson?.id}/edit`}
           className={buttonVariants({
             variant: 'outline',

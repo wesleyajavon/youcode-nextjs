@@ -36,9 +36,10 @@ export function LogoutDialog({ open, setOpen, isPending, onConfirm }: {
           </AlertDialogHeader>
           <AlertDialogFooter className="flex flex-row gap-2 justify-center mt-4">
             <AlertDialogCancel asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button aria-label="Cancel changes" variant="outline">Cancel</Button>
             </AlertDialogCancel>
             <Button
+              aria-label="Confirm logout"
               variant="destructive"
               disabled={isPending}
               onClick={onConfirm}

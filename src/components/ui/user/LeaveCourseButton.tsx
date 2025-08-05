@@ -22,7 +22,7 @@ export function LeaveCourseButton({ courseId, userId }: { courseId: string; user
   };
 
   return (
-    <Button onClick={handleLeave} disabled={isPending} variant={"destructive"}>
+    <Button aria-label="Leave course" onClick={handleLeave} disabled={isPending} variant={"destructive"}>
       Leave
     </Button>
   );

@@ -1,7 +1,7 @@
 "use client";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/common/button";
+import { Button, buttonVariants } from "@/components/ui/common/button";
 import { Typography } from "@/components/ui/common/typography";
 import { CardContent, CardFooter } from "@/components/ui/common/card";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/common/select";
 import { Form } from "@/components/ui/common/form";
 import { EditRoleFormValues, Role } from "@/types/role";
+import { cn } from "@/lib/utils";
 
 // This component is used to edit a user's role in the account settings.
 // It allows the user to change their role between "Student" and "Teacher".
@@ -58,10 +59,11 @@ export function EditRoleForm({ id, role }: { id: string; role: Role }) {
                 </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2 mt-4 ml-30">
-                <Button type="submit" disabled={isPending}>Save</Button>
-                <Button asChild variant="outline">
-                    <Link href="/account">Cancel</Link>
-                </Button>
+                <Button aria-label="Save changes" type="submit" disabled={isPending}>Save</Button>
+                <Link
+                    className={cn(buttonVariants({ variant: "outline" }))}
+                    aria-label="Cancel changes"
+                    href="/account">Cancel</Link>
             </CardFooter>
         </Form>
     );

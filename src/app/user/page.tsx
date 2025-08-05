@@ -58,6 +58,7 @@ export default async function UserDashboardPage() {
             </LayoutHeader>
             <LayoutActions>
                 <Link
+                    aria-label='Go to courses hub'
                     href="/user/courses/"
                     className={buttonVariants({
                         variant: 'outline',

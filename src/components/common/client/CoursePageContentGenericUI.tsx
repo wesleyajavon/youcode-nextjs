@@ -95,6 +95,7 @@ export default function CoursePageContentGenericUI({
                                         Created: {new Date(course.createdAt).toLocaleDateString()}
                                     </Typography>
                                     <Link
+                                        aria-label="Teaching center"
                                         href={`/admin/courses/${course.id}/lessons`}
                                         className={buttonVariants({
                                             variant: "outline",
@@ -116,6 +117,7 @@ export default function CoursePageContentGenericUI({
                             {!loadingCourse && alreadyJoined && (
                                 <>
                                     <Link
+                                        aria-label="Teaching center"
                                         href={`/user/courses/${course?.id}/lessons`}
                                         className={buttonVariants({
                                             variant: "outline",

@@ -45,7 +45,9 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
                 </LayoutTitle>
             </LayoutHeader>
             <LayoutActions>
-                <Link href={`/admin/courses/${course.id}/edit`}
+                <Link
+                    aria-label="Edit course"
+                    href={`/admin/courses/${course.id}/edit`}
                     className={buttonVariants({
                         variant: 'outline',
                     })}>

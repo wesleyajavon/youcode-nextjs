@@ -32,7 +32,7 @@ export function SideNav({ role, visible = true, onClose }: { role: Role; visible
     const mutation = useMutation({
         mutationFn: async () => {
             await signOut({
-                callbackUrl: '/', 
+                callbackUrl: '/',
             })
         },
         onSuccess: () => {
@@ -44,7 +44,10 @@ export function SideNav({ role, visible = true, onClose }: { role: Role; visible
 
     return (
 
-        <nav className="flex flex-col gap-2 py-8 px-4 bg-primary/5 border-r border-border min-h-screen justify-between" aria-label="User main navigation">
+        <nav
+            aria-label="Side navigation bar"
+            className="flex flex-col gap-2 py-8 px-4 bg-primary/5 border-r border-border min-h-screen justify-between"
+        >
             <div>
                 {/* Header with navigation title and close button */}
                 <div className="flex items-center justify-between mb-4">
@@ -72,6 +75,7 @@ export function SideNav({ role, visible = true, onClose }: { role: Role; visible
                         return (
                             <li key={href}>
                                 <Link
+                                    aria-label={`Go to ${label} page`}
                                     href={href}
                                     className={cn(
                                         "flex items-center gap-3 rounded px-3 py-2 text-base font-medium transition-colors hover:bg-primary/10 hover:text-primary",
@@ -95,6 +99,7 @@ export function SideNav({ role, visible = true, onClose }: { role: Role; visible
                         return (
                             <li key={href}>
                                 <Link
+                                    aria-label={`Go to ${label} page`}
                                     href={href}
                                     className={cn(
                                         "flex items-center gap-3 rounded px-3 py-2 text-base font-medium transition-colors hover:bg-primary/10 hover:text-primary",
@@ -124,6 +129,8 @@ export function SideNav({ role, visible = true, onClose }: { role: Role; visible
                 {/* Logout button */}
                 <span className="text-xs text-muted-foreground px-3 py-2 rounded w-fit mx-auto">
                     <button
+                        aria-label="Log out"
+                        type="button"
                         onClick={() => setOpen(true)}
                         className="flex items-center gap-3 rounded  text-base font-medium text-destructive hover:bg-destructive/10 hover:text-destructive  hover:cursor-pointer"
                     >

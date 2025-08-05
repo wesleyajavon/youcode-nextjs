@@ -11,6 +11,7 @@ export function Pagination({ page, onPageChange, hasNext = true, className = "" 
   return (
     <div className={`flex justify-between items-center mt-4 px-5 ${className}`}>
       <Button
+        aria-label="Previous page"
         disabled={page === 1}
         onClick={() => onPageChange(Math.max(page - 1, 1))}
         variant="outline"
@@ -19,6 +20,7 @@ export function Pagination({ page, onPageChange, hasNext = true, className = "" 
       </Button>
       <span>Page {page}</span>
       <Button
+        aria-label="Next page"
         onClick={() => onPageChange(page + 1)}
         variant="outline"
         disabled={!hasNext}

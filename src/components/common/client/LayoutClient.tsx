@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/common/button";
 import { Menu } from "lucide-react";
 import { SideNav } from "@/components/layout/SideNav";
@@ -9,7 +9,14 @@ import { Role } from "@/types/role";
 // This component is used to provide a layout for client-side pages.
 // It includes a sidebar for navigation and a main content area.  
 export default function LayoutClient({ children, role }: { children: React.ReactNode; role: Role }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem("sidebarOpen");
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("sidebarOpen", JSON.stringify(sidebarOpen));
+  }, [sidebarOpen]);
 
   return (
     <div className={`flex flex-1`}>
@@ -24,7 +31,7 @@ export default function LayoutClient({ children, role }: { children: React.React
           onClick={() => setSidebarOpen(true)}
           aria-label="Show navigation bar"
         >
-          <Menu className="h-5 w-5" />
+          <Menu aria-label="Menu" className="h-5 w-5" />
         </Button>
       )}
 

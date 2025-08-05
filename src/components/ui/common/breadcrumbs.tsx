@@ -25,7 +25,10 @@ export default function Breadcrumbs({
               breadcrumb.active ? 'text-white-foreground' : 'text-gray-500',
             )}
           >
-            <Link href={breadcrumb.href}>
+            <Link
+              aria-label={`Go to ${breadcrumb.label} page`}
+              href={breadcrumb.href}
+            >
               {breadcrumb.icon && breadcrumb.label && (
                 <span className="inline-flex items-center align-middle gap-2">
                   {breadcrumb.icon}

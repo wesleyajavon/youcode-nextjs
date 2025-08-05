@@ -65,15 +65,17 @@ export async function AccountUI() {
                 </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
-                
+
                 {/*  Conditional rendering based on user role */}
                 {session.user.role === 'ADMIN' && (<Link
+                    aria-label='Go to teacher dashboard'
                     href="/admin"
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
                 >
                     Teacher
                 </Link>)}
                 {session.user.role === 'USER' && (<Link
+                    aria-label='Go to student dashboard'
                     href="/user"
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
                 >
@@ -81,6 +83,7 @@ export async function AccountUI() {
                 </Link>)}
 
                 <Link
+                    aria-label='Update profile'
                     href="/account/edit"
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
                 >

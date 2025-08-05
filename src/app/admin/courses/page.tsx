@@ -34,6 +34,7 @@ export default async function AdminCoursesPage() {
             </LayoutHeader>
             <LayoutActions>
                 <Link
+                    aria-label='Create new course'
                     href={`/admin/courses/new`}
                     className={buttonVariants({
                         variant: 'default',

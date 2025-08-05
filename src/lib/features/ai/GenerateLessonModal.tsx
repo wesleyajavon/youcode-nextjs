@@ -74,7 +74,7 @@ export function GenerateLessonModal({ courseId, open, onOpenChange, onResult }: 
                         rows={3}
                         disabled={loading}
                     />
-                    <Button onClick={handleGenerate} disabled={loading} className="w-full mt-2">
+                    <Button aria-label="Generate lesson content" onClick={handleGenerate} disabled={loading} className="w-full mt-2">
                         {loading ? <Loader />: <Sparkles className="mr-2 h-4 w-4" />}
                         Generate
                     </Button>
@@ -86,10 +86,10 @@ export function GenerateLessonModal({ courseId, open, onOpenChange, onResult }: 
                     )}
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+                    <Button aria-label="Cancel changes" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
                         Cancel
                     </Button>
-                    <Button onClick={handleValidate} disabled={!result || loading}>
+                    <Button aria-label="Use generated content" onClick={handleValidate} disabled={!result || loading}>
                         Use this content
                     </Button>
                 </DialogFooter>

@@ -54,6 +54,7 @@ export default async function AdminDashboardPage() {
             </LayoutHeader>
             <LayoutActions>
                 <Link
+                    aria-label='Go to courses hub'
                     href="/admin/courses/"
                     className={buttonVariants({
                         variant: 'outline',

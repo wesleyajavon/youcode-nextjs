@@ -57,7 +57,7 @@ export function LessonProgressForm({ userId, lessonId, progress }: { userId: str
                 />
             </div>
             <div className="flex-1 flex justify-end">
-                <Button type="submit" disabled={isPending}>
+                <Button aria-label="Save progress" type="submit" disabled={isPending}>
                     Save progress 💪
                 </Button>
             </div>

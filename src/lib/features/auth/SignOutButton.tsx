@@ -28,6 +28,7 @@ export default function SignOutButton() {
     return (
         <>
             <Button
+                aria-label="Log out"
                 variant="destructive"
                 disabled={mutation.isPending}
                 onClick={() => setOpen(true)}>

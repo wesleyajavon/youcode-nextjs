@@ -85,6 +85,7 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
                 <div className="flex items-center justify-between">
                     <FormLabel>Content</FormLabel>
                     <Button
+                        aria-label='Generate content with AI'
                         type="button"
                         variant="outline"
                         size="sm"
@@ -134,8 +135,8 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
                     )}
                 />
 
-                <Button type="submit">Submit</Button>
-                <Button asChild variant="outline">
+                <Button aria-label='Submit form' type="submit">Submit</Button>
+                <Button aria-label='Cancel form' asChild variant="outline">
                     <a href={`/admin/courses/${defaultValue?.courseId}/lessons`}>Cancel</a>
                 </Button>
             </Form>
