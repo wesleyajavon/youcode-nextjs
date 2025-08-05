@@ -42,7 +42,7 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     return (
-        <>
+        <div className='max-h-[700px]'>
             <Form
                 form={form}
                 className="flex flex-col gap-4"
@@ -102,7 +102,8 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                                <Textarea placeholder="## Some content 📝" {...field} />
+                                <Textarea className="min-h-[120px] max-h-[350px] resize-vertical"
+                                    placeholder="## Some content 📝" {...field} />
                             </FormControl>
                             <FormDescription>Markdown is supported.</FormDescription>
                             <FormMessage />
@@ -139,16 +140,17 @@ export const LessonForm = ({ defaultValue }: LessonFormProps) => {
                 <Button aria-label='Cancel form' asChild variant="outline">
                     <a href={`/admin/courses/${defaultValue?.courseId}/lessons`}>Cancel</a>
                 </Button>
+                <GenerateLessonModal
+                    courseId={defaultValue?.courseId}
+                    open={modalOpen}
+                    onOpenChange={setModalOpen}
+                    onResult={(content) => {
+                        form.setValue('content', content);
+                    }}
+                />
             </Form>
 
-            <GenerateLessonModal
-                courseId={defaultValue?.courseId}
-                open={modalOpen}
-                onOpenChange={setModalOpen}
-                onResult={(content) => {
-                    form.setValue('content', content);
-                }}
-            />
-        </>
+
+        </div>
     );
 };

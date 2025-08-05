@@ -42,7 +42,7 @@ export default async function AdminLessonEditUI(props: { params: Promise<{ id: s
                     Ready to make changes? Use the new AI Lesson Generator. 👇🏻
                 </Typography>
             </CardHeader>
-            <CardContent>
+            <CardContent className="max-h-[500px] overflow-y-auto">
                 <LessonForm defaultValue={lesson} />
             </CardContent>
         </Card>
