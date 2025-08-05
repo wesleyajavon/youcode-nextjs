@@ -98,67 +98,67 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                     {isLoading && <Loader />}
                     {error && <Typography variant="muted" color="red">Failed to load lessons</Typography>}
                     {!isLoading && data && (
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead> </TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Content</TableHead>
-                                    <TableHead>Rank</TableHead>
-                                    <TableHead> </TableHead>
-                                    <TableHead> </TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {lessons && lessons.map((lesson: any) => (
-                                    <TableRow key={lesson.id}>
-                                        <TableCell>
-                                            <Avatar className="rounded h-5 w-5">
-                                                <AvatarFallback>{lesson.name[0]}</AvatarFallback>
-                                            </Avatar>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                as={Link}
-                                                variant="large"
-                                                href={`/admin/courses/${courseId}/lessons/${lesson.id}`}
-                                            >
-                                                {lesson.name?.slice(0, 30) ?? ""}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                variant="small"
-                                            >
-                                                {lesson.content?.slice(0, 15) ?? ""}...
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="small">
-                                                {lesson.rank}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Link
+                        <div className="overflow-x-auto w-full">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead> </TableHead>
+                                        <TableHead>Name</TableHead>
+                                        <TableHead className="hidden sm:table-cell">Content</TableHead>
+                                        <TableHead className="hidden md:table-cell">Rank</TableHead>
+                                        <TableHead> </TableHead>
+                                        <TableHead> </TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {lessons && lessons.map((lesson: any) => (
+                                        <TableRow key={lesson.id}>
+                                            <TableCell>
+                                                <Avatar className="rounded h-5 w-5">
+                                                    <AvatarFallback>{lesson.name[0]}</AvatarFallback>
+                                                </Avatar>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography
+                                                    as={Link}
+                                                    variant="large"
+                                                    href={`/admin/courses/${courseId}/lessons/${lesson.id}`}
+                                                >
+                                                    {lesson.name?.slice(0, 30) ?? ""}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell className="hidden sm:table-cell">
+                                                <Typography variant="small">
+                                                    {lesson.content?.slice(0, 15) ?? ""}...
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                <Typography variant="small">
+                                                    {lesson.rank}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Link
                                                     aria-label="Edit lesson"
                                                     href={`/admin/courses/${courseId}/lessons/${lesson.id}/edit`}>
-                                                <PencilSquareIcon className="h-5 w-5" />
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleDeleteClick({ id: lesson.id, name: lesson.name })}
-                                                className="hover:text-red-600"
-                                                aria-label="Delete lesson"
-                                            >
-                                                <XMarkIcon className="h-5 w-5 mt-1" />
-                                            </button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                                    <PencilSquareIcon className="h-5 w-5" />
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDeleteClick({ id: lesson.id, name: lesson.name })}
+                                                    className="hover:text-red-600"
+                                                    aria-label="Delete lesson"
+                                                >
+                                                    <XMarkIcon className="h-5 w-5 mt-1" />
+                                                </button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
                     )}
                     {lessons.length > 0 && (
                         <Pagination

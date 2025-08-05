@@ -33,25 +33,25 @@ export default async function AdminLessonPageContentUI(props: { params: Promise<
     }
 
     return (
-        <Card>
+        <Card className="w-full max-w-full sm:max-w-3xl mx-auto rounded-xl shadow-sm">
             <CardHeader>
                 <CardTitle>
-                    <span className="inline-flex items-center gap-2 mb-2">
+                    <span className="flex flex-col sm:flex-row items-center gap-2 mb-2 text-center sm:text-left">
                         <Avatar>
                             <AvatarFallback>{course?.name[0]}</AvatarFallback>
                             <AvatarImage className="rounded h-10 w-10" src={course?.image} alt={course?.name} />
                         </Avatar>
-                        <Typography variant={'h2'}>
+                        <Typography variant={'h2'} className="text-base sm:text-xl break-words max-w-[90vw] sm:max-w-none">
                             {lesson?.course?.name || 'Course'}
                         </Typography>
                     </span>
-                    <Typography variant={'muted'}>
+                    <Typography variant={'muted'} className="text-sm sm:text-base break-words max-w-[90vw] sm:max-w-none">
                         {lesson?.name || 'Lesson'}
                     </Typography>
                 </CardTitle>
             </CardHeader>
-            <CardContent className="max-h-[500px] overflow-y-auto">
-                <div className="prose">
+            <CardContent className="max-h-[60vh] max-w-[90vw] lg:max-h-[60vh] sm:max-h-[500px] overflow-y-auto px-2 sm:px-6">
+                <div className="prose prose-sm sm:prose max-w-full break-words">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {markdown}
                     </ReactMarkdown>

@@ -8,7 +8,7 @@ import { Role } from "@/types/role";
 // This component is used to provide a layout for client-side pages.
 // It includes a sidebar for navigation and a main content area.  
 export default function LayoutClient({ children, role }: { children: React.ReactNode; role: Role }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Lecture initiale de la préférence utilisateur
@@ -32,7 +32,9 @@ export default function LayoutClient({ children, role }: { children: React.React
       {!sidebarOpen && (
         <Button
           variant="ghost"
-          className="fixed top-22 left-4 z-50 p-2 bg-primary/10 rounded"
+          className="fixed left-4 z-50 p-2 bg-primary/10 rounded
+            bottom-26
+            lg:bottom-auto lg:top-22 lg:p-3 lg:bg-primary/80 lg:rounded-full"
           onClick={() => setSidebarOpen(true)}
           aria-label="Show navigation bar"
         >

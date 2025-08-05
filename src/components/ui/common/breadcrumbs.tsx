@@ -15,36 +15,38 @@ export default function Breadcrumbs({
   breadcrumbs: Breadcrumb[];
 }) {
   return (
-    <nav aria-label="Breadcrumb" >
-      <ol className={'flex '}>
+    <nav aria-label="Breadcrumb" className="w-full px-2 py-2 bg-background rounded-md shadow-sm">
+      <ol className="flex flex-wrap items-center gap-1 text-xs sm:text-sm overflow-x-auto">
         {breadcrumbs.map((breadcrumb, index) => (
           <li
             key={breadcrumb.href}
-            aria-current={breadcrumb.active}
+            aria-current={breadcrumb.active ? "page" : undefined}
             className={clsx(
-              breadcrumb.active ? 'text-white-foreground' : 'text-gray-500',
+              "flex items-center",
+              breadcrumb.active
+                ? "font-bold text-primary"
+                : "text-muted-foreground hover:text-primary transition-colors"
             )}
           >
             <Link
               aria-label={`Go to ${breadcrumb.label} page`}
               href={breadcrumb.href}
+              className={clsx(
+                "inline-flex items-center gap-1 px-2 py-1 rounded",
+                breadcrumb.active ? "bg-primary/10" : ""
+              )}
+              tabIndex={0}
             >
-              {breadcrumb.icon && breadcrumb.label && (
-                <span className="inline-flex items-center align-middle gap-2">
-                  {breadcrumb.icon}
-                  {breadcrumb.label}
-                </span>
+              {breadcrumb.icon && (
+                <span className="inline-flex items-center">{breadcrumb.icon}</span>
               )}
-              {breadcrumb.label && !breadcrumb.icon && (
-                <span className='inline-flex items-center align-middle'>{breadcrumb.label}</span>
-              )}
-              {breadcrumb.icon && !breadcrumb.label && (
-                <span className='inline-flex items-center align-middle'>{breadcrumb.icon}</span>
+              {breadcrumb.label && (
+                <span className="truncate max-w-[80px] sm:max-w-none">{breadcrumb.label}</span>
               )}
             </Link>
-            {index < breadcrumbs.length - 1 ? (
-              <span className="mx-2 inline-block">/</span>
-            ) : null}
+            {index < breadcrumbs.length - 1 && (
+              <span className="mx-1 text-muted-foreground select-none">/</span>
+            )}
           </li>
         ))}
       </ol>

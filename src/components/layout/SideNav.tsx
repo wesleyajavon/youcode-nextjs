@@ -26,7 +26,7 @@ const adminNavLinks = [
 
 type Role = "USER" | "ADMIN";
 
-export function SideNav({ role, visible = true, onClose }: { role: Role; visible?: boolean; onClose?: () => void }) {
+export function SideNav({ role, visible = false, onClose }: { role: Role; visible?: boolean; onClose?: () => void }) {
     const pathname = usePathname();
     const [open, setOpen] = useState(false)
     const mutation = useMutation({

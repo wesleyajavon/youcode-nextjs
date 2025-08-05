@@ -14,7 +14,7 @@ import { LessonProgressForm } from '../client/LessonProgressForm';
 
 // Incremental Static Regeneration (ISR) allows the page to be rebuilt every 60 seconds
 // This is useful for keeping the lesson content up-to-date without requiring a full rebuild of the site.
-export const revalidate = 60; 
+export const revalidate = 60;
 
 // This component is used to display the content of a lesson for a user.
 // It fetches the lesson data and course information based on the IDs from the URL parameters.
@@ -36,7 +36,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
 
     // await new Promise(res => setTimeout(res, 5000));
 
-    if (!lesson ) {
+    if (!lesson) {
         redirect(`/user/courses/${params.id}/lessons`);
     }
 
@@ -45,49 +45,60 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
     );
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>
-                    <span className="inline-flex items-center gap-2 mb-2">
-                        <Avatar className="rounded h-10 w-10 mr-4">
-                            <AvatarFallback>{course?.name[0]}</AvatarFallback>
-                            <AvatarImage src={course?.image} alt={course?.name} />
-                        </Avatar>
-                        <Typography variant={'h2'}>
-                            {lesson?.course?.name || 'Course'}
+        <div className="w-full max-w-full sm:max-w-3xl mx-auto flex flex-col gap-4">
+            <Card className="rounded-xl shadow-sm">
+                <CardHeader>
+                    <CardTitle>
+                        <span className="inline-flex items-center gap-2 mb-2">
+                            <Avatar className="rounded h-10 w-10 mr-4">
+                                <AvatarFallback>{course?.name[0]}</AvatarFallback>
+                                <AvatarImage src={course?.image} alt={course?.name} />
+                            </Avatar>
+                            <Typography variant={'h2'}>
+                                {lesson?.course?.name || 'Course'}
+                            </Typography>
+                        </span>
+                        <Typography variant={'muted'}>
+                            {lesson?.name || 'Lesson'}
                         </Typography>
-                    </span>
-                    <Typography variant={'muted'}>
-                        {lesson?.name || 'Lesson'}
-                    </Typography>
-                </CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col h-[500px] overflow-y-auto">
-
-                {alreadyJoined ? (
-                    <>
-                        <div className="prose flex-1 overflow-y-auto py-4">
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="max-h-[60vh] max-w-[100vw] lg:max-h-[60vh] sm:max-h-[500px] overflow-y-auto px-2 sm:px-6">
+                    {alreadyJoined ? (
+                        <div className="prose prose-sm sm:prose max-w-full break-words">
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {markdown}
                             </ReactMarkdown>
                         </div>
-
+                    ) : (
+                        <div className="flex flex-col items-center">
+                            <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
+                            <Typography variant="muted" className="text-center">
+                                Start the lesson and update your progress 💪🏽
+                            </Typography>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+            {/* Progress form in a separate card */}
+            {alreadyJoined && (
+                <Card className="rounded-xl shadow-sm">
+                    <CardHeader>
+                        <CardTitle>
+                            <Typography variant="h3" className="text-base sm:text-lg">
+                                Your Progress
+                            </Typography>
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-2 sm:px-6">
                         <LessonProgressForm
                             userId={session.user.id}
                             lessonId={lesson.id}
                             progress={lessonOnUser?.progress || 'IN_PROGRESS'}
                         />
-
-                    </>
-                ) : (
-                    <div className="flex flex-col items-center">
-                        <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
-                        <Typography variant="muted" className="text-center">
-                            Start the lesson and update your progress 💪🏽
-                        </Typography>
-                    </div>
-                )}
-            </CardContent>
-        </Card>
+                    </CardContent>
+                </Card>
+            )}
+        </div>
     )
 }
