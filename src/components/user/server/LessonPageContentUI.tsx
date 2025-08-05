@@ -90,12 +90,14 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                             </Typography>
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="px-2 sm:px-6">
-                        <LessonProgressForm
-                            userId={session.user.id}
-                            lessonId={lesson.id}
-                            progress={lessonOnUser?.progress || 'IN_PROGRESS'}
-                        />
+                    <CardContent className="flex px-2 sm:px-6 w-full max-w-full">
+                        <div className="w-full max-w-full flex flex-col gap-2">
+                            <LessonProgressForm
+                                userId={session.user.id}
+                                lessonId={lesson.id}
+                                progress={lessonOnUser?.progress || 'IN_PROGRESS'}
+                            />
+                        </div>
                     </CardContent>
                 </Card>
             )}

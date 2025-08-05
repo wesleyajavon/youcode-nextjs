@@ -7,19 +7,26 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { getRequiredAuthSession } from '@/lib/auth';
-import { getCoursesNumber, getUsersCountForUserCourses } from './courses/_actions/course.query';
+import { getCoursesNumber, getCoursesWithUserCountByCreator, getUsersCountForUserCourses } from './courses/_actions/course.query';
 import { getLessonsNumber } from './courses/_actions/lesson.query';
 import { BookOpenIcon, UserIcon } from 'lucide-react';
 import { RectangleStackIcon } from '@heroicons/react/24/outline';
 import { DashboardCard } from '@/components/common/server/DashboardCard';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
+import { StatChartServer } from '@/components/analytics/server/StatChartServer';
+import { MyBarChart } from '@/components/analytics/customCharts/MyBarChart';
 
+// This is the main dashboard page for the admin section
+// It displays an overview of the admin's statistics, including courses, lessons, and users.
+// The page is server-rendered and includes a session check to ensure the user is authenticated.
+// It also includes a chart that visualizes the number of users enrolled in courses created by the
 export default async function AdminDashboardPage() {
 
     const session = await getRequiredAuthSession();
     const coursesCount = await getCoursesNumber(session.user.id);
     const lessonsCount = await getLessonsNumber(session.user.id);
     const usersCount = await getUsersCountForUserCourses(session.user.id);
+    const coursesAndTheirUsersCount = await getCoursesWithUserCountByCreator(session.user.id);
 
     // await new Promise(res => setTimeout(res, 5000));
 
@@ -63,11 +70,21 @@ export default async function AdminDashboardPage() {
                     Courses
                 </Link>
             </LayoutActions>
-            <LayoutContent>
+            <LayoutContent className='flex flex-col gap-4'>
                 <Suspense fallback={<CardSkeleton />}>
                     <DashboardCard stats={stats} />
                 </Suspense>
+                <Suspense fallback={<CardSkeleton />}>
+                    <StatChartServer
+                        data={coursesAndTheirUsersCount}
+                        ChartComponent={MyBarChart}
+                        cardDescription="Analysis of your courses performance"
+                        subDescription1="See the Impact of Your Courses at a Glance! 🥸"
+                        subDescription2="🤩 Track your course engagement and discover what drives your learners!"
+                        chartProps={{}}
+                    />
+                </Suspense>
             </LayoutContent>
-        </Layout>
+        </Layout >
     );
 }

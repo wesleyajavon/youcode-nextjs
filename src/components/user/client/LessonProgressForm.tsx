@@ -37,15 +37,19 @@ export function LessonProgressForm({ userId, lessonId, progress }: { userId: str
     };
 
     return (
-        <Form form={form} onSubmit={handleSubmit} className="flex flex-row justify-between items-center w-full gap-4">
-            <div className="flex-1 flex justify-start">
+        <Form
+            form={form}
+            onSubmit={handleSubmit}
+            className="flex flex-col sm:flex-row justify-between items-stretch w-full gap-4"
+        >
+            <div className="flex-1 flex justify-start w-full">
                 <Controller
                     name="progress"
                     control={form.control}
                     defaultValue={progress}
                     render={({ field }) => (
                         <Select value={field.value} onValueChange={field.onChange}>
-                            <SelectTrigger className="w-40">
+                            <SelectTrigger className="w-full sm:w-40">
                                 <SelectValue placeholder="Progress" />
                             </SelectTrigger>
                             <SelectContent>
@@ -56,8 +60,13 @@ export function LessonProgressForm({ userId, lessonId, progress }: { userId: str
                     )}
                 />
             </div>
-            <div className="flex-1 flex justify-end">
-                <Button aria-label="Save progress" type="submit" disabled={isPending}>
+            <div className="flex-1 flex justify-end w-full">
+                <Button
+                    aria-label="Save progress"
+                    type="submit"
+                    disabled={isPending}
+                    className="w-full sm:w-auto"
+                >
                     Save progress 💪
                 </Button>
             </div>

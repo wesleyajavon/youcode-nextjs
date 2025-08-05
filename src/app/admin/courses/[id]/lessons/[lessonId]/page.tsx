@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { getLessonInfo } from '../../../_actions/lesson.query';
+import { getLessonInfo, getLessonUsersProgress } from '../../../_actions/lesson.query';
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
@@ -10,6 +10,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avat
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { getCourseInfo } from '../../../_actions/course.query';
 import AdminLessonPageContentUI from '@/components/admin/server/AdminLessonPageContentUI';
+import { StatChartServer } from '@/components/analytics/server/StatChartServer';
+import UserProgressChart from '@/components/analytics/customCharts/UserProgressChart';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -20,6 +22,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
   const params = await props.params;
   const course = await getCourseInfo(params.id);
   const lesson = await getLessonInfo(params.lessonId);
+  const data = await getLessonUsersProgress(params.lessonId);
 
   if (!course) {
     redirect('/admin/courses');
@@ -74,9 +77,19 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
           <PencilSquareIcon className="h-5 w-5" />
         </Link>
       </LayoutActions>
-      <LayoutContent className="flex flex-col gap-2 ">
+      <LayoutContent className="flex flex-col gap-4"> 
         <Suspense fallback={<CardSkeleton />}>
           <AdminLessonPageContentUI params={props.params} />
+        </Suspense>
+        <Suspense fallback={<CardSkeleton />}>
+          <StatChartServer
+            data={data}
+            ChartComponent={UserProgressChart}
+            cardDescription={lesson.name + " - Student Progress Overview"}
+            subDescription1="How are students progressing through this lesson?"
+            subDescription2="Hint: 0% means the student has not started the lesson yet. 50% the student is halfway through the lesson. 100% the student has completed the lesson."
+            chartProps={{}}
+          />
         </Suspense>
       </LayoutContent>
     </Layout>

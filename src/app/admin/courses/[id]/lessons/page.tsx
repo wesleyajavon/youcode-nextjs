@@ -20,7 +20,8 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
     const params = await props.params
     const courseId = params.id;
     const course = await getCourseInfo(courseId);
-    
+
+
     if (!course) {
         redirect('/admin/courses');
     }
@@ -56,10 +57,11 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
                     <PlusIcon className="h-5 w-5" />
                 </Link>
             </LayoutActions>
-            <LayoutContent>
+            <LayoutContent className='flex flex-col gap-4'>
                 <Suspense fallback={<CardSkeleton />}>
                     <LessonsTable params={props.params} />
                 </Suspense>
+                
             </LayoutContent>
         </Layout>
     )

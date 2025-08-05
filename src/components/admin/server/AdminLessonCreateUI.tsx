@@ -13,7 +13,7 @@ export async function AdminLessonCreateUI(params: { courseId: string }) {
     return (
         <Card>
             <CardHeader>
-                <Typography variant="h2">Ready to create a new lesson? ✏️</Typography>
+                <Typography variant="h2">Ready to create a lesson? 🆕</Typography>
                 <Typography variant="small" className="mt-2">
                     🤖 Feel free to use our latest AI lesson generator to help you get started quickly. 
                 </Typography>

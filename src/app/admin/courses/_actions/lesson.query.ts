@@ -96,3 +96,52 @@ export async function getLessonInfo (lessonId: string) {
 
     return lesson;
 }
+
+export async function getLessonUsersProgress(lessonId: string): Promise<{ userName: string, progress: number }[]> {
+    // Récupère la leçon pour obtenir l'id du cours associé
+    const lesson = await prisma.lesson.findUnique({
+        where: { id: lessonId },
+        select: { courseId: true },
+    });
+
+    if (!lesson || !lesson.courseId) return [];
+
+    // Récupère tous les utilisateurs inscrits au cours
+    const courseUsers = await prisma.courseOnUser.findMany({
+        where: { courseId: lesson.courseId },
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+        },
+    });
+
+    // Pour chaque utilisateur, récupère sa progression sur la leçon
+    const results = await Promise.all(courseUsers.map(async ({ user }) => {
+        const lessonProgress = await prisma.lessonOnUser.findUnique({
+            where: {
+                userId_lessonId: {
+                    userId: user.id,
+                    lessonId,
+                },
+            },
+            select: { progress: true },
+        });
+
+        const progressMap: Record<string, number> = {
+            NOT_STARTED: 0,
+            IN_PROGRESS: 50,
+            COMPLETED: 100,
+        };
+
+        return {
+            userName: user.name ?? "",
+            progress: progressMap[lessonProgress?.progress ?? "NOT_STARTED"],
+        };
+    }));
+
+    return results;
+}
