@@ -2,15 +2,18 @@
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList } from "recharts";
 
-const progressCategories = [
-    { value: 0, label: "Not Started" },
-    { value: 50, label: "In Progress" },
-    { value: 100, label: "Completed" },
-];
+// This component renders a user progress chart using Recharts.
+// It accepts data as a prop, which is an array of objects containing user names and their progress percentages.
+// The chart is displayed vertically with a dynamic height based on the number of data points.
 
 export default function UserProgressChart({ data }: { data: { user: string; progress: number }[] }) {
     // Hauteur dynamique, mais limitée pour mobile
     const chartHeight = Math.min(Math.max(48 * data.length, 240), 400);
+    const progressCategories = [
+    { value: 0, label: "Not Started" },
+    { value: 50, label: "In Progress" },
+    { value: 100, label: "Completed" },
+];
 
     return (
         <div className="w-full overflow-x-auto">

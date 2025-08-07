@@ -1,6 +1,9 @@
 'use client'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
+
+// This component renders a bar chart using Recharts.
+// It accepts data as a prop and dynamically adjusts the chart height based on the number of data points.
 export function MyBarChart({ data }: { data: Object[] }) {
     const chartHeight = Math.min(Math.max(48 * data.length, 240), 400);
 

@@ -1,4 +1,4 @@
-import { getCourseInfo } from "../../_actions/course.query";
+import { getCourseInfo } from "../../../../../lib/queries/admin/course.query";
 import { redirect } from "next/navigation";
 import {
     Layout,

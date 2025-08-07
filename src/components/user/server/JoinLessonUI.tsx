@@ -2,12 +2,12 @@ import { getRequiredAuthSession } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/common/card";
 import { Typography } from "@/components/ui/common/typography";
 import { prisma } from "@/lib/prisma";
-import { getLesson } from "@/app/admin/courses/_actions/lesson.query";
+import { getLesson } from "@/lib/queries/admin/lesson.query";
 import { redirect } from "next/navigation";
 import { JoinLessonButton } from "@/components/ui/user/JoinLessonButton";
 import { LeaveLessonButton } from "@/components/ui/user/LeaveLessonButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
-import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
+import { getCourseInfo } from "@/lib/queries/admin/course.query";
 
 
 // This component is used to display the UI for joining or leaving a lesson.

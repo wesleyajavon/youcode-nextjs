@@ -5,11 +5,11 @@ import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/common/button';
 import { redirect } from 'next/navigation';
-import { getLesson } from '@/app/admin/courses/_actions/lesson.query';
+import { getLesson } from '@/lib/queries/admin/lesson.query';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { JoinLessonButton } from '@/components/ui/user/JoinLessonButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
-import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
+import { getCourseInfo } from '@/lib/queries/admin/course.query';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';
 

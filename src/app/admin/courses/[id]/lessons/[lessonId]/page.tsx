@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { getLessonInfo, getLessonUsersProgress } from '../../../_actions/lesson.query';
+import { getLessonInfo, getLessonUsersProgress } from '../../../../../../lib/queries/admin/lesson.query';
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
-import { getCourseInfo } from '../../../_actions/course.query';
+import { getCourseInfo } from '../../../../../../lib/queries/admin/course.query';
 import { StatChartServer } from '@/components/analytics/server/StatChartServer';
 import UserProgressChart from '@/components/analytics/customCharts/UserProgressChart';
 import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';

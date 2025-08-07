@@ -2,7 +2,7 @@ import { getRequiredAuthSession } from "@/lib/auth";
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
-import { getCourse } from "@/app/admin/courses/_actions/course.query";
+import { getCourse } from "@/lib/queries/admin/course.query";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { JoinCourseUI } from "@/components/user/server/JoinCourseUI";

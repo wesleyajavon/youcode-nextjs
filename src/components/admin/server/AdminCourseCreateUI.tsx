@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/common/card';
 import { Typography } from '@/components/ui/common/typography';
-import { CourseForm } from '../client/CourseForm';
-
+import { CourseForm } from '@/components/admin/client/CourseForm';
 export async function AdminCoursesCreateUI() {
 
-    // This component is used to create a new course in the admin panel.
-    // It renders a form for creating a course and provides a header with instructions.
+    // This component is used as a wrapper for the course creation form.
+    // It provides a header with instructions and renders the CourseForm component.
+    // The form allows the user to create a new course with all necessary details.
     return (
         <Card className="flex-[2]">
             <CardHeader>

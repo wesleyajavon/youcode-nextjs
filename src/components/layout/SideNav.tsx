@@ -9,7 +9,7 @@ import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/common/button";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { LogoutDialog } from "@/lib/features/dialogs/LogoutDialog";
+import { LogoutDialog } from "@/components/dialogs/LogoutDialog";
 
 
 const userNavLinks = [

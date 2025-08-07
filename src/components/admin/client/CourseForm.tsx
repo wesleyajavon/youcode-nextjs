@@ -1,7 +1,7 @@
 'use client';
 
-import { courseActionCreate, courseActionEdit } from '@/app/admin/courses/[id]/edit/_actions/course.action';
-import { COURSE_STATE, CourseFormSchema } from '@/app/admin/courses/[id]/edit/_actions/course.schema';
+import { courseActionCreate, courseActionEdit } from '@/lib/actions/admin/course.action';
+import { COURSE_STATE, CourseFormSchema } from '@/lib/validations/course.schema';
 import { Button } from '@/components/ui/common/button';
 import {
   Form,
@@ -27,8 +27,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { GeneratePresentationModal } from '../../../lib/features/ai/GeneratePresentationModal';
 import { CourseFormProps } from '@/types/course';
+import { GeneratePresentationModal } from '@/components/ai/GeneratePresentationModal';
 
 // This component is used to create or edit a course in the admin panel.
 // It renders a form for course details including name, image, presentation, and state.

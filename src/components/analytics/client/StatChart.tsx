@@ -2,16 +2,9 @@
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/common/card";
 import { Typography } from "@/components/ui/common/typography";
+import { StatChartProps } from "@/types/chart";
 import React from "react";
 
-type StatChartProps = {
-    data: Object[],
-    ChartComponent: React.ElementType,
-    chartProps?: Object,
-    cardDescription?: string,
-    subDescription1?: string,
-    subDescription2?: string,
-};
 
 export default function StatChart({
     data,

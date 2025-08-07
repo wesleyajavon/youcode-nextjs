@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { Typography } from '@/components/ui/common/typography';
-import { AuthButton } from '@/lib/features/auth/AuthButton';
+import { AuthButton } from '@/components/auth/AuthButton';
 import { SiteConfig } from '@/lib/site-config';
 
 export function Header() {

@@ -13,7 +13,7 @@ import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
 import { BookOpen } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import AdminCourseEditUI from '@/components/admin/server/AdminCourseEditUI';
-import { getCourseInfo } from '../../_actions/course.query';
+import { getCourseInfo } from '../../../../../lib/queries/admin/course.query';
 
 export default async function CourseEditPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;

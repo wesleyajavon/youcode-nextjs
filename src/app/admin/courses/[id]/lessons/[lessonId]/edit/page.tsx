@@ -13,8 +13,8 @@ import { CardSkeleton } from '@/components/ui/common/skeleton';
 import AdminLessonEditUI from '@/components/admin/server/AdminLessonEditUI';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
-import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
-import { getLessonInfo } from '@/app/admin/courses/_actions/lesson.query';
+import { getCourseInfo } from '@/lib/queries/admin/course.query';
+import { getLessonInfo } from '@/lib/queries/admin/lesson.query';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const params = await props.params;

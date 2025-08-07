@@ -1,9 +1,10 @@
 import StatChart from "../client/StatChart";
 
-// This function is used to render the AdminCoursesTableUI component on the server side.
-// It retrieves the user's session to determine their role and permissions.
-// The AdminCoursesTableUI component displays a table of courses with options to create, edit,
-// and manage courses based on the user's role.
+// This component is used to render a statistical chart on the server side.
+// It accepts data, a ChartComponent, and optional props for customization.
+// The ChartComponent is a React component that will be used to render the chart.
+// The data is expected to be an array of objects, and the chartProps can be used
+// to pass additional properties to the ChartComponent.
 export function StatChartServer({
     data,
     ChartComponent,

@@ -14,7 +14,7 @@ import { Pagination } from "@/components/ui/common/pagination";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
 import { Loader } from "@/components/ui/common/loader";
-import { CourseDialog } from "@/lib/features/dialogs/CourseDialog";
+import { CourseDialog } from "@/components/dialogs/CourseDialog";
 import { FetchCourseInfoResponse, FetchParticipantsResponse } from "@/types/fetch";
 import { fetchCourseInfo, fetchParticipants } from "@/lib/api/course";
 

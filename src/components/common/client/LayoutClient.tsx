@@ -11,13 +11,14 @@ export default function LayoutClient({ children, role }: { children: React.React
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    // Lecture initiale de la préférence utilisateur
+    // Initial load from localStorage
+    // This ensures that the sidebar state persists across page reloads.
     const saved = typeof window !== "undefined" ? localStorage.getItem("sidebarOpen") : null;
     if (saved !== null) setSidebarOpen(JSON.parse(saved));
   }, []);
 
   useEffect(() => {
-    // Sauvegarde à chaque changement
+    // Save to localStorage on change
     if (typeof window !== "undefined") {
       localStorage.setItem("sidebarOpen", JSON.stringify(sidebarOpen));
     }
@@ -28,7 +29,7 @@ export default function LayoutClient({ children, role }: { children: React.React
       {/* Sidebar */}
       <SideNav role={role} visible={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Bouton burger flottant si sidebar masquée */}
+      {/* Floating burger button if sidebar is hidden */}
       {!sidebarOpen && (
         <Button
           variant="ghost"

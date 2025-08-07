@@ -1,7 +1,7 @@
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { redirect } from "next/navigation";
-import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
+import { getCourseInfo } from "@/lib/queries/admin/course.query";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";

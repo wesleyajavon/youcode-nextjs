@@ -1,5 +1,4 @@
 import { getRequiredAuthSession } from '@/lib/auth'
-import { redirect } from 'next/navigation'
 import {
     Card,
     CardHeader,
@@ -9,7 +8,7 @@ import {
     CardFooter,
 } from '@/components/ui/common/card'
 import Link from 'next/link'
-import SignOutButton from '@/lib/features/auth/SignOutButton'
+import SignOutButton from '@/components/auth/SignOutButton'
 import { Typography } from '@/components/ui/common/typography'
 import { prisma } from '@/lib/prisma'
 
@@ -20,9 +19,6 @@ import { prisma } from '@/lib/prisma'
 
 export async function AccountUI() {
     const session = await getRequiredAuthSession()
-    if (!session?.user) {
-        redirect('/')
-    }
 
     const { name, image, role } = session.user
     const email = await prisma.user.findUnique({
@@ -67,19 +63,12 @@ export async function AccountUI() {
             <CardFooter className="flex justify-end gap-2">
 
                 {/*  Conditional rendering based on user role */}
-                {session.user.role === 'ADMIN' && (<Link
+                {session.user.role && (<Link
                     aria-label='Go to teacher dashboard'
-                    href="/admin"
+                    href={`/${session.user.role.toLowerCase()}`}
                     className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
                 >
-                    Teacher
-                </Link>)}
-                {session.user.role === 'USER' && (<Link
-                    aria-label='Go to student dashboard'
-                    href="/user"
-                    className="rounded-md border px-4 py-2 text-sm font-medium transition hover:bg-muted"
-                >
-                    Student
+                    {session.user.role === 'ADMIN' ? 'Teacher' : 'Student'}
                 </Link>)}
 
                 <Link

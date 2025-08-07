@@ -3,7 +3,7 @@
 import { authActionClient } from '@/lib/action';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { LessonFormSchema } from './lesson.schema';
+import { LessonFormSchema } from '../../validations/lesson.schema';
 
 const LessonActionEditProps = z.object({
     lessonId: z.string(),

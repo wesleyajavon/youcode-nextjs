@@ -23,11 +23,11 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { SearchInput } from '@/components/ui/common/search-bar'
 import { Pagination } from '@/components/ui/common/pagination'
-import { DeleteDialog } from '@/lib/features/dialogs/DeleteDialog'
+import { DeleteDialog } from '@/components/dialogs/DeleteDialog'
 import { Loader } from '@/components/ui/common/loader'
 import { Course, CoursesResponse } from '@/types/course'
 import { fetchCourses } from '@/lib/api/course'
-import { CourseDialog } from '@/lib/features/dialogs/CourseDialog'
+import { CourseDialog } from '@/components/dialogs/CourseDialog'
 import { Button } from '@/components/ui/common/button'
 
 

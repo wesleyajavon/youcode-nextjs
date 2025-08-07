@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { redirect } from 'next/navigation';
-import { getLesson } from '@/app/admin/courses/_actions/lesson.query';
+import { getLesson } from '@/lib/queries/admin/lesson.query';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';

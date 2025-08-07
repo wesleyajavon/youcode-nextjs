@@ -1,4 +1,4 @@
-import { LessonFormSchema } from "@/app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.schema"
+import { LessonFormSchema } from "@/lib/validations/lesson.schema"
 
 enum Progress {
     NOT_STARTED = "NOT_STARTED",

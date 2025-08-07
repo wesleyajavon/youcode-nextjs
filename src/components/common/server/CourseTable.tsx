@@ -1,5 +1,5 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { CourseTable } from "../client/CourseTable";
+import { CourseTable } from "@/components/common/client/CourseTable";
 
 // This function is used to render the CourseTable component on the server side.
 // It retrieves the user's session to determine their role and permissions.

@@ -3,7 +3,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/common/button";
 import { useRouter } from "next/navigation";
-import { leaveLessonAction } from "@/app/user/courses/[id]/lessons/[lessonId]/join/_actions/join.query";
+import { leaveLessonAction } from "@/lib/queries/user/lesson/join.query";
 
 export function LeaveLessonButton({ courseId, lessonId, userId }: { courseId: string; lessonId: string; userId: string }) {
   const [isPending, startTransition] = useTransition();

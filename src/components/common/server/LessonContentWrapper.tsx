@@ -4,12 +4,12 @@ import ReactMarkdown from 'react-markdown';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
 import { Typography } from '@/components/ui/common/typography';
 import { redirect } from 'next/navigation';
-import { getLesson, getLessonContentWithRedis } from '@/app/admin/courses/_actions/lesson.query';
+import { getLesson, getLessonContentWithRedis } from '@/lib/queries/admin/lesson.query';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import remarkGfm from 'remark-gfm';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
-import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
-import { getLessonOnUser } from '@/app/user/courses/_actions/lesson.query';
+import { getCourseInfo } from '@/lib/queries/admin/course.query';
+import { getLessonOnUser } from '@/lib/queries/user/lesson/lesson.query';
 import { LessonProgressForm } from '@/components/user/client/LessonProgressForm';
 import { prisma } from '@/lib/prisma';
 
@@ -29,15 +29,14 @@ export const revalidate = 60;
 export async function LessonContentWrapper(props: { params: Promise<{ lessonId: string }> }) {
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
-        // Récupère le courseId même si la leçon n'existe pas
-    const lessonCourse = await prisma.lesson.findUnique({
-        where: { id: params.lessonId },
-        select: { courseId: true },
-    });
     const session = await getAuthSession();
 
-
+    // Fetch the course ID associated with the lesson to redirect if the lesson does not exist
     if (!lesson) {
+        const lessonCourse = await prisma.lesson.findUnique({
+            where: { id: params.lessonId },
+            select: { courseId: true },
+        });
         redirect(`/${session?.user.role?.toLowerCase()}/courses/${lessonCourse?.courseId}/lessons`);
     }
 

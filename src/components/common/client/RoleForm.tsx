@@ -5,7 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/common/button";
 import { Typography } from "@/components/ui/common/typography";
 import { CardContent, CardFooter } from "@/components/ui/common/card";
 import Link from "next/link";
-import { updateRoleAction } from "@/app/account/edit/_actions/account.query";
+import { updateRoleAction } from "@/lib/queries/account/account.query";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/common/select";

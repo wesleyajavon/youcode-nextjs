@@ -3,14 +3,13 @@
 import { authActionClient } from '@/lib/action';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import { CourseFormSchema } from './course.schema';
+import { CourseFormSchema } from '@/lib/validations/course.schema';
 
 const CourseActionEditProps = z.object({
     courseId: z.string(),
     data: CourseFormSchema,
 });
 
-// ...existing code...
 export const courseActionEdit = authActionClient
     .metadata({ actionName: "editCourse" })
     .inputSchema(CourseActionEditProps)

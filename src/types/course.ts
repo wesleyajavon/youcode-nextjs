@@ -1,4 +1,4 @@
-import { CourseFormSchema } from "@/app/admin/courses/[id]/edit/_actions/course.schema"
+import { CourseFormSchema } from "@/lib/validations/course.schema"
 
 export type Course = {
     id: string

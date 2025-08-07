@@ -9,11 +9,10 @@ import { Typography } from '@/components/ui/common/typography'
 import { Role } from '@prisma/client'
 import { EditRoleForm } from '@/components/common/client/RoleForm'
 
-// This component is used to edit the user's account settings.
-// It allows the user to update their role (Teacher or Student) in the account settings.
-// The component fetches the user's session to determine their current role and provides a form to update it.
-// If the user is not authenticated, it redirects them to the login page.
-
+// This component is used as a wrapper for the account edit form.
+// It fetches the user's session to get their role and renders the EditRoleForm component.
+// The form allows the user to update their role (e.g., from student to teacher).
+// The default role is set to 'USER' if the session does not provide a specific role
 export async function AccountEditUI() {
   const session = await getRequiredAuthSession()
 

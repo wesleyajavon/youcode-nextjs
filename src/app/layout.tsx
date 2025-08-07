@@ -7,7 +7,9 @@ import { Inter } from 'next/font/google';
 import { PropsWithChildren } from 'react';
 import './globals.css';
 import { Footer } from '@/components/layout/Footer';
-import { Providers } from './Provider';
+import { Providers } from '@/components/utils/Provider';
+import { Analytics } from '@vercel/analytics/next';
+
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -34,6 +36,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
               <Header />
               <div className="flex-1">
                 {children}
+                <Analytics />
               </div>
               <Footer />
             </div>

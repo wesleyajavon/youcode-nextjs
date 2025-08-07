@@ -19,20 +19,30 @@ import Link from 'next/link';
 import { SearchInput } from "@/components/ui/common/search-bar";
 import { Pagination } from "@/components/ui/common/pagination";
 import { toast } from "sonner";
-import { DeleteDialog } from "@/lib/features/dialogs/DeleteDialog";
+import { DeleteDialog } from "@/components/dialogs/DeleteDialog";
 import { Loader } from "@/components/ui/common/loader";
 import { fetchLessons, fetchPublicLessons, getProgressBadgeColor, getProgressLabel } from "@/lib/api/lesson";
 import { LessonsInfoResponse, LessonsResponse } from "@/types/lesson";
 import { Badge } from "@/components/ui/common/badge";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
-
+// This component is used to display a table of lessons for a course.
+// It fetches lessons based on the course ID and user role (admin, user, or public).
+// The table includes lesson names, content snippets, ranks, and progress for users.
+// Admins can edit and delete lessons, while users can view lesson details and update their progress.
+// The component also includes a search input to filter lessons by name or content.
 
 export function LessonTable({ courseId, role }: { courseId: string, role: string }) {
     const queryClient = useQueryClient()
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
+    const pathname = usePathname();
+
+    if (pathname?.startsWith("/public")) {
+       role = "PUBLIC";
+    }
 
     // Dialog state for deletion confirmation (only for admin)
     const [dialogOpen, setDialogOpen] = useState(false);

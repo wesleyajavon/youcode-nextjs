@@ -6,7 +6,7 @@ import { PlusCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { AdminLessonCreateUI } from '@/components/admin/server/AdminLessonCreateUI';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
-import { getCourseInfo } from '../../../_actions/course.query';
+import { getCourseInfo } from '../../../../../../lib/queries/admin/course.query';
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

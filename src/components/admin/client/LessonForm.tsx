@@ -22,15 +22,16 @@ import {
 import { Textarea } from '@/components/ui/common/textarea';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { lessonActionCreate, lessonActionEdit } from '../../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.action';
-import { LESSON_STATE, LessonFormSchema } from '../../../app/admin/courses/[id]/lessons/[lessonId]/edit/lesson.schema';
-import { GenerateLessonModal } from '../../../lib/features/ai/GenerateLessonModal';
 import { Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { LessonFormProps } from '@/types/lesson';
+import { LESSON_STATE, LessonFormSchema } from '@/lib/validations/lesson.schema';
+import { lessonActionCreate, lessonActionEdit } from '@/lib/actions/admin/lesson.action';
+import { GenerateLessonModal } from '@/components/ai/GenerateLessonModal';
 
 // This component is used to create or edit a lesson in the admin panel.
 // It renders a form for lesson details including name, content, and state. 
+// The form uses Zod for validation and handles submission to create or edit a course.
 
 export const LessonForm = ({ defaultValue }: LessonFormProps) => {
     const form = useZodForm({
