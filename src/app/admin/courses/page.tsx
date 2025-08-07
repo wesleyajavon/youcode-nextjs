@@ -12,8 +12,8 @@ import { HomeIcon, PlusIcon, } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
-import { AdminCoursesTableServer } from "@/components/admin/server/AdminCoursesTableServer";
 import { BookOpen } from "lucide-react";
+import { CourseTableServer } from '@/components/common/server/CourseTable';
 
 export default async function AdminCoursesPage() {
 
@@ -45,7 +45,7 @@ export default async function AdminCoursesPage() {
             </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <AdminCoursesTableServer />      
+                    <CourseTableServer />      
                 </Suspense>
             </LayoutContent>
         </Layout>

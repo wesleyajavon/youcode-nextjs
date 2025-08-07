@@ -21,30 +21,29 @@ import { Pagination } from "@/components/ui/common/pagination";
 import { toast } from "sonner";
 import { DeleteDialog } from "@/lib/features/dialogs/DeleteDialog";
 import { Loader } from "@/components/ui/common/loader";
-import { fetchLessons } from "@/lib/api/lesson";
-import { LessonsResponse } from "@/types/lesson";
+import { fetchLessons, fetchPublicLessons, getProgressBadgeColor, getProgressLabel } from "@/lib/api/lesson";
+import { LessonsInfoResponse, LessonsResponse } from "@/types/lesson";
+import { Badge } from "@/components/ui/common/badge";
+import clsx from "clsx";
 
-// This component is used to display a table of lessons in the admin panel.
-// It allows administrators to view, search, and manage lessons for a specific course.
-// The table includes options to create, edit, and delete lessons.
 
-export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role: string }) {
+
+export function LessonTable({ courseId, role }: { courseId: string, role: string }) {
     const queryClient = useQueryClient()
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
 
+    // Dialog state for deletion confirmation (only for admin)
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedLesson, setSelectedLesson] = useState<{ id: string, name: string } | null>(null);
 
-    const { data, isLoading, error } = useQuery<LessonsResponse>({
-        queryKey: ["lessons", courseId, page, limit, search],
-        queryFn: () => fetchLessons(courseId, page, limit, search, role),
+
+    const { data, isLoading, error } = useQuery<LessonsResponse | LessonsInfoResponse>({
+        queryKey: [`${role.toLowerCase}-lessons`, courseId, page, limit, search],
+        queryFn: () => role === "PUBLIC" ? fetchPublicLessons(page, limit, search) : fetchLessons(courseId, page, limit, search, role),
         enabled: !!courseId,
     });
-
-    const lessons = data?.data ?? [];
-    const total = data?.total ?? 0;
 
     // ✅ Delete mutation
     const deleteMutation = useMutation({
@@ -74,6 +73,11 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
         setSelectedLesson(null);
     }
 
+    const lessons = data?.data ?? [];
+    const total = data?.total ?? 0;
+
+
+
     return (
         <>
             <Card>
@@ -84,10 +88,14 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                 </CardHeader>
                 <CardContent>
                     <Typography variant="small" className="mb-2">
-                        👋 Welcome to the Teaching Center! Here you can manage all your lessons.
+                        {role === "ADMIN" && `👋 Welcome to the Teaching Center! Here you can manage all your lessons.`}
+                        {role === "USER" && `🗒 Here you can find all the lessons for this course. Click on a lesson to view its details and update your progress.`}
+                        {role === "PUBLIC" && `😁 This is the public teaching center where you can explore available lessons.`}
                     </Typography>
                     <Typography variant="muted" className="mb-6">
-                        Your AI-powered lessons are waiting on you. Go check it out 👀
+                        {role === "ADMIN" && `Your AI-powered lessons are waiting on you. Go check it out 👀`}
+                        {role === "USER" && `Click on a lesson to view its content and update your progress.📒`}
+                        {role === "PUBLIC" && `Want more lessons? Sign in! 🫡`}
                     </Typography>
                     <SearchInput
                         value={search}
@@ -104,10 +112,11 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                                     <TableRow>
                                         <TableHead> </TableHead>
                                         <TableHead>Name</TableHead>
-                                        <TableHead className="hidden sm:table-cell">Content</TableHead>
-                                        <TableHead className="hidden md:table-cell">Rank</TableHead>
-                                        <TableHead> </TableHead>
-                                        <TableHead> </TableHead>
+                                        {(role === "ADMIN" || role === "PUBLIC") && <TableHead className="hidden sm:table-cell">Content</TableHead>}
+                                        {(role === "ADMIN" || role === "USER") && <TableHead className="hidden md:table-cell">Rank</TableHead>}
+                                        {(role === "USER") && <TableHead className="hidden md:table-cell">Progress</TableHead>}
+                                        {(role === "ADMIN") && <TableHead className="hidden md:table-cell"> </TableHead>}
+                                        {(role === "ADMIN") && <TableHead className="hidden md:table-cell"> </TableHead>}
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -119,32 +128,48 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                                                 </Avatar>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography
-                                                    as={Link}
-                                                    variant="large"
-                                                    href={`/admin/courses/${courseId}/lessons/${lesson.id}`}
-                                                >
-                                                    {lesson.name?.slice(0, 30) ?? ""}
-                                                </Typography>
+                                                {(role === "PUBLIC") ?
+                                                    <Typography
+                                                        as={Link}
+                                                        variant="large"
+                                                        href={`/public/${lesson.id}`}
+
+                                                    >
+                                                        {lesson.name?.slice(0, 30) ?? ""}
+                                                    </Typography> :
+                                                    <Typography
+                                                        as={Link}
+                                                        variant="large"
+                                                        href={`/${role.toLowerCase()}/courses/${courseId}/lessons/${lesson.id}`}
+                                                    >
+                                                        {lesson.name?.slice(0, 30) ?? ""}
+                                                    </Typography>
+                                                }
+
                                             </TableCell>
-                                            <TableCell className="hidden sm:table-cell">
+                                            {(role === "ADMIN" || role === "PUBLIC") && <TableCell className="hidden sm:table-cell">
                                                 <Typography variant="small">
                                                     {lesson.content?.slice(0, 15) ?? ""}...
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
+                                            </TableCell>}
+                                            {(role === "ADMIN" || role === "USER") && <TableCell className="hidden md:table-cell">
                                                 <Typography variant="small">
                                                     {lesson.rank}
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell>
+                                            </TableCell>}
+                                            {(role === "USER") && <TableCell className="hidden md:table-cell">
+                                                <Badge className={clsx("w-fit", getProgressBadgeColor(lesson.progress))}>
+                                                    {getProgressLabel(lesson.progress)}
+                                                </Badge>
+                                            </TableCell>}
+                                            {(role === "ADMIN") && <TableCell>
                                                 <Link
                                                     aria-label="Edit lesson"
                                                     href={`/admin/courses/${courseId}/lessons/${lesson.id}/edit`}>
                                                     <PencilSquareIcon className="h-5 w-5" />
                                                 </Link>
-                                            </TableCell>
-                                            <TableCell>
+                                            </TableCell>}
+                                            {(role === "ADMIN") && <TableCell>
                                                 <button
                                                     type="button"
                                                     onClick={() => handleDeleteClick({ id: lesson.id, name: lesson.name })}
@@ -153,7 +178,7 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                                                 >
                                                     <XMarkIcon className="h-5 w-5 mt-1" />
                                                 </button>
-                                            </TableCell>
+                                            </TableCell>}
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -181,8 +206,6 @@ export function AdminLessonsTableUI({ courseId, role }: { courseId: string, role
                 description="This action cannot be undone. All data and progress related to this lesson will be permanently deleted."
                 itemName={selectedLesson?.name}
             />
-
-
         </>
     );
 }

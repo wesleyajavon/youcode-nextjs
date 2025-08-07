@@ -7,11 +7,11 @@ import { buttonVariants } from '@/components/ui/common/button';
 import { redirect } from 'next/navigation';
 import { getLesson } from '@/app/admin/courses/_actions/lesson.query';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
-import { LessonPageContentUI } from '@/components/user/server/LessonPageContentUI';
 import { JoinLessonButton } from '@/components/ui/user/JoinLessonButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
+import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -93,7 +93,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
             </LayoutActions>
             <LayoutContent className="flex flex-col gap-2">
                 <Suspense fallback={<CardSkeleton />}>
-                    <LessonPageContentUI params={props.params} />
+                    <LessonContentWrapper params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

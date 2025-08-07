@@ -35,7 +35,7 @@ export default function StatChart({
                         {subDescription1}
                     </Typography>
                 </span>
-                <span className="mb-6">
+                <span className="mb-6 hidden sm:block">
                     <Typography variant="p">
                         {subDescription2}
                     </Typography>

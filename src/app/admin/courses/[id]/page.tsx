@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { CoursePageContentSkeleton } from "@/components/ui/common/skeleton";
 import { Suspense } from "react";
-import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
+import CoursePageWrapper from "@/components/common/server/CoursePageWrapper";
 import { BookOpen } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 
@@ -56,7 +56,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
             </LayoutActions>
             <LayoutContent>
                 <Suspense fallback={<CoursePageContentSkeleton />}>
-                    <CoursePageContentGeneric params={props.params} />
+                    <CoursePageWrapper params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout >

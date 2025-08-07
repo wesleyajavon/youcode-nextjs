@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { getCourseInfo } from "@/app/admin/courses/_actions/course.query";
 import { CoursePageContentSkeleton } from "@/components/ui/common/skeleton";
 import { Suspense } from "react";
-import CoursePageContentGeneric from "@/components/common/server/CoursePageContentGeneric";
+import CoursePageWrapper from "@/components/common/server/CoursePageWrapper";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import { BookOpen } from "lucide-react";
 
@@ -44,7 +44,7 @@ export default async function CoursePage(props: { params: Promise<{ id: string }
             </LayoutHeader>
             <LayoutContent>
                 <Suspense fallback={<CoursePageContentSkeleton />}>
-                    <CoursePageContentGeneric params={props.params} />
+                    <CoursePageWrapper params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

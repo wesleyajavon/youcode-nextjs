@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
-import { LessonsTable } from "@/components/common/server/LessonTable";
+import { LessonTableServer } from "@/components/common/server/LessonTable";
 
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
@@ -47,7 +47,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
 
             <LayoutContent>
                 <Suspense fallback={<CardSkeleton />}>
-                    <LessonsTable params={props.params} />
+                    <LessonTableServer params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>

@@ -1,4 +1,4 @@
-import { getRequiredAuthSession } from '@/lib/auth';
+import { getAuthSession, getRequiredAuthSession } from '@/lib/auth';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
@@ -10,7 +10,8 @@ import remarkGfm from 'remark-gfm';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { getCourseInfo } from '@/app/admin/courses/_actions/course.query';
 import { getLessonOnUser } from '@/app/user/courses/_actions/lesson.query';
-import { LessonProgressForm } from '../client/LessonProgressForm';
+import { LessonProgressForm } from '@/components/user/client/LessonProgressForm';
+import { prisma } from '@/lib/prisma';
 
 // Incremental Static Regeneration (ISR) allows the page to be rebuilt every 60 seconds
 // This is useful for keeping the lesson content up-to-date without requiring a full rebuild of the site.
@@ -25,23 +26,31 @@ export const revalidate = 60;
 // if the user has not joined. If the user has joined, it displays the lesson content and a form
 // to update the lesson progress.
 
-export async function LessonPageContentUI(props: { params: Promise<{ id: string, lessonId: string }> }) {
+export async function LessonContentWrapper(props: { params: Promise<{ lessonId: string }> }) {
     const params = await props.params;
     const lesson = await getLesson(params.lessonId);
-    // const markdown = await getLessonContent(params.lessonId);
-    const course = await getCourseInfo(params.id);
-    const session = await getRequiredAuthSession();
-    const lessonOnUser = await getLessonOnUser(session.user.id, params.lessonId);
+        // Récupère le courseId même si la leçon n'existe pas
+    const lessonCourse = await prisma.lesson.findUnique({
+        where: { id: params.lessonId },
+        select: { courseId: true },
+    });
+    const session = await getAuthSession();
+
+
+    if (!lesson) {
+        redirect(`/${session?.user.role?.toLowerCase()}/courses/${lessonCourse?.courseId}/lessons`);
+    }
+
+    const lessonOnUser = await getLessonOnUser(session?.user.id || '', params.lessonId);
     const markdown = await getLessonContentWithRedis(params.lessonId);
+    const course = await getCourseInfo(lesson?.courseId);
+
 
     // await new Promise(res => setTimeout(res, 5000));
 
-    if (!lesson) {
-        redirect(`/user/courses/${params.id}/lessons`);
-    }
 
     const alreadyJoined = lesson?.users.some(
-        (u: any) => u.user.id === session.user.id
+        (u: any) => u.user.id === session?.user.id
     );
 
     return (
@@ -64,24 +73,24 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="max-h-[60vh] max-w-[100vw] lg:max-h-[60vh] sm:max-h-[500px] overflow-y-auto px-2 sm:px-6">
-                    {alreadyJoined ? (
-                        <div className="prose prose-sm sm:prose max-w-full break-words">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                {markdown}
-                            </ReactMarkdown>
-                        </div>
-                    ) : (
+                    {session?.user.role === 'USER' && !alreadyJoined ? (
                         <div className="flex flex-col items-center">
                             <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
                             <Typography variant="muted" className="text-center">
                                 Start the lesson and update your progress 💪🏽
                             </Typography>
                         </div>
+                    ) : (
+                        <div className="prose prose-sm sm:prose max-w-full break-words">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {markdown}
+                            </ReactMarkdown>
+                        </div>
                     )}
                 </CardContent>
             </Card>
             {/* Progress form in a separate card */}
-            {alreadyJoined && (
+            {session?.user.role === 'USER' && alreadyJoined && (
                 <Card className="rounded-xl shadow-sm">
                     <CardHeader>
                         <CardTitle>
@@ -93,7 +102,7 @@ export async function LessonPageContentUI(props: { params: Promise<{ id: string,
                     <CardContent className="flex px-2 sm:px-6 w-full max-w-full">
                         <div className="w-full max-w-full flex flex-col gap-2">
                             <LessonProgressForm
-                                userId={session.user.id}
+                                userId={session?.user.id || ''}
                                 lessonId={lesson.id}
                                 progress={lessonOnUser?.progress || 'IN_PROGRESS'}
                             />

@@ -8,7 +8,7 @@ import {
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { Suspense } from 'react';
-import { CourseTableServer } from '../../../components/user/server/CourseTableServer';
+import { CourseTableServer } from '@/components/common/server/CourseTable';
 import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
 import { BookOpen } from 'lucide-react';
 

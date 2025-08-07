@@ -63,7 +63,7 @@ export function GenerateLessonModal({ courseId, open, onOpenChange, onResult }: 
                         Generate a lesson with AI
                     </DialogTitle>
                     <DialogDescription>
-                        Describe the lesson that you want to create. Our AI will generate a clear and engaging presentation based on your prompt.
+                        Describe the lesson that you want to create. Our AI will generate a clear and engaging content based on your prompt.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col gap-3">

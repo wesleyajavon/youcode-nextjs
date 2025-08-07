@@ -9,9 +9,9 @@ import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { getCourseInfo } from '../../../_actions/course.query';
-import AdminLessonPageContentUI from '@/components/admin/server/AdminLessonPageContentUI';
 import { StatChartServer } from '@/components/analytics/server/StatChartServer';
 import UserProgressChart from '@/components/analytics/customCharts/UserProgressChart';
+import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -79,7 +79,7 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
       </LayoutActions>
       <LayoutContent className="flex flex-col gap-4"> 
         <Suspense fallback={<CardSkeleton />}>
-          <AdminLessonPageContentUI params={props.params} />
+          <LessonContentWrapper params={props.params} />
         </Suspense>
         <Suspense fallback={<CardSkeleton />}>
           <StatChartServer

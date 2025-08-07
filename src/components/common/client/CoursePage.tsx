@@ -23,7 +23,7 @@ import { fetchCourseInfo, fetchParticipants } from "@/lib/api/course";
 // It fetches course information and participants based on the course ID.
 // The course information includes the course name, presentation, image, and state.
 // The participants list shows users enrolled in the course.
-export default function CoursePageContentGenericUI({
+export default function CoursePage({
     courseId,
     alreadyJoined,
     role,
@@ -39,12 +39,19 @@ export default function CoursePageContentGenericUI({
     const [limit] = useState(5);
     const [dialogOpen, setDialogOpen] = useState(false)
 
-
+    // Fetch course information using React Query
+    // This will automatically refetch the course info when the courseId changes
+    // and will also handle caching and loading states.
+    // The course information is used to only display the course details
     const { data: courseData, isLoading: loadingCourse, error: courseError } = useQuery<FetchCourseInfoResponse>({
         queryKey: ["course-info", courseId],
         queryFn: () => fetchCourseInfo(courseId, role),
     });
 
+    // Fetch participants of the course using React Query
+    // This will automatically refetch the participants when the courseId, page, limit, or search changes
+    // and will also handle caching and loading states.
+    // The participants are used to display the list of users enrolled in the course.
     const { data: participantsData, isLoading: loadingParticipants, error: participantsError } = useQuery<FetchParticipantsResponse>({
         queryKey: ["participants", courseId, page, limit, search],
         queryFn: () => fetchParticipants(courseId, page, limit, search, role),

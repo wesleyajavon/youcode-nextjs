@@ -6,15 +6,8 @@ import { getLesson } from '@/app/admin/courses/_actions/lesson.query';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
-import { PublicLessonPageContentUI } from '@/components/public/server/PublicLessonPageContentUI';
+import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';
 
-// This page is used to display the content of a lesson in markdown format
-// It fetches the lesson content from the database and renders it using ReactMarkdown
-// The lessonId is passed as a parameter in the URL
-// Example URL: /user/courses/[id]/lessons/[lessonId]
-
-// ...existing imports...
-// ...autres imports...
 
 export default async function PublicLessonPage(props: { params: Promise<{ lessonId: string }> }) {
     const params = await props.params;
@@ -52,7 +45,7 @@ export default async function PublicLessonPage(props: { params: Promise<{ lesson
             
             <LayoutContent className="flex flex-col gap-2 ">
                 <Suspense fallback={<CardSkeleton />}>
-                    <PublicLessonPageContentUI params={props.params} />
+                    <LessonContentWrapper params={props.params} />
                 </Suspense>
             </LayoutContent>
         </Layout>
