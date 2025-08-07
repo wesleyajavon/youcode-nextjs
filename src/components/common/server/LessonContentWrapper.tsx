@@ -72,7 +72,7 @@ export async function LessonContentWrapper(props: { params: Promise<{ lessonId: 
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="max-h-[60vh] max-w-[100vw] lg:max-h-[60vh] sm:max-h-[500px] overflow-y-auto px-2 sm:px-6">
-                    {session?.user.role === 'USER' && !alreadyJoined ? (
+                    {session?.user.role === 'USER' && !alreadyJoined && lesson?.state !== 'PUBLIC' ? (
                         <div className="flex flex-col items-center">
                             <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
                             <Typography variant="muted" className="text-center">
