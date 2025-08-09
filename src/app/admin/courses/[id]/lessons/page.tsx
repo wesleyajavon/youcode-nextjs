@@ -1,4 +1,3 @@
-import { getCourseInfo } from "../../../../../lib/queries/admin/course.query";
 import { redirect } from "next/navigation";
 import {
     Layout,
@@ -15,6 +14,7 @@ import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/common/avatar";
 import { LessonTableServer } from "@/components/common/server/LessonTable";
+import { getCourseInfo } from "@/lib/queries/admin/course.query";
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params

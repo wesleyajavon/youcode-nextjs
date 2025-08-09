@@ -1,10 +1,10 @@
-import { getAuthSession, getRequiredAuthSession } from '@/lib/auth';
+import { getAuthSession } from '@/lib/auth';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/common/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/common/card';
 import { Typography } from '@/components/ui/common/typography';
 import { redirect } from 'next/navigation';
-import { getLesson, getLessonContentWithRedis } from '@/lib/queries/admin/lesson.query';
+import { getLesson, getLessonContentWithRedis, getLessonInfo } from '@/lib/queries/admin/lesson.query';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import remarkGfm from 'remark-gfm';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
@@ -28,7 +28,7 @@ export const revalidate = 60;
 
 export async function LessonContentWrapper(props: { params: Promise<{ lessonId: string }> }) {
     const params = await props.params;
-    const lesson = await getLesson(params.lessonId);
+    const lesson = await getLessonInfo(params.lessonId);
     const session = await getAuthSession();
 
     // Fetch the course ID associated with the lesson to redirect if the lesson does not exist
@@ -42,15 +42,14 @@ export async function LessonContentWrapper(props: { params: Promise<{ lessonId: 
 
     const lessonOnUser = await getLessonOnUser(session?.user.id || '', params.lessonId);
     const markdown = await getLessonContentWithRedis(params.lessonId);
-    const course = await getCourseInfo(lesson?.courseId);
+    const course = await getCourseInfo(lesson.courseId);
 
+    if (!course) {
+        redirect(`/${session?.user.role?.toLowerCase()}/courses`);
+    }
 
-    // await new Promise(res => setTimeout(res, 5000));
-
-
-    const alreadyJoined = lesson?.users.some(
-        (u: any) => u.user.id === session?.user.id
-    );
+    // Vérifie si l'utilisateur a déjà rejoint la leçon
+    const alreadyJoined = await getLessonOnUser(session?.user.id || '', params.lessonId);
 
     return (
         <div className="w-full max-w-full sm:max-w-3xl mx-auto flex flex-col gap-4">
@@ -59,20 +58,20 @@ export async function LessonContentWrapper(props: { params: Promise<{ lessonId: 
                     <CardTitle>
                         <span className="inline-flex items-center gap-2 mb-2">
                             <Avatar className="rounded h-10 w-10 mr-4">
-                                <AvatarFallback>{course?.name[0]}</AvatarFallback>
-                                <AvatarImage src={course?.image} alt={course?.name} />
+                                <AvatarFallback>{course.name[0]}</AvatarFallback>
+                                <AvatarImage src={course.image} alt={course.name} />
                             </Avatar>
                             <Typography variant={'h2'}>
-                                {lesson?.course?.name || 'Course'}
+                                {course.name}
                             </Typography>
                         </span>
                         <Typography variant={'muted'}>
-                            {lesson?.name || 'Lesson'}
+                            {lesson.name}
                         </Typography>
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="max-h-[60vh] max-w-[100vw] lg:max-h-[60vh] sm:max-h-[500px] overflow-y-auto px-2 sm:px-6">
-                    {session?.user.role === 'USER' && !alreadyJoined && lesson?.state !== 'PUBLIC' ? (
+                    {session?.user.role === 'USER' && !alreadyJoined && lesson.state !== 'PUBLIC' ? (
                         <div className="flex flex-col items-center">
                             <LockClosedIcon className="h-10 w-10 text-muted-foreground" />
                             <Typography variant="muted" className="text-center">
@@ -82,7 +81,7 @@ export async function LessonContentWrapper(props: { params: Promise<{ lessonId: 
                     ) : (
                         <div className="prose prose-sm sm:prose max-w-full break-words">
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                {markdown}
+                                {markdown || 'No content available for this lesson.'}
                             </ReactMarkdown>
                         </div>
                     )}
@@ -97,6 +96,9 @@ export async function LessonContentWrapper(props: { params: Promise<{ lessonId: 
                                 Your Progress
                             </Typography>
                         </CardTitle>
+                        <CardDescription>
+                            Stay motivated! Update and save your progress for this lesson below.
+                        </CardDescription>
                     </CardHeader>
                     <CardContent className="flex px-2 sm:px-6 w-full max-w-full">
                         <div className="w-full max-w-full flex flex-col gap-2">

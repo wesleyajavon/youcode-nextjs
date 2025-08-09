@@ -11,21 +11,16 @@ type ParametersGetServerSession =
 
 export const getAuthSession = async (...parameters: ParametersGetServerSession) => {
   const session = await getServerSession(...parameters, authOptions);
+
   return session;
 };
 
 export const getRequiredAuthSession = async (...parameters: ParametersGetServerSession) => {
   const session = await getServerSession(...parameters, authOptions);
 
-  if(!session?.user.id) {
+  if (!session?.user.id ) {
     redirect(`/`);
   }
-  return session as {
-    user: {
-        id: string;
-        image?: string;
-        name: string;
-        role: string
-    }
-  };
+  
+  return session ;
 };

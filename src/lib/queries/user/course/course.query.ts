@@ -9,3 +9,16 @@ export async function getCoursesNumberAsUser(userId: string): Promise<number> {
     return count;
 }
 
+export async function getCourseOnUser(userId: string, courseId: string) {
+    try {
+        return await prisma.courseOnUser.findFirst({
+            where: {
+                userId: userId,
+                courseId: courseId,
+            },
+        });
+    } catch (error) {
+        console.error("Error in getCourseOnUser:", error);
+        return null;
+    }
+}

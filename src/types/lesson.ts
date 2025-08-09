@@ -1,11 +1,11 @@
 import { LessonFormSchema } from "@/lib/validations/lesson.schema"
+import { LessonState } from "@prisma/client";
 
 enum Progress {
     NOT_STARTED = "NOT_STARTED",
     IN_PROGRESS = "IN_PROGRESS",
     COMPLETED = "COMPLETED",
 }
-
 
 export type LessonInfo = {
     id: string

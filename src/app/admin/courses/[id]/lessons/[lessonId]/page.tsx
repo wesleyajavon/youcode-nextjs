@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { getLessonInfo, getLessonUsersProgress } from '../../../../../../lib/queries/admin/lesson.query';
+import { getLessonInfo, getLessonUsersProgress } from '@/lib/queries/admin/lesson.query';
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
@@ -8,10 +8,10 @@ import { redirect } from 'next/navigation';
 import { DocumentTextIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
-import { getCourseInfo } from '../../../../../../lib/queries/admin/course.query';
 import { StatChartServer } from '@/components/analytics/server/StatChartServer';
 import UserProgressChart from '@/components/analytics/customCharts/UserProgressChart';
 import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';
+import { getCourseInfo } from '@/lib/queries/admin/course.query';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown

@@ -1,10 +1,12 @@
 import LayoutClient from '@/components/common/client/LayoutClient';
 import { getRequiredAuthSession } from '@/lib/auth'
-import { Role } from '@prisma/client';
 
 
 export default async function AccountLayout({ children }: { children: React.ReactNode }) {
+  console.log('AccountLayout rendering...');
+  
   const session = await getRequiredAuthSession()
+  console.log('Session:', session);
 
-  return <LayoutClient role={session.user.role as Role}>{children}</LayoutClient>
+  return <LayoutClient session={session}>{children}</LayoutClient>
 }

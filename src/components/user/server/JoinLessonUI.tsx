@@ -23,6 +23,9 @@ export async function JoinLessonUI(props: { params: Promise<{ id: string, lesson
     const lesson = await getLesson(params.lessonId);
     const course = await getCourseInfo(params.id);
 
+    if (!course) {
+        redirect(`/user/courses`);
+    }
 
     if (!lesson) {
         redirect(`/user/courses/${params.id}/lessons`);

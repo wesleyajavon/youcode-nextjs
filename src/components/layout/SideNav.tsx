@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/common/button";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { LogoutDialog } from "@/components/dialogs/LogoutDialog";
+import { useSessionContext } from "../common/client/LayoutClient";
 
 
 const userNavLinks = [
@@ -24,10 +25,15 @@ const adminNavLinks = [
     { href: "/account", label: "Account", icon: User },
 ];
 
-type Role = "USER" | "ADMIN";
+function isMobileScreen() {
+    if (typeof window === 'undefined') return false; // server safety
+    return window.matchMedia('(max-width: 768px)').matches; // Tailwind's md breakpoint
+}
 
-export function SideNav({ role, visible = false, onClose }: { role: Role; visible?: boolean; onClose?: () => void }) {
+export function SideNav({ visible = false, onClose }: { visible?: boolean; onClose?: () => void }) {
     const pathname = usePathname();
+    const session = useSessionContext();
+
     const [open, setOpen] = useState(false)
     const mutation = useMutation({
         mutationFn: async () => {
@@ -67,7 +73,7 @@ export function SideNav({ role, visible = false, onClose }: { role: Role; visibl
 
                 {/* Navigation links based on user role */}
                 <ul className="flex flex-col gap-2 mt-2">
-                    {role === "USER" && userNavLinks.map(({ href, label, icon: Icon }) => {
+                    {session.user.role === "USER" && userNavLinks.map(({ href, label, icon: Icon }) => {
                         const isActive = href === "/user"
                             ? pathname === "/user"
                             : pathname?.startsWith(href);
@@ -76,6 +82,11 @@ export function SideNav({ role, visible = false, onClose }: { role: Role; visibl
                             <li key={href}>
                                 <Link
                                     aria-label={`Go to ${label} page`}
+                                    onClick={() => {
+                                        if (onClose && isMobileScreen()) {
+                                            onClose();
+                                        }
+                                    }}
                                     href={href}
                                     className={cn(
                                         "flex items-center gap-3 rounded px-3 py-2 text-base font-medium transition-colors hover:bg-primary/10 hover:text-primary",
@@ -91,7 +102,7 @@ export function SideNav({ role, visible = false, onClose }: { role: Role; visibl
                             </li>
                         );
                     })}
-                    {role === "ADMIN" && adminNavLinks.map(({ href, label, icon: Icon }) => {
+                    {session.user.role === "ADMIN" && adminNavLinks.map(({ href, label, icon: Icon }) => {
                         const isActive = href === "/admin"
                             ? pathname === "/admin"
                             : pathname?.startsWith(href);
@@ -118,11 +129,17 @@ export function SideNav({ role, visible = false, onClose }: { role: Role; visibl
                 </ul>
             </div>
 
-            <div className="flex flex-col gap-6 mb-2">
+            <div className="flex flex-col gap-2 mb-2">
                 {/* Role */}
                 <span className="text-xs text-muted-foreground px-3 py-2 rounded bg-primary/10 w-fit mx-auto">
                     <Typography variant="small">
-                        Logged in as: <strong>{role === "ADMIN" ? "Teacher" : "Student"}</strong>
+                        Logged in as: <strong>{session.user.name}</strong>
+                    </Typography>
+                </span>
+                {/* Role */}
+                <span className="text-xs text-muted-foreground px-3 py-2 rounded bg-primary/10 w-fit mx-auto">
+                    <Typography variant="small">
+                        Role: <strong>{session.user.role === "ADMIN" ? "Teacher" : "Student"}</strong>
                     </Typography>
                 </span>
 

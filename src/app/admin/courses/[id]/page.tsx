@@ -1,4 +1,4 @@
-import { getCourseInfo } from "../../../../lib/queries/admin/course.query";
+import { getCourseInfo } from "@/lib/queries/admin/course.query";
 import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/common/button";

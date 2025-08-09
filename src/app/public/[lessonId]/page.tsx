@@ -1,17 +1,17 @@
 import React, { Suspense } from 'react';
-import { Layout, LayoutActions, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
+import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from '@/components/layout/LayoutTemp';
 import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import { redirect } from 'next/navigation';
-import { getLesson } from '@/lib/queries/admin/lesson.query';
+import { getLessonInfo } from '@/lib/queries/admin/lesson.query';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/common/avatar';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';
 
 
 export default async function PublicLessonPage(props: { params: Promise<{ lessonId: string }> }) {
     const params = await props.params;
-    const lesson = await getLesson(params.lessonId);
+    const lesson = await getLessonInfo(params.lessonId);
 
     if (!lesson) {
         redirect(`/public`);
@@ -30,8 +30,8 @@ export default async function PublicLessonPage(props: { params: Promise<{ lesson
 
                             },
                             {
-                                label: lesson?.name || 'Lesson',
-                                href: `/public/lessons/${lesson?.id}`,
+                                label: lesson.name,
+                                href: `/public/lessons/${lesson.id}`,
                                 active: true,
                                 icon:
                                     <Avatar className="rounded h-5 w-5">

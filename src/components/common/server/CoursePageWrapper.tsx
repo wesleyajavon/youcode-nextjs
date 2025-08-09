@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCourse } from "@/lib/queries/admin/course.query";
 import { getRequiredAuthSession } from "@/lib/auth";
 import CoursePage from "@/components/common/client/CoursePage";
+import { getCourseOnUser } from "@/lib/queries/user/course/course.query";
 
 
 // This component is used as a wrapper for the course page.
@@ -23,14 +24,13 @@ export default async function CoursePageWrapper(props: { params: Promise<{ id: s
     }
 
     // Vérifie si l'utilisateur est déjà inscrit
-    const alreadyJoined = course.users.some(
-        (u: any) => u.user.id === session.user.id
-    );
+    const alreadyJoined = await getCourseOnUser(session.user.id, course.id);
+
 
     return (
         <CoursePage
             courseId={params.id}
-            alreadyJoined={alreadyJoined}
+            alreadyJoined={alreadyJoined !== null}
             role={session.user.role}
             userId={session.user.id}
         />

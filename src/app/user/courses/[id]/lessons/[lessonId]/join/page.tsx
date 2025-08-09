@@ -2,7 +2,7 @@ import { getRequiredAuthSession } from "@/lib/auth";
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";
 import { prisma } from "@/lib/prisma";
-import { getLesson } from "@/lib/queries/admin/lesson.query";
+import { getLessonInfo } from "@/lib/queries/admin/lesson.query";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
@@ -10,23 +10,19 @@ import { JoinLessonUI } from "@/components/user/server/JoinLessonUI";
 import { BookOpen } from "lucide-react";
 import { DocumentTextIcon, UserMinusIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { Avatar, AvatarFallback } from "@/components/ui/common/avatar";
+import { getLessonOnUser } from "@/lib/queries/user/lesson/lesson.query";
 
 export default async function JoinLessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const session = await getRequiredAuthSession();
     const params = await props.params;
-    const lesson = await getLesson(params.lessonId);
+    const lesson = await getLessonInfo(params.lessonId);
 
     if (!lesson) {
         redirect(`/user/courses/${params.id}/lessons`);
     }
 
     // Vérifie si l'utilisateur a déjà rejoint la leçon
-    const alreadyJoined = await prisma.lessonOnUser.findFirst({
-        where: {
-            userId: session.user.id,
-            lessonId: lesson.id,
-        },
-    });
+    const alreadyJoined = await getLessonOnUser(session.user.id, lesson.id);
 
     return (
         <Layout>

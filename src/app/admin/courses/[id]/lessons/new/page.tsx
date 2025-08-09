@@ -6,11 +6,15 @@ import { PlusCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { AdminLessonCreateUI } from '@/components/admin/server/AdminLessonCreateUI';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
-import { getCourseInfo } from '../../../../../../lib/queries/admin/course.query';
+import { getCourseInfo } from '@/lib/queries/admin/course.query';
+import { redirect } from 'next/navigation';
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const course = await getCourseInfo(params.id);
+  if (!course) {
+    redirect(`/admin/courses/`);
+  }
 
   return (
     <Layout>
@@ -19,12 +23,12 @@ export default async function NewLessonPage(props: { params: Promise<{ id: strin
           <Breadcrumbs
             breadcrumbs={[
               {
-                label: course?.name || 'Course',
+                label: course.name || 'Course',
                 href: `/admin/courses/${params.id}`,
                 icon:
                   <Avatar className="rounded h-5 w-5">
-                    <AvatarFallback>{course?.name[0]}</AvatarFallback>
-                    {course?.image && <AvatarImage src={course.image} alt={course.name} />}
+                    <AvatarFallback>{course.name[0]}</AvatarFallback>
+                    {course.image && <AvatarImage src={course.image} alt={course.name} />}
                   </Avatar>
               },
               {

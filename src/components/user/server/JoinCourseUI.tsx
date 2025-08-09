@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getCourse } from "@/lib/queries/admin/course.query";
 import { LeaveCourseButton } from "@/components/ui/user/LeaveCourseButton";
 import { JoinCourseButton } from "@/components/ui/user/JoinCourseButton";
+import { getCourseOnUser } from "@/lib/queries/user/course/course.query";
 
 // This component is used to display the UI for joining or leaving a course.
 // It fetches the course data based on the course ID from the URL parameters.
@@ -21,9 +22,7 @@ export async function JoinCourseUI(props: { params: Promise<{ id: string }> }) {
         redirect('/user/courses');
     }
 
-    const alreadyJoined = course.users.some(
-        (u: any) => u.user.id === session.user.id
-    );
+    const alreadyJoined = await getCourseOnUser(session.user.id, course.id);
 
     return (
         <Card>

@@ -5,13 +5,15 @@ import Breadcrumbs from '@/components/ui/common/breadcrumbs';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/common/button';
 import { redirect } from 'next/navigation';
-import { getLesson } from '@/lib/queries/admin/lesson.query';
+import { getLesson, getLessonInfo } from '@/lib/queries/admin/lesson.query';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { JoinLessonButton } from '@/components/ui/user/JoinLessonButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avatar';
 import { getCourseInfo } from '@/lib/queries/admin/course.query';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { LessonContentWrapper } from '@/components/common/server/LessonContentWrapper';
+import { prisma } from '@/lib/prisma';
+import { getLessonOnUser } from '@/lib/queries/user/lesson/lesson.query';
 
 // This page is used to display the content of a lesson in markdown format
 // It fetches the lesson content from the database and renders it using ReactMarkdown
@@ -22,19 +24,24 @@ import { LessonContentWrapper } from '@/components/common/server/LessonContentWr
 // ...autres imports...
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
-    const params = await props.params;
-    const lesson = await getLesson(params.lessonId);
-    const course = await getCourseInfo(params.id);
-    const session = await getRequiredAuthSession();
 
+
+    const session = await getRequiredAuthSession();
+    const params = await props.params;
+    const course = await getCourseInfo(params.id);
+    const lesson = await getLessonInfo(params.lessonId);
+
+    if (!course) {
+        redirect(`/user/courses`);
+    }
 
     if (!lesson) {
         redirect(`/user/courses/${params.id}/lessons`);
     }
 
-    const alreadyJoined = lesson.users.some(
-        (u: any) => u.user.id === session.user.id
-    );
+    // Vérifie si l'utilisateur a déjà rejoint la leçon
+    const alreadyJoined = await getLessonOnUser(session.user.id, lesson.id);
+
 
     return (
         <Layout>
@@ -74,19 +81,19 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
                 {alreadyJoined ? (
                     <Link
                         aria-label="Leave lesson"
-                        href={`/user/courses/${lesson.course.id}/lessons/${lesson.id}/join`}
+                        href={`/user/courses/${lesson.courseId}/lessons/${lesson.id}/join`}
                         className={buttonVariants({
                             variant: 'destructive',
                         })}
                     >
                         Leave this lesson
                     </Link>
-                    
+
                 ) : (
                     <JoinLessonButton
                         lessonId={lesson.id}
-                        courseId={lesson.course.id}
-                        userId={session.user.id} 
+                        courseId={lesson.courseId}
+                        userId={session.user.id}
                     />
                 )}
 

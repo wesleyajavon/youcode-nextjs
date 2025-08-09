@@ -68,10 +68,16 @@ export async function updateLessonProgress(userId: string, lessonId: string, pro
 }
 
 export async function getLessonOnUser(userId: string, lessonId: string) {
-    return await prisma.lessonOnUser.findFirst({
-        where: {
-            userId: userId,
-            lessonId: lessonId,
-        },
-    });
+    try {
+        return await prisma.lessonOnUser.findFirst({
+            where: {
+                userId: userId,
+                lessonId: lessonId,
+            },
+        });
+    } catch (error) {
+        console.error("Error in getLessonOnUser:", error);
+        return null;
+    }
 }
+

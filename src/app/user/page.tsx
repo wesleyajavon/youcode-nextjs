@@ -44,7 +44,7 @@ export default async function UserDashboardPage() {
                                 href: '/user/',
                                 active: true,
                                 icon: <Avatar className="h-8 w-8 mr-2">
-                                    <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback>
+                                    <AvatarFallback>{session.user.name[0]}</AvatarFallback>
                                     {session.user.image && (
                                         <AvatarImage
                                             src={session.user.image}

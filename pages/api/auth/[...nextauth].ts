@@ -29,8 +29,10 @@ export const authOptions: AuthOptions = {
     async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id
-        session.user.image = user.image
-        session.user.role = user.role // Ajoute cette ligne
+        session.user.image = user.image as string
+        session.user.role = user.role as "USER" | "ADMIN"
+        session.user.email = user.email as string
+        session.user.name = user.name as string
       }
       return session
     },

@@ -60,6 +60,8 @@ export function LessonProgressForm({ userId, lessonId, progress }: { userId: str
                     )}
                 />
             </div>
+
+
             <div className="flex-1 flex justify-end w-full">
                 <Button
                     aria-label="Save progress"

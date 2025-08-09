@@ -6,11 +6,12 @@ import { getCourse } from "@/lib/queries/admin/course.query";
 import { Suspense } from "react";
 import { CardSkeleton } from "@/components/ui/common/skeleton";
 import { JoinCourseUI } from "@/components/user/server/JoinCourseUI";
+import { getCourseOnUser } from "@/lib/queries/user/course/course.query";
 
 export default async function JoinCoursePage(props: { params: Promise<{ id: string }> }) {
-
-    const params = await props.params;
+    
     const session = await getRequiredAuthSession();
+    const params = await props.params;
     const course = await getCourse(params.id);
 
     if (!course) {
@@ -18,9 +19,7 @@ export default async function JoinCoursePage(props: { params: Promise<{ id: stri
     }
 
     // Vérifie si l'utilisateur est déjà inscrit
-    const alreadyJoined = course.users.some(
-        (u: any) => u.user.id === session.user.id
-    );
+    const alreadyJoined = await getCourseOnUser(session.user.id, course.id);
 
 
     return (
