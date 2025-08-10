@@ -1,6 +1,7 @@
 import { getRequiredAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import { UpstashCacheManager, UPSTASH_CACHE_CONFIG, withUpstashCache } from '@/lib/cache-upstash';
 
 export async function GET(req: Request) {
   const session = await getRequiredAuthSession();
@@ -28,45 +29,62 @@ export async function GET(req: Request) {
   const skip = (page - 1) * limit;
 
   try {
-    const [lessons, total] = await Promise.all([
-      prisma.lesson.findMany({
-        where: {
-          courseId,
-          name: {
-            contains: search,
-            mode: 'insensitive',
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-          rank: true,
-          content: true,
-          state: true,
-          createdAt: true,
-        },
-        orderBy: { createdAt: 'asc' },
-        skip,
-        take: limit,
-      }),
-      prisma.lesson.count({
-        where: {
-          courseId,
-          name: {
-            contains: search,
-            mode: 'insensitive',
-          },
-        },
-      }),
-    ]);
-
-    return NextResponse.json({
-      data: lessons,
-      total,
+    // Générer une clé de cache unique basée sur le cours et les paramètres
+    const cacheKey = UpstashCacheManager.generateKey('admin:lessons:course', {
+      courseId,
       page,
       limit,
-      totalPages: Math.ceil(total / limit),
+      search,
     });
+
+    // Utiliser le cache pour récupérer les données
+    const result = await withUpstashCache(
+      cacheKey,
+      async () => {
+        const [lessons, total] = await Promise.all([
+          prisma.lesson.findMany({
+            where: {
+              courseId,
+              name: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
+            select: {
+              id: true,
+              name: true,
+              rank: true,
+              content: true,
+              state: true,
+              createdAt: true,
+            },
+            orderBy: { createdAt: 'asc' },
+            skip,
+            take: limit,
+          }),
+          prisma.lesson.count({
+            where: {
+              courseId,
+              name: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
+          }),
+        ]);
+
+        return {
+          data: lessons,
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        };
+      },
+      UPSTASH_CACHE_CONFIG.LESSON_LIST // 5 minutes pour les listes de leçons
+    );
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error('[ADMIN_LESSONS_GET]', error);
     return new NextResponse('Internal Server Error', { status: 500 });

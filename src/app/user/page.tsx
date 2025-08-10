@@ -6,8 +6,8 @@ import { buttonVariants } from '@/components/ui/common/button';
 import { getRequiredAuthSession } from '@/lib/auth';
 import { BookOpenIcon, RectangleStackIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { getCoursesNumberAsUser } from '../../lib/queries/user/course/course.query';
-import { getLessonsNumberAsUser } from '../../lib/queries/user/lesson/lesson.query';
+import { getCoursesNumberAsUser } from '@/lib/queries/user/course/course.query';
+import { getLessonsNumberAsUser } from '@/lib/queries/user/lesson/lesson.query';
 import { Suspense } from 'react';
 import { CardSkeleton } from '@/components/ui/common/skeleton';
 import { DashboardCard } from '@/components/common/server/DashboardCard';
@@ -16,9 +16,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avat
 
 export default async function UserDashboardPage() {
 
-    const session = await getRequiredAuthSession();
-    const coursesCount = await getCoursesNumberAsUser(session.user.id);
-    const lessonsCount = await getLessonsNumberAsUser(session.user.id);
+    const session = await getRequiredAuthSession(); 
+    
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [coursesCount, lessonsCount] = await Promise.all([
+        getCoursesNumberAsUser(session.user.id),
+        getLessonsNumberAsUser(session.user.id)
+    ]);
 
     const stats = [
         {

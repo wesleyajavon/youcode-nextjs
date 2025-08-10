@@ -23,10 +23,19 @@ import { MyBarChart } from '@/components/analytics/customCharts/MyBarChart';
 export default async function AdminDashboardPage() {
 
     const session = await getRequiredAuthSession();
-    const coursesCount = await getCoursesNumber(session.user.id);
-    const lessonsCount = await getLessonsNumber(session.user.id);
-    const usersCount = await getUsersCountForUserCourses(session.user.id);
-    const coursesAndTheirUsersCount = await getCoursesWithUserCountByCreator(session.user.id);
+    
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [
+        coursesCount,
+        lessonsCount,
+        usersCount,
+        coursesAndTheirUsersCount
+    ] = await Promise.all([
+        getCoursesNumber(session.user.id),
+        getLessonsNumber(session.user.id),
+        getUsersCountForUserCourses(session.user.id),
+        getCoursesWithUserCountByCreator(session.user.id)
+    ]);
 
     // await new Promise(res => setTimeout(res, 5000));
 

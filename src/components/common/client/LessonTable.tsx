@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { DeleteDialog } from "@/components/dialogs/DeleteDialog";
 import { Loader } from "@/components/ui/common/loader";
 import { fetchLessons, fetchPublicLessons, getProgressBadgeColor, getProgressLabel } from "@/lib/api/lesson";
-import { LessonsInfoResponse, LessonsResponse } from "@/types/lesson";
+import { Lesson, LessonInfo, LessonsInfoResponse, LessonsResponse } from "@/types/lesson";
 import { Badge } from "@/components/ui/common/badge";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";

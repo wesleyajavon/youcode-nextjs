@@ -27,19 +27,20 @@ export default async function LessonPage(props: { params: Promise<{ id: string, 
 
 
     const session = await getRequiredAuthSession();
-    const params = await props.params;
-    const course = await getCourseInfo(params.id);
-    const lesson = await getLessonInfo(params.lessonId);
+    const [course, lesson] = await Promise.all([
+        props.params.then(params => getCourseInfo(params.id)),
+        props.params.then(params => getLessonInfo(params.lessonId))
+    ]);
 
     if (!course) {
         redirect(`/user/courses`);
     }
 
     if (!lesson) {
-        redirect(`/user/courses/${params.id}/lessons`);
+        redirect(`/user/courses/${course.id}/lessons`);
     }
 
-    // Vérifie si l'utilisateur a déjà rejoint la leçon
+    // Check if the user has already joined the lesson
     const alreadyJoined = await getLessonOnUser(session.user.id, lesson.id);
 
 

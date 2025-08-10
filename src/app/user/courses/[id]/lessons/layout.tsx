@@ -1,20 +1,15 @@
 import { getRequiredAuthSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma"
+import { getCourseOnUser } from "@/lib/queries/user/course/course.query";
 import { redirect } from "next/navigation"
 
 export default async function LessonLayout({ children, params }: { children: React.ReactNode, params: Promise<{ id: string }> }) {
   const session = await getRequiredAuthSession();
-  const courseId = (await params).id
-
-  // Vérifie si l'utilisateur a rejoint ce cours
-  const courseOnUser = await prisma.courseOnUser.findUnique({
-    where: {
-      userId_courseId: {
-        userId: session.user.id,
-        courseId,
-      },
-    },
-  })
+  
+  // Optimisation: simultaneous execution of asynchronous calls
+  const [courseId, courseOnUser] = await Promise.all([
+    params.then(params => params.id),
+    params.then(params => getCourseOnUser(session.user.id, params.id))
+  ]);
 
   if (!courseOnUser) {
     redirect(`/user/courses/${courseId}`)

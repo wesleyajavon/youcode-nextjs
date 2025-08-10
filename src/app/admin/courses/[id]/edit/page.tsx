@@ -16,8 +16,10 @@ import AdminCourseEditUI from '@/components/admin/server/AdminCourseEditUI';
 import { getCourseInfo } from '@/lib/queries/admin/course.query';
 
 export default async function CourseEditPage(props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const course = await getCourseInfo(params.id);
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [course] = await Promise.all([
+        props.params.then(params => getCourseInfo(params.id))
+    ]);
 
     if (!course) {
         redirect(`/admin/courses/`);

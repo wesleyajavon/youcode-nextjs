@@ -17,9 +17,10 @@ import { LessonTableServer } from "@/components/common/server/LessonTable";
 import { getCourseInfo } from "@/lib/queries/admin/course.query";
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
-    const params = await props.params
-    const courseId = params.id;
-    const course = await getCourseInfo(courseId);
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [course] = await Promise.all([
+        props.params.then(params => getCourseInfo(params.id))
+    ]);
 
 
     if (!course) {
@@ -34,14 +35,14 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
                         breadcrumbs={[
                             {
                                 label: course.name || 'Course',
-                                href: `/admin/courses/${courseId}`,
+                                href: `/admin/courses/${course.id}`,
                                 icon:
                                     <Avatar className="rounded h-5 w-5">
                                         <AvatarFallback>{course.name[0]}</AvatarFallback>
                                         {course.image && <AvatarImage src={course.image} alt={course.name} />}
                                     </Avatar>
                             },
-                            { label: 'Teaching Center', href: `/admin/courses/${courseId}/lessons`, active: true, icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" /> },
+                            { label: 'Teaching Center', href: `/admin/courses/${course.id}/lessons`, active: true, icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" /> },
                         ]}
                     />
                 </LayoutTitle>
@@ -49,7 +50,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
             <LayoutActions>
                 <Link
                     aria-label="Create new lesson"
-                    href={`/admin/courses/${courseId}/lessons/new`}
+                    href={`/admin/courses/${course.id}/lessons/new`}
                     className={buttonVariants({
                         variant: 'default',
                     })}

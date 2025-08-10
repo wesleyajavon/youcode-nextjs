@@ -19,10 +19,13 @@ import { getCourseInfo } from '@/lib/queries/admin/course.query';
 // Example URL: /admin/courses/[id]/lessons/[lessonId]
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
-  const params = await props.params;
-  const course = await getCourseInfo(params.id);
-  const lesson = await getLessonInfo(params.lessonId);
-  const data = await getLessonUsersProgress(params.lessonId);
+  // Optimisation: simultaneous execution of asynchronous calls
+  const [params, course, lesson, data] = await Promise.all([
+    props.params,
+    props.params.then(params => getCourseInfo(params.id)),
+    props.params.then(params => getLessonInfo(params.lessonId)),
+    props.params.then(params => getLessonUsersProgress(params.lessonId))
+  ]);
 
   if (!course) {
     redirect('/admin/courses');

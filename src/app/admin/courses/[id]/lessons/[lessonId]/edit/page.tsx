@@ -17,10 +17,12 @@ import { getCourseInfo } from '@/lib/queries/admin/course.query';
 import { getLessonInfo } from '@/lib/queries/admin/lesson.query';
 
 export default async function LessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
-    const params = await props.params;
-
-    const lesson = await getLessonInfo(params.lessonId);
-    const course = await getCourseInfo(params.id);
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [params, lesson, course] = await Promise.all([
+        props.params,
+        props.params.then(params => getLessonInfo(params.lessonId)),
+        props.params.then(params => getCourseInfo(params.id))
+    ]);
 
     if (!course) {
         redirect(`/admin/courses/`);

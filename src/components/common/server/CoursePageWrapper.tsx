@@ -18,14 +18,16 @@ export default async function CoursePageWrapper(props: { params: Promise<{ id: s
 
     const params = await props.params;
     const session = await getRequiredAuthSession();
-    const course = await getCourse(params.id);
+    
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [course, alreadyJoined] = await Promise.all([
+        getCourse(params.id),
+        getRequiredAuthSession().then(session => getCourseOnUser(session.user.id, params.id))
+    ]);
+    
     if (!course) {
         redirect(`/${session.user.role.toLowerCase}/courses`);
     }
-
-    // Vérifie si l'utilisateur est déjà inscrit
-    const alreadyJoined = await getCourseOnUser(session.user.id, course.id);
-
 
     return (
         <CoursePage

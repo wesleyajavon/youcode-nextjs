@@ -8,7 +8,15 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "seed": "node --loader ts-node/esm prisma/seed.mts"
+    "seed": "node --loader ts-node/esm prisma/seed.mts",
+    "test:cache": "node scripts/test-cache.js",
+    "test:cache:basic": "node scripts/test-cache.js basic",
+    "test:cache:performance": "node scripts/test-cache.js performance",
+    "test:cache:stats": "node scripts/test-cache.js stats",
+    "test:cache:clear": "node scripts/test-cache.js clear",
+    "test:cache:all": "node scripts/test-cache.js all",
+    "test:cache:interactive": "node scripts/test-cache.js interactive",
+    "test:cache:api": "node scripts/test-cache.js api"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.1",

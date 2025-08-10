@@ -11,8 +11,9 @@ import { getCourseOnUser } from "@/lib/queries/user/course/course.query";
 export default async function JoinCoursePage(props: { params: Promise<{ id: string }> }) {
     
     const session = await getRequiredAuthSession();
-    const params = await props.params;
-    const course = await getCourse(params.id);
+    const [course] = await Promise.all([
+        props.params.then(params => getCourse(params.id))
+    ]);
 
     if (!course) {
         redirect('/user/courses');
@@ -30,7 +31,7 @@ export default async function JoinCoursePage(props: { params: Promise<{ id: stri
                         breadcrumbs={[
                             { label: 'Courses', href: '/user/courses' },
                             { label: course.name, href: `/user/courses/${course.id}` },
-                            { label: alreadyJoined ? 'Leave' : 'Join', href: `/user/courses/${params.id}/join`, active: true },
+                            { label: alreadyJoined ? 'Leave' : 'Join', href: `/user/courses/${course.id}/join`, active: true },
                         ]}
                     />
                 </LayoutTitle>

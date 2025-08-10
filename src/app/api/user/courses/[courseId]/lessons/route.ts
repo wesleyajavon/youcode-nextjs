@@ -24,10 +24,12 @@ export async function GET(req: Request) {
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '5');
   const search = searchParams.get('search') || '';
+  const userId = session.user.id;
 
   const skip = (page - 1) * limit;
 
   try {
+    // ✅ OPTIMISATION : Une seule requête au lieu de N+1
     const [lessons, total] = await Promise.all([
       prisma.lesson.findMany({
         where: {
@@ -42,6 +44,10 @@ export async function GET(req: Request) {
           id: true,
           name: true,
           rank: true,
+          users: {
+            where: { userId },
+            select: { progress: true },
+          },
         },
         orderBy: { createdAt: 'asc' },
         skip,
@@ -50,6 +56,7 @@ export async function GET(req: Request) {
       prisma.lesson.count({
         where: {
           courseId,
+          state: { in: ['PUBLIC', 'PUBLISHED'] },
           name: {
             contains: search,
             mode: 'insensitive',
@@ -58,7 +65,7 @@ export async function GET(req: Request) {
       }),
     ]);
 
-    const userId = session.user.id;
+    // Transformer les données pour correspondre au format attendu
     const lessonsWithProgress = await Promise.all(
       lessons.map(async (lesson) => {
         const lessonOnUser = await prisma.lessonOnUser.findFirst({

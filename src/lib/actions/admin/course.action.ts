@@ -4,6 +4,7 @@ import { authActionClient } from '@/lib/action';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 import { CourseFormSchema } from '@/lib/validations/course.schema';
+import { UpstashCacheManager } from '@/lib/cache-upstash';
 
 const CourseActionEditProps = z.object({
     courseId: z.string(),
@@ -27,13 +28,16 @@ export const courseActionEdit = authActionClient
         if (!course) {
             throw new Error('Course not found or you do not have permission to edit it.');
         }
+
+        // ✅ Invalider le cache des cours admin après modification
+        await UpstashCacheManager.invalidateCourseCache(courseId);
+        
         return {
             message: 'Course updated successfully',
             updated: true,
             course
         };
     });
-// ...existing code...
 
 export const courseActionCreate = authActionClient
     // We can pass the action name inside `metadata()`.
@@ -49,8 +53,12 @@ export const courseActionCreate = authActionClient
                 creatorId: userId,
             },
         });
+
+        // ✅ Invalider le cache des cours admin après création
+        await UpstashCacheManager.invalidateCourseCache(course.id);
+        
         return {
             message: 'Course successfully created!',
             course,
         };
-    });;
+    });

@@ -1,7 +1,6 @@
 import { getRequiredAuthSession } from "@/lib/auth";
 import { Layout, LayoutContent, LayoutHeader, LayoutTitle } from "@/components/layout/LayoutTemp";
 import Breadcrumbs from "@/components/ui/common/breadcrumbs";
-import { prisma } from "@/lib/prisma";
 import { getLessonInfo } from "@/lib/queries/admin/lesson.query";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -14,11 +13,12 @@ import { getLessonOnUser } from "@/lib/queries/user/lesson/lesson.query";
 
 export default async function JoinLessonPage(props: { params: Promise<{ id: string, lessonId: string }> }) {
     const session = await getRequiredAuthSession();
-    const params = await props.params;
-    const lesson = await getLessonInfo(params.lessonId);
+    const [lesson] = await Promise.all([
+        props.params.then(params => getLessonInfo(params.lessonId))
+    ]);
 
     if (!lesson) {
-        redirect(`/user/courses/${params.id}/lessons`);
+        redirect(`/user/courses/`);
     }
 
     // Vérifie si l'utilisateur a déjà rejoint la leçon
@@ -37,13 +37,13 @@ export default async function JoinLessonPage(props: { params: Promise<{ id: stri
                             },
                             {
                                 label: 'Teaching Center',
-                                href: `/user/courses/${params.id}/lessons`,
+                                href: `/user/courses/${lesson.courseId}/lessons`,
                                 icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
 
                             },
                             {
                                 label: lesson?.name || 'Lesson',
-                                href: `/user/courses/${params.id}/lessons/${lesson?.id}`,
+                                href: `/user/courses/${lesson.courseId}/lessons/${lesson.id}`,
                                 icon:
                                     <Avatar className="rounded h-5 w-5">
                                         <AvatarFallback>{lesson.name[0]}</AvatarFallback>
@@ -51,7 +51,7 @@ export default async function JoinLessonPage(props: { params: Promise<{ id: stri
                             },
                             {
                                 label: alreadyJoined ? 'Leave' : 'Join',
-                                href: `/user/courses/${params.id}/lessons/${lesson?.id}/join`,
+                                href: `/user/courses/${lesson.courseId}/lessons/${lesson.id}/join`,
                                 active: true,
                                 icon: alreadyJoined ? <UserMinusIcon className="inline-block mr-1 h-4 w-4 text-primary" /> : <UserPlusIcon className="inline-block mr-1 h-4 w-4 text-primary" />
                             },

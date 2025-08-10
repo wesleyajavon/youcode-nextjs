@@ -10,8 +10,11 @@ import { getCourseInfo } from '@/lib/queries/admin/course.query';
 import { redirect } from 'next/navigation';
 
 export default async function NewLessonPage(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
-  const course = await getCourseInfo(params.id);
+  // Optimisation: simultaneous execution of asynchronous calls
+  const [course] = await Promise.all([
+    props.params.then(params => getCourseInfo(params.id))
+  ]);
+
   if (!course) {
     redirect(`/admin/courses/`);
   }
@@ -24,7 +27,7 @@ export default async function NewLessonPage(props: { params: Promise<{ id: strin
             breadcrumbs={[
               {
                 label: course.name || 'Course',
-                href: `/admin/courses/${params.id}`,
+                href: `/admin/courses/${course.id}`,
                 icon:
                   <Avatar className="rounded h-5 w-5">
                     <AvatarFallback>{course.name[0]}</AvatarFallback>
@@ -33,11 +36,11 @@ export default async function NewLessonPage(props: { params: Promise<{ id: strin
               },
               {
                 label: 'Teaching Center',
-                href: `/admin/courses/${params.id}/lessons`,
+                href: `/admin/courses/${course.id}/lessons`,
                 icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />,
               },
               {
-                href: `/admin/courses/${params.id}/lessons/new`,
+                href: `/admin/courses/${course.id}/lessons/new`,
                 active: true,
                 icon: <PlusCircle className="inline-block mr-1 h-4 w-4 text-primary" />
               },
@@ -47,7 +50,7 @@ export default async function NewLessonPage(props: { params: Promise<{ id: strin
       </LayoutHeader>
       <LayoutContent className="flex flex-col gap-4">
         <Suspense fallback={<CardSkeleton />}>
-          <AdminLessonCreateUI courseId={params.id} />
+          <AdminLessonCreateUI courseId={course.id} />
         </Suspense>
       </LayoutContent>
     </Layout>

@@ -10,8 +10,10 @@ import { BookOpen } from "lucide-react";
 
 
 export default async function CoursePage(props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const course = await getCourseInfo(params.id);
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [course] = await Promise.all([
+        props.params.then(params => getCourseInfo(params.id))
+    ]);
 
     if (!course) {
         redirect('/user/courses');

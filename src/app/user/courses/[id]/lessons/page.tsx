@@ -11,8 +11,10 @@ import { LessonTableServer } from "@/components/common/server/LessonTable";
 
 export default async function LessonsPage(props: { params: Promise<{ id: string }> }) {
 
-    const params = await props.params;
-    const course = await getCourseInfo(params.id)
+    // Optimisation: simultaneous execution of asynchronous calls
+    const [course] = await Promise.all([
+        props.params.then(params => getCourseInfo(params.id))
+    ]);
 
     if (!course) {
         redirect('/user/courses');
@@ -27,7 +29,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
                         breadcrumbs={[
                             {
                                 label: course.name || 'Course',
-                                href: `/user/courses/${params.id}`,
+                                href: `/user/courses/${course.id}`,
                                 icon:
                                     <Avatar className="rounded h-5 w-5">
                                         <AvatarFallback>{course.name[0]}</AvatarFallback>
@@ -36,7 +38,7 @@ export default async function LessonsPage(props: { params: Promise<{ id: string 
                             },
                             {
                                 label: 'Teaching Center',
-                                href: `/user/courses/${params.id}/lessons`,
+                                href: `/user/courses/${course.id}/lessons`,
                                 active: true,
                                 icon: <DocumentTextIcon className="inline-block mr-1 h-4 w-4 text-primary" />
                             },
