@@ -16,8 +16,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/common/avat
 
 export default async function UserDashboardPage() {
 
-    const session = await getRequiredAuthSession(); 
-    
+    const session = await getRequiredAuthSession();
+
     // Optimisation: simultaneous execution of asynchronous calls
     const [coursesCount, lessonsCount] = await Promise.all([
         getCoursesNumberAsUser(session.user.id),

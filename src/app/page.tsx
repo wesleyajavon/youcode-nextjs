@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { CircleDollarSign, PencilLine, Rocket, Sparkles, Star } from "lucide-react";
 import Link from "next/link";
 
+
 const FAQValues = [
   {
     question: "What are the limits for course creation on YouCode?",
@@ -261,6 +262,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+
     </div>
   );
 }

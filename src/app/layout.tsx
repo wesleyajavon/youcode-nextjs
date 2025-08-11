@@ -9,6 +9,7 @@ import './globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { Providers } from '@/components/utils/Provider';
 import { Analytics } from '@vercel/analytics/next';
+import { SmartChat } from '@/components/ai/SmartChat';
 
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -40,6 +41,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
               </div>
               <Footer />
             </div>
+            
+            {/* Assistant IA Intelligent - Disponible partout */}
+            <SmartChat 
+              position="bottom-right"
+            />
             <TailwindIndicator />
           </Providers>
         </body>
