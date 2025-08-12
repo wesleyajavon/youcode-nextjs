@@ -22,7 +22,8 @@ import {
   Zap,
   HelpCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Database
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
@@ -37,6 +38,7 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  cached?: boolean;
 }
 
 interface Suggestion {
@@ -67,6 +69,7 @@ export function SmartChat({
   const [lessonContext, setLessonContext] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [cacheStats, setCacheStats] = useState({ hits: 0, misses: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -103,10 +106,18 @@ export function SmartChat({
           setCourseContext(data.context.courseContext || '');
           setLessonContext(data.context.lessonContext || '');
           
+          // Update cache stats
+          if (data.cached) {
+            setCacheStats(prev => ({ ...prev, hits: prev.hits + 1 }));
+          } else {
+            setCacheStats(prev => ({ ...prev, misses: prev.misses + 1 }));
+          }
+          
           console.log('🎯 Context extracted:', {
             course: data.context.courseContext,
             lesson: data.context.lessonContext,
-            url: currentURL
+            url: currentURL,
+            cached: data.cached
           });
         }
       } catch (error) {
@@ -297,6 +308,15 @@ export function SmartChat({
         });
 
         if (response.ok) {
+          const isCached = response.headers.get('X-Cached') === 'true';
+          
+          // Update cache stats
+          if (isCached) {
+            setCacheStats(prev => ({ ...prev, hits: prev.hits + 1 }));
+          } else {
+            setCacheStats(prev => ({ ...prev, misses: prev.misses + 1 }));
+          }
+
           const reader = response.body?.getReader();
           if (reader) {
             let assistantMessage = '';
@@ -307,7 +327,8 @@ export function SmartChat({
               id: assistantMessageId,
               role: 'assistant',
               content: '',
-              timestamp: new Date()
+              timestamp: new Date(),
+              cached: isCached
             }]);
             
             while (true) {
@@ -430,6 +451,16 @@ export function SmartChat({
                context === 'public' ? 'Public Mode' : 
                context === 'account' ? 'My Account' : 'Home'}
             </Badge>
+            {/* Cache stats indicator */}
+            <div className="flex items-center gap-1 text-blue-200">
+              <Database className="w-3 h-3" />
+              <span className="text-xs">
+                {cacheStats.hits + cacheStats.misses > 0 
+                  ? `${Math.round((cacheStats.hits / (cacheStats.hits + cacheStats.misses)) * 100)}%`
+                  : '0%'
+                }
+              </span>
+            </div>
           </div>
         </CardHeader>
         
@@ -505,10 +536,18 @@ export function SmartChat({
                   <div className="whitespace-pre-wrap">
                     {message.content}
                   </div>
-                  <div className={`${isMobile ? 'text-sm' : 'text-xs'} mt-1 ${
-                    message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
-                  }`}>
-                    {formatTime(message.timestamp)}
+                  <div className="flex items-center justify-between">
+                    <div className={`${isMobile ? 'text-sm' : 'text-xs'} mt-1 ${
+                      message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
+                    }`}>
+                      {formatTime(message.timestamp)}
+                    </div>
+                    {message.cached && message.role === 'assistant' && (
+                      <div className="flex items-center gap-1 text-xs text-green-600">
+                        <Database className="w-3 h-3" />
+                        <span>Cached</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 

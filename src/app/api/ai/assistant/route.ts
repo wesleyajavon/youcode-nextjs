@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { grokAPI } from '@/lib/grok-api';
+import { CacheManager, withSmartChatCache } from '@/lib/cache';
 
 // Message validation schema
 const messageSchema = z.object({
@@ -40,8 +41,6 @@ export async function POST(request: NextRequest) {
       topic: 'programming'
     };
 
-    // console.log(context);
-
     // Get last user message
     const lastUserMessage = validatedData.messages
       .filter(msg => msg.role === 'user')
@@ -54,14 +53,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Call Grok API
+    // Create context string for caching
+    const contextString = `${context.courseName || 'general'}:${context.lessonName || 'general'}:${context.userLevel}`;
+
+    // Try to get response from cache first
+    const cachedResponse = await CacheManager.getSmartChatResponse(lastUserMessage, contextString);
+    if (cachedResponse) {
+      console.log('✅ AI response retrieved from cache');
+      return new Response(cachedResponse, {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'X-Cached': 'true',
+        },
+      });
+    }
+
+    // If not in cache, call Grok API
     try {
       const response = await grokAPI.generateResponse(lastUserMessage, context);
 
-      // Option 1: Return raw text directly for streaming
+      // Cache the response
+      await CacheManager.setSmartChatResponse(lastUserMessage, contextString, response);
+
+      // Return response with cache header
       return new Response(response, {
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
+          'X-Cached': 'false',
         },
       });
 
@@ -102,7 +120,9 @@ export async function GET() {
       'Contextual conversations',
       'Multilingual support',
       'Intelligent fallback',
-      'History management'
+      'History management',
+      'Redis caching enabled',
+      'Response caching for similar questions'
     ]
   });
 }
