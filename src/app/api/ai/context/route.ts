@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { CacheManager, withSmartChatCache } from '@/lib/cache';
+import { 
+  ratelimitSmartChatContext, 
+  ratelimitSmartChatGlobal, 
+  getRateLimitIdentifier 
+} from '@/lib/rate-limit';
 
 // Validation schema for the request
 const contextRequestSchema = z.object({
@@ -10,6 +15,53 @@ const contextRequestSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Get rate limit identifier
+    const identifier = getRateLimitIdentifier(request);
+    
+    // Check global rate limits first
+    const globalLimit = await ratelimitSmartChatGlobal.limit('global');
+    if (!globalLimit.success) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Global rate limit exceeded',
+          details: 'Too many requests across all users. Please try again later.',
+          retryAfter: globalLimit.reset - Date.now()
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '1000',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': globalLimit.reset.toString(),
+            'Retry-After': Math.ceil((globalLimit.reset - Date.now()) / 1000).toString()
+          }
+        }
+      );
+    }
+
+    // Check user-specific context rate limits
+    const contextLimit = await ratelimitSmartChatContext.limit(identifier);
+    if (!contextLimit.success) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Rate limit exceeded',
+          details: 'Too many context requests. Please wait before making more requests.',
+          retryAfter: contextLimit.reset - Date.now()
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '30',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': contextLimit.reset.toString(),
+            'Retry-After': Math.ceil((contextLimit.reset - Date.now()) / 1000).toString()
+          }
+        }
+      );
+    }
+
     const body = await request.json();
     const { url } = contextRequestSchema.parse(body);
 
@@ -22,7 +74,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         context: cachedContext,
-        cached: true
+        cached: true,
+        rateLimit: {
+          remaining: contextLimit.remaining,
+          resetTime: contextLimit.reset
+        }
+      }, {
+        headers: {
+          'X-RateLimit-Limit': '30',
+          'X-RateLimit-Remaining': contextLimit.remaining.toString(),
+          'X-RateLimit-Reset': contextLimit.reset.toString()
+        }
       });
     }
 
@@ -37,7 +99,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       context,
-      cached: false
+      cached: false,
+      rateLimit: {
+        remaining: contextLimit.remaining,
+        resetTime: contextLimit.reset
+      }
+    }, {
+      headers: {
+        'X-RateLimit-Limit': '30',
+        'X-RateLimit-Remaining': contextLimit.remaining.toString(),
+        'X-RateLimit-Reset': contextLimit.reset.toString()
+      }
     });
 
   } catch (error) {
@@ -132,10 +204,21 @@ export async function GET() {
     status: 'active',
     features: [
       'Redis caching enabled',
+      'Upstash rate limiting enabled',
       'Context extraction from URLs',
       'Course and lesson context',
       'Automatic cache invalidation'
     ],
+    rateLimits: {
+      context: {
+        perMinute: 30,
+        window: '1m'
+      },
+      global: {
+        perMinute: 1000,
+        window: '1m'
+      }
+    },
     usage: 'POST with { "url": "your_youcode_url" }',
     example: {
       url: 'http://localhost:3000/user/courses/cme0frc370015a2lkfm0m5fr2/lessons/cme0frduf004da2lkio658dk7',

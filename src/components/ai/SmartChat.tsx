@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
+import { RateLimitInfo } from './RateLimitInfo';
 
 interface SmartChatProps {
   className?: string;
@@ -444,7 +445,7 @@ export function SmartChat({
               </Button>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-2 text-xs mt-2">
             <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs">
               {context === 'admin' ? 'Admin Mode' : 
                context === 'user' ? 'Student Mode' : 
@@ -452,7 +453,7 @@ export function SmartChat({
                context === 'account' ? 'My Account' : 'Home'}
             </Badge>
             {/* Cache stats indicator */}
-            <div className="flex items-center gap-1 text-blue-200">
+            {/* <div className="flex items-center gap-1 text-blue-200">
               <Database className="w-3 h-3" />
               <span className="text-xs">
                 {cacheStats.hits + cacheStats.misses > 0 
@@ -460,11 +461,16 @@ export function SmartChat({
                   : '0%'
                 }
               </span>
-            </div>
+            </div> */}
           </div>
         </CardHeader>
         
         <CardContent className="p-0">
+          {/* Rate limit information - moved here to prevent header overflow */}
+          {/* <div className="px-3 py-2 bg-gray-50 border-b">
+            <RateLimitInfo className="text-gray-600" showDetails={false} />
+          </div> */}
+          
           {/* Contextual suggestions */}
           <div className="border-b">
             <div className="p-3 pb-2">

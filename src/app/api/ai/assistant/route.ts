@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { grokAPI } from '@/lib/grok-api';
 import { CacheManager, withSmartChatCache } from '@/lib/cache';
+import { 
+  ratelimitSmartChatAI, 
+  ratelimitSmartChatDaily, 
+  ratelimitSmartChatGlobal, 
+  getRateLimitIdentifier 
+} from '@/lib/rate-limit';
 
 // Message validation schema
 const messageSchema = z.object({
@@ -18,8 +24,52 @@ const requestSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    // Note: Rate limiting will be implemented later with Redis
-    // For now, we accept all requests
+    // Get rate limit identifier
+    const identifier = getRateLimitIdentifier(request);
+    
+    // Check daily AI request limits for usage control
+    const dailyLimit = await ratelimitSmartChatDaily.limit(identifier);
+    if (!dailyLimit.success) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Daily AI limit exceeded',
+          details: 'Daily AI request limit reached. Please try again tomorrow.',
+          retryAfter: dailyLimit.reset - Date.now()
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '500',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': dailyLimit.reset.toString(),
+            'Retry-After': Math.ceil((dailyLimit.reset - Date.now()) / 1000).toString()
+          }
+        }
+      );
+    }
+
+    // Check per-minute AI request limits
+    const aiLimit = await ratelimitSmartChatAI.limit(identifier);
+    if (!aiLimit.success) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'AI rate limit exceeded',
+          details: 'Too many AI requests per minute. Please wait before making more requests.',
+          retryAfter: aiLimit.reset - Date.now()
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': aiLimit.reset.toString(),
+            'Retry-After': Math.ceil((aiLimit.reset - Date.now()) / 1000).toString()
+          }
+        }
+      );
+    }
 
     // Validate request body
     const body = await request.json();
@@ -64,6 +114,10 @@ export async function POST(request: NextRequest) {
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
           'X-Cached': 'true',
+          'X-RateLimit-Limit': '10',
+          'X-RateLimit-Remaining': aiLimit.remaining.toString(),
+          'X-RateLimit-Reset': aiLimit.reset.toString(),
+          'X-Daily-Remaining': dailyLimit.remaining.toString()
         },
       });
     }
@@ -80,6 +134,10 @@ export async function POST(request: NextRequest) {
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
           'X-Cached': 'false',
+          'X-RateLimit-Limit': '10',
+          'X-RateLimit-Remaining': aiLimit.remaining.toString(),
+          'X-RateLimit-Reset': aiLimit.reset.toString(),
+          'X-Daily-Remaining': dailyLimit.remaining.toString()
         },
       });
 
@@ -122,7 +180,21 @@ export async function GET() {
       'Intelligent fallback',
       'History management',
       'Redis caching enabled',
-      'Response caching for similar questions'
-    ]
+      'Response caching for similar questions',
+      'Upstash rate limiting enabled',
+      'Cost control and monitoring'
+    ],
+    rateLimits: {
+      ai: {
+        perMinute: 10,
+        perDay: 500,
+        window: '1m',
+        dailyWindow: '1d'
+      },
+      global: {
+        perMinute: 1000,
+        window: '1m'
+      }
+    }
   });
 }

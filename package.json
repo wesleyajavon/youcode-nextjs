@@ -17,7 +17,8 @@
     "test:cache:all": "node scripts/test-cache.js all",
     "test:cache:interactive": "node scripts/test-cache.js interactive",
     "test:cache:api": "node scripts/test-cache.js api",
-    "test:smartchat-cache": "node scripts/test-smartchat-cache.js"
+    "test:smartchat-cache": "node scripts/test-smartchat-cache.js",
+    "test:smartchat-rate-limits": "node scripts/test-smartchat-rate-limits.js"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.8",
