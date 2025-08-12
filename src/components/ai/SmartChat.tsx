@@ -374,28 +374,26 @@ export function SmartChat({
 
   return (
     <div className={`fixed ${getPositionClasses()} z-50 ${className}`}>
-      <Card className="w-80 shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
-        <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 pb-3">
+      <Card className="w-80 shadow-2xl border-0 backdrop-blur-sm">
+        <CardHeader className="bg-gradient-to-r from-blue-900 to-purple-900 p-4 pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="text-sm flex items-center gap-2 text-white">
               <Bot className="w-4 h-4" />
               Assistant IA YouCode
             </CardTitle>
             <div className="flex items-center gap-1">
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={clearChat}
-                className="text-white hover:bg-blue-700 h-7 w-7 p-0"
                 title="Nouvelle conversation"
               >
                 <RefreshCw className="w-3 h-3" />
               </Button>
               <Button
-                variant="ghost"
+                variant="destructive"
                 size="sm"
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-blue-700 h-7 w-7 p-0"
                 title="Fermer"
               >
                 <X className="w-3 h-3" />
@@ -414,7 +412,7 @@ export function SmartChat({
         
         <CardContent className="p-0">
           {/* Suggestions contextuelles */}
-          <div className="p-3 bg-gray-50 border-b">
+          <div className="p-3  border-b">
             <div className="text-xs font-medium text-gray-700 mb-2">
               💡 Suggestions contextuelles :
             </div>
@@ -445,7 +443,7 @@ export function SmartChat({
                 }`}
               >
                 {message.role === 'assistant' && (
-                  <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <div className="w-6 h-6 rounded-full bg-primary/5 flex items-center justify-center flex-shrink-0">
                     <Bot className="w-3 h-3 text-blue-600" />
                   </div>
                 )}
@@ -453,8 +451,8 @@ export function SmartChat({
                 <div
                   className={`max-w-[80%] rounded-lg px-3 py-2 text-xs ${
                     message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-primary/50 text-white'
+                      : 'bg-primary/5 text-card-foreground'
                   }`}
                 >
                   <div className="whitespace-pre-wrap">
@@ -494,7 +492,7 @@ export function SmartChat({
           </div>
 
           {/* Formulaire */}
-          <form onSubmit={handleSubmit} className="p-3 border-t bg-gray-50">
+          <form onSubmit={handleSubmit} className="p-3 border-t">
             <div className="flex gap-2">
               <Input
                 ref={inputRef}
