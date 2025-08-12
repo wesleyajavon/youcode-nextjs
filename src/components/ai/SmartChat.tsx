@@ -20,7 +20,9 @@ import {
   Lightbulb,
   Target,
   Zap,
-  HelpCircle
+  HelpCircle,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
@@ -54,7 +56,7 @@ export function SmartChat({
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Bonjour ! Je suis ton assistant IA YouCode. Comment puis-je t\'aider aujourd\'hui ? 🚀',
+      content: 'Hello! I\'m your YouCode AI assistant. How can I help you today? 🚀',
       timestamp: new Date()
     }
   ]);
@@ -63,10 +65,24 @@ export function SmartChat({
   const [isTyping, setIsTyping] = useState(false);
   const [courseContext, setCourseContext] = useState('');
   const [lessonContext, setLessonContext] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Extraire le contexte depuis l'URL au chargement et quand l'URL change
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Extract context from URL on load and when URL changes
   useEffect(() => {
     const extractContextFromURL = async () => {
       if (!pathname) return;
@@ -87,15 +103,15 @@ export function SmartChat({
           setCourseContext(data.context.courseContext || '');
           setLessonContext(data.context.lessonContext || '');
           
-          console.log('🎯 Contexte extrait:', {
+          console.log('🎯 Context extracted:', {
             course: data.context.courseContext,
             lesson: data.context.lessonContext,
             url: currentURL
           });
         }
       } catch (error) {
-        console.error('❌ Erreur lors de l\'extraction du contexte:', error);
-        // En cas d'erreur, on garde les contextes vides
+        console.error('❌ Error extracting context:', error);
+        // In case of error, keep empty contexts
         setCourseContext('');
         setLessonContext('');
       }
@@ -104,7 +120,7 @@ export function SmartChat({
     extractContextFromURL();
   }, [pathname]);
 
-  // Détection du contexte basée sur le pathname
+  // Context detection based on pathname
   const getContext = () => {
     if (!pathname) return 'home';
     if (pathname.startsWith('/admin')) return 'admin';
@@ -116,26 +132,26 @@ export function SmartChat({
 
   const context = getContext();
 
-  // Suggestions contextuelles adaptées
+  // Contextual suggestions adapted
   const getSuggestions = (): Suggestion[] => {
     const baseSuggestions: Suggestion[] = [
       {
         id: 'explain-concept',
-        text: 'Expliquer un concept',
+        text: 'Explain a concept',
         icon: <BookOpen className="w-4 h-4" />,
-        prompt: 'Peux-tu m\'expliquer un concept de programmation de manière simple et avec des exemples ?'
+        prompt: 'Can you explain a programming concept in a simple way with examples?'
       },
       {
         id: 'code-example',
-        text: 'Exemple de code',
+        text: 'Code example',
         icon: <Code className="w-4 h-4" />,
-        prompt: 'Peux-tu me donner un exemple de code pratique avec des commentaires explicatifs ?'
+        prompt: 'Can you give me a practical code example with explanatory comments?'
       },
       {
         id: 'learning-tips',
-        text: 'Conseils d\'apprentissage',
+        text: 'Learning tips',
         icon: <Lightbulb className="w-4 h-4" />,
-        prompt: 'Peux-tu me donner des conseils pour bien apprendre la programmation ?'
+        prompt: 'Can you give me tips for learning programming effectively?'
       }
     ];
 
@@ -146,15 +162,15 @@ export function SmartChat({
         contextualSuggestions.push(
           {
             id: 'course-creation',
-            text: 'Créer un cours',
+            text: 'Create a course',
             icon: <Target className="w-4 h-4" />,
-            prompt: 'Comment puis-je créer un cours efficace sur YouCode ? Quelles sont les bonnes pratiques ?'
+            prompt: 'How can I create an effective course on YouCode? What are the best practices?'
           },
           {
             id: 'ai-generation',
-            text: 'Utiliser l\'IA',
+            text: 'Use AI',
             icon: <Sparkles className="w-4 h-4" />,
-            prompt: 'Comment utiliser l\'IA de YouCode pour générer du contenu de cours de qualité ?'
+            prompt: 'How to use YouCode AI to generate quality course content?'
           }
         );
         break;
@@ -163,15 +179,15 @@ export function SmartChat({
         contextualSuggestions.push(
           {
             id: 'course-selection',
-            text: 'Choisir des cours',
+            text: 'Choose courses',
             icon: <Target className="w-4 h-4" />,
-            prompt: 'Comment choisir les bons cours pour mon apprentissage ? Quels critères utiliser ?'
+            prompt: 'How to choose the right courses for my learning? What criteria should I use?'
           },
           {
             id: 'study-strategy',
-            text: 'Stratégie d\'étude',
+            text: 'Study strategy',
             icon: <Lightbulb className="w-4 h-4" />,
-            prompt: 'Quelle stratégie d\'étude recommandes-tu pour apprendre la programmation efficacement ?'
+            prompt: 'What study strategy do you recommend for learning programming effectively?'
           }
         );
         break;
@@ -180,15 +196,15 @@ export function SmartChat({
         contextualSuggestions.push(
           {
             id: 'browse-lessons',
-            text: 'Parcourir les leçons',
+            text: 'Browse lessons',
             icon: <BookOpen className="w-4 h-4" />,
-            prompt: 'Comment naviguer efficacement dans les leçons publiques de YouCode ?'
+            prompt: 'How to navigate efficiently through YouCode public lessons?'
           },
           {
             id: 'sign-in',
-            text: 'Se connecter à YouCode',
+            text: 'Sign in to YouCode',
             icon: <Target className="w-4 h-4" />,
-            prompt: 'Comment se connecter à YouCode et créer un compte pour accéder à plus de fonctionnalités ?'
+            prompt: 'How to sign in to YouCode and create an account to access more features?'
           }
         );
         break;
@@ -197,9 +213,9 @@ export function SmartChat({
         contextualSuggestions.push(
           {
             id: 'profile-management',
-            text: 'Gérer mon profil',
+            text: 'Manage my profile',
             icon: <HelpCircle className="w-4 h-4" />,
-            prompt: 'Comment optimiser mon profil utilisateur sur YouCode ?'
+            prompt: 'How to optimize my user profile on YouCode?'
           }
         );
         break;
@@ -208,15 +224,15 @@ export function SmartChat({
         contextualSuggestions.push(
           {
             id: 'youcode-overview',
-            text: 'Découvrir YouCode',
+            text: 'Discover YouCode',
             icon: <Sparkles className="w-4 h-4" />,
-            prompt: 'Peux-tu me donner un aperçu complet de la plateforme YouCode et ses fonctionnalités ?'
+            prompt: 'Can you give me a complete overview of the YouCode platform and its features?'
           },
           {
             id: 'getting-started',
-            text: 'Commencer',
+            text: 'Get started',
             icon: <Zap className="w-4 h-4" />,
-            prompt: 'Comment commencer à utiliser YouCode ? Quelles sont les premières étapes ?'
+            prompt: 'How to start using YouCode? What are the first steps?'
           }
         );
     }
@@ -226,7 +242,7 @@ export function SmartChat({
 
   const suggestions = getSuggestions();
 
-  // Auto-scroll vers le bas
+  // Auto-scroll to bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -235,7 +251,7 @@ export function SmartChat({
     scrollToBottom();
   }, [messages]);
 
-  // Focus sur l'input quand le chat s'ouvre
+  // Focus on input when chat opens
   useEffect(() => {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
@@ -286,7 +302,7 @@ export function SmartChat({
             let assistantMessage = '';
             const assistantMessageId = (Date.now() + 1).toString();
             
-            // Ajouter le message initial
+            // Add initial message
             setMessages(prev => [...prev, {
               id: assistantMessageId,
               role: 'assistant',
@@ -301,7 +317,7 @@ export function SmartChat({
               const chunk = new TextDecoder().decode(value);
               assistantMessage += chunk;
               
-              // Mettre à jour le message en temps réel
+              // Update message in real time
               setMessages(prev => prev.map(msg => 
                 msg.id === assistantMessageId 
                   ? { ...msg, content: assistantMessage }
@@ -310,15 +326,15 @@ export function SmartChat({
             }
           }
         } else {
-          throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
       } catch (error) {
-        console.error('Erreur lors de l\'envoi du message:', error);
-        toast.error('Erreur de connexion. Veuillez réessayer.');
+        console.error('Error sending message:', error);
+        toast.error('Connection error. Please try again.');
         setMessages(prev => [...prev, {
           id: Date.now().toString(),
           role: 'assistant',
-          content: 'Désolé, une erreur est survenue. Veuillez réessayer.',
+          content: 'Sorry, an error occurred. Please try again.',
           timestamp: new Date()
         }]);
       } finally {
@@ -332,20 +348,25 @@ export function SmartChat({
     setMessages([{
       id: 'welcome',
       role: 'assistant',
-      content: 'Bonjour ! Je suis ton assistant IA YouCode. Comment puis-je t\'aider aujourd\'hui ? 🚀',
+      content: 'Hello! I\'m your YouCode AI assistant. How can I help you today? 🚀',
       timestamp: new Date()
     }]);
-    toast.success('Conversation effacée');
+    toast.success('Conversation cleared');
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('fr-FR', { 
+    return date.toLocaleTimeString('en-US', { 
       hour: '2-digit', 
       minute: '2-digit' 
     });
   };
 
   const getPositionClasses = () => {
+    // On mobile, always position at bottom center for better UX
+    if (isMobile) {
+      return 'bottom-4 left-1/2 transform -translate-x-1/2';
+    }
+    
     switch (position) {
       case 'bottom-left':
         return 'bottom-4 left-4';
@@ -363,10 +384,10 @@ export function SmartChat({
       <div className={`fixed ${getPositionClasses()} z-50 ${className}`}>
         <Button
           onClick={() => setIsOpen(true)}
-          className="h-14 w-14 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-          title="Ouvrir l'assistant IA YouCode"
+          className={`${isMobile ? 'h-16 w-16' : 'h-14 w-14'} rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200`}
+          title="Open YouCode AI Assistant"
         >
-          <MessageCircle className="w-7 h-7" />
+          <MessageCircle className={`${isMobile ? 'w-8 h-8' : 'w-7 h-7'}`} />
         </Button>
       </div>
     );
@@ -374,67 +395,93 @@ export function SmartChat({
 
   return (
     <div className={`fixed ${getPositionClasses()} z-50 ${className}`}>
-      <Card className="w-80 shadow-2xl border-0 backdrop-blur-sm">
+      <Card className={`${isMobile ? 'w-[calc(100vw-2rem)] max-w-sm' : 'w-80'} shadow-2xl border-0 backdrop-blur-sm`}>
         <CardHeader className="bg-gradient-to-r from-blue-900 to-purple-900 p-4 pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm flex items-center gap-2 text-white">
-              <Bot className="w-4 h-4" />
-              Assistant IA YouCode
+            <CardTitle className={`${isMobile ? 'text-base' : 'text-sm'} flex items-center gap-2 text-white`}>
+              <Bot className={`${isMobile ? 'w-5 h-5' : 'w-4 h-4'}`} />
+              YouCode AI Assistant
             </CardTitle>
             <div className="flex items-center gap-1">
               <Button
                 variant="outline"
-                size="sm"
+                size={isMobile ? "default" : "sm"}
                 onClick={clearChat}
-                title="Nouvelle conversation"
+                title="New conversation"
+                className={isMobile ? "h-8 px-2" : ""}
               >
-                <RefreshCw className="w-3 h-3" />
+                <RefreshCw className={`${isMobile ? 'w-4 h-4' : 'w-3 h-3'}`} />
               </Button>
               <Button
                 variant="destructive"
-                size="sm"
+                size={isMobile ? "default" : "sm"}
                 onClick={() => setIsOpen(false)}
-                title="Fermer"
+                title="Close"
+                className={isMobile ? "h-8 px-2" : ""}
               >
-                <X className="w-3 h-3" />
+                <X className={`${isMobile ? 'w-4 h-4' : 'w-3 h-3'}`} />
               </Button>
             </div>
           </div>
           <div className="flex items-center gap-2 text-xs">
             <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs">
-              {context === 'admin' ? 'Mode Admin' : 
-               context === 'user' ? 'Mode Étudiant' : 
-               context === 'public' ? 'Mode Public' : 
-               context === 'account' ? 'Mon Compte' : 'Accueil'}
+              {context === 'admin' ? 'Admin Mode' : 
+               context === 'user' ? 'Student Mode' : 
+               context === 'public' ? 'Public Mode' : 
+               context === 'account' ? 'My Account' : 'Home'}
             </Badge>
           </div>
         </CardHeader>
         
         <CardContent className="p-0">
-          {/* Suggestions contextuelles */}
-          <div className="p-3  border-b">
-            <div className="text-xs font-medium text-gray-700 mb-2">
-              💡 Suggestions contextuelles :
-            </div>
-            <div className="flex flex-wrap gap-1">
-              {suggestions.slice(0, 4).map((suggestion) => (
+          {/* Contextual suggestions */}
+          <div className="border-b">
+            <div className="p-3 pb-2">
+              <div className="flex items-center justify-between">
+                <div className={`${isMobile ? 'text-sm' : 'text-xs'} font-medium text-gray-700`}>
+                  💡 Contextual suggestions:
+                </div>
                 <Button
-                  key={suggestion.id}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  className="text-xs h-auto py-1 px-2 flex items-center gap-1"
-                  disabled={isLoading}
+                  variant="ghost"
+                  size={isMobile ? "default" : "sm"}
+                  onClick={() => setShowSuggestions(!showSuggestions)}
+                  className={`${isMobile ? 'h-8 w-8' : 'h-6 w-6'} p-0 hover:bg-gray-100`}
+                  title={showSuggestions ? 'Hide suggestions' : 'Show suggestions'}
                 >
-                  {suggestion.icon}
-                  {suggestion.text}
+                  {showSuggestions ? (
+                    <ChevronUp className={`${isMobile ? 'w-4 h-4' : 'w-3 h-3'}`} />
+                  ) : (
+                    <ChevronDown className={`${isMobile ? 'w-4 h-4' : 'w-3 h-3'}`} />
+                  )}
                 </Button>
-              ))}
+              </div>
             </div>
+            
+            {showSuggestions && (
+              <div className="px-3 pb-3">
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.slice(0, isMobile ? 3 : 4).map((suggestion) => (
+                    <Button
+                      key={suggestion.id}
+                      variant="outline"
+                      size={isMobile ? "default" : "sm"}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className={`${isMobile ? 'text-sm h-10 px-3' : 'text-xs h-auto py-1 px-2'} flex items-center gap-2`}
+                      disabled={isLoading}
+                    >
+                      {suggestion.icon}
+                      <span className={isMobile ? 'hidden sm:inline' : 'inline'}>
+                        {suggestion.text}
+                      </span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Messages */}
-          <div className="p-3 space-y-3 max-h-64 overflow-y-auto">
+          <div className={`p-3 space-y-3 ${isMobile ? 'max-h-80' : 'max-h-64'} overflow-y-auto`}>
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -443,13 +490,13 @@ export function SmartChat({
                 }`}
               >
                 {message.role === 'assistant' && (
-                  <div className="w-6 h-6 rounded-full bg-primary/5 flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-3 h-3 text-blue-600" />
+                  <div className={`${isMobile ? 'w-8 h-8' : 'w-6 h-6'} rounded-full bg-primary/5 flex items-center justify-center flex-shrink-0`}>
+                    <Bot className={`${isMobile ? 'w-4 h-4' : 'w-3 h-3'} text-blue-600`} />
                   </div>
                 )}
                 
                 <div
-                  className={`max-w-[80%] rounded-lg px-3 py-2 text-xs ${
+                  className={`max-w-[80%] rounded-lg px-3 py-2 ${isMobile ? 'text-sm' : 'text-xs'} ${
                     message.role === 'user'
                       ? 'bg-primary/50 text-white'
                       : 'bg-primary/5 text-card-foreground'
@@ -458,7 +505,7 @@ export function SmartChat({
                   <div className="whitespace-pre-wrap">
                     {message.content}
                   </div>
-                  <div className={`text-xs mt-1 ${
+                  <div className={`${isMobile ? 'text-sm' : 'text-xs'} mt-1 ${
                     message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
                   }`}>
                     {formatTime(message.timestamp)}
@@ -466,8 +513,8 @@ export function SmartChat({
                 </div>
 
                 {message.role === 'user' && (
-                  <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
-                    <User className="w-3 h-3 text-white" />
+                  <div className={`${isMobile ? 'w-8 h-8' : 'w-6 h-6'} rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0`}>
+                    <User className={`${isMobile ? 'w-4 h-4' : 'w-3 h-3'} text-white`} />
                   </div>
                 )}
               </div>
@@ -475,8 +522,8 @@ export function SmartChat({
             
             {isTyping && (
               <div className="flex gap-2 justify-start">
-                <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                  <Bot className="w-3 h-3 text-blue-600" />
+                <div className={`${isMobile ? 'w-8 h-8' : 'w-6 h-6'} rounded-full bg-blue-100 flex items-center justify-center`}>
+                  <Bot className={`${isMobile ? 'w-4 h-4' : 'w-3 h-3'} text-blue-600`} />
                 </div>
                 <div className="bg-gray-100 rounded-lg px-3 py-2">
                   <div className="flex items-center gap-1">
@@ -491,33 +538,33 @@ export function SmartChat({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Formulaire */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="p-3 border-t">
             <div className="flex gap-2">
               <Input
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Posez votre question..."
+                placeholder="Ask your question..."
                 disabled={isLoading}
-                className="flex-1 text-sm"
+                className={`flex-1 ${isMobile ? 'text-base h-12' : 'text-sm'}`}
                 maxLength={500}
               />
               <Button
                 type="submit"
                 disabled={isLoading || !input.trim()}
                 className="bg-blue-600 hover:bg-blue-700 px-3"
-                size="sm"
+                size={isMobile ? "default" : "sm"}
               >
                 {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className={`${isMobile ? 'w-5 h-5' : 'w-4 h-4'} animate-spin`} />
                 ) : (
-                  <Send className="w-4 h-4" />
+                  <Send className={`${isMobile ? 'w-5 h-5' : 'w-4 h-4'}`} />
                 )}
               </Button>
             </div>
-            <div className="text-xs text-gray-500 mt-1 text-center">
-              {input.length}/500 caractères
+            <div className={`${isMobile ? 'text-sm' : 'text-xs'} text-gray-500 mt-2 text-center`}>
+              {input.length}/500 characters
             </div>
           </form>
         </CardContent>

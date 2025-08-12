@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { grokAPI } from '@/lib/grok-api';
 
-// Schéma de validation pour les messages
+// Message validation schema
 const messageSchema = z.object({
   role: z.enum(['user', 'assistant', 'system']),
   content: z.string().min(1).max(2000),
@@ -17,22 +17,22 @@ const requestSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    // Note: La limitation de taux sera implémentée plus tard avec Redis
-    // Pour l'instant, on accepte toutes les requêtes
+    // Note: Rate limiting will be implemented later with Redis
+    // For now, we accept all requests
 
-    // Validation du corps de la requête
+    // Validate request body
     const body = await request.json();
 
     const validatedData = requestSchema.parse(body);
 
-    // Vérification de la clé API Grok (optionnelle, car fallback disponible)
+    // Check Grok API key (optional, as fallback is available)
     const grokApiKey = process.env.GROK_API_KEY;
     if (!grokApiKey) {
-      console.warn('GROK_API_KEY non configurée, utilisation des réponses simulées');
-      // On continue avec les réponses simulées, pas d'erreur
+      console.warn('GROK_API_KEY not configured, using simulated responses');
+      // Continue with simulated responses, no error
     }
 
-    // Préparation du contexte pour Grok
+    // Prepare context for Grok
     const context = {
       courseName: validatedData.courseContext,
       lessonName: validatedData.lessonContext,
@@ -42,23 +42,23 @@ export async function POST(request: NextRequest) {
 
     // console.log(context);
 
-    // Récupération du dernier message utilisateur
+    // Get last user message
     const lastUserMessage = validatedData.messages
       .filter(msg => msg.role === 'user')
       .pop()?.content || '';
 
     if (!lastUserMessage) {
       return NextResponse.json(
-        { error: 'Aucun message utilisateur trouvé' },
+        { error: 'No user message found' },
         { status: 400 }
       );
     }
 
-    // Appel à l'API Grok
+    // Call Grok API
     try {
       const response = await grokAPI.generateResponse(lastUserMessage, context);
 
-      // Option 1: Retourner directement le texte brut pour le streaming
+      // Option 1: Return raw text directly for streaming
       return new Response(response, {
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
@@ -66,8 +66,8 @@ export async function POST(request: NextRequest) {
       });
 
     } catch (error) {
-      console.error('Erreur Grok:', error);
-      return new Response('Erreur lors de la génération de la réponse', {
+      console.error('Grok error:', error);
+      return new Response('Error generating response', {
         status: 500,
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
@@ -76,33 +76,33 @@ export async function POST(request: NextRequest) {
     }
 
   } catch (error) {
-    console.error('Erreur dans l\'API assistant:', error);
+    console.error('Error in assistant API:', error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Données de requête invalides' },
+        { error: 'Invalid request data' },
         { status: 400 }
       );
     }
 
     return NextResponse.json(
-      { error: 'Erreur interne du serveur' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
 
-// Méthode GET pour tester l'API
+// GET method to test the API
 export async function GET() {
   return NextResponse.json({
-    message: 'API Assistant IA YouCode avec Grok - Opérationnelle',
+    message: 'YouCode AI Assistant API with Grok - Operational',
     status: 'active',
     provider: 'grok',
     features: [
-      'Conversations contextuelles',
-      'Support multilingue',
-      'Fallback intelligent',
-      'Gestion d\'historique'
+      'Contextual conversations',
+      'Multilingual support',
+      'Intelligent fallback',
+      'History management'
     ]
   });
 }

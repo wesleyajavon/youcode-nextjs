@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 
-// Schéma de validation pour la requête
+// Validation schema for the request
 const contextRequestSchema = z.object({
   url: z.string().url(),
 });
@@ -12,22 +12,22 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { url } = contextRequestSchema.parse(body);
 
-    console.log('🔍 Extraction du contexte depuis l\'URL:', url);
+    // console.log('🔍 Extracting context from URL:', url);
 
-    // Regex pour extraire course ID et lesson ID
+    // Regex to extract course ID and lesson ID
     const courseMatch = url.match(/\/courses\/([a-zA-Z0-9]+)/);
     const lessonMatch = url.match(/\/lessons\/([a-zA-Z0-9]+)/);
 
     const courseId = courseMatch ? courseMatch[1] : null;
     const lessonId = lessonMatch ? lessonMatch[1] : null;
 
-    console.log('📚 Course ID trouvé:', courseId);
-    console.log('📖 Lesson ID trouvé:', lessonId);
+    // console.log('📚 Course ID found:', courseId);
+    // console.log('📖 Lesson ID found:', lessonId);
 
     let courseContext = '';
     let lessonContext = '';
 
-    // Récupérer les informations du cours si disponible
+    // Get course information if available
     if (courseId) {
       try {
         const course = await prisma.course.findUnique({
@@ -40,16 +40,16 @@ export async function POST(request: NextRequest) {
 
         if (course) {
           courseContext = course.name;
-          console.log('✅ Cours trouvé:', course.name);
+          // console.log('✅ Course found:', course.name);
         } else {
-          console.log('⚠️ Cours non trouvé pour l\'ID:', courseId);
+          // console.log('⚠️ Course not found for ID:', courseId);
         }
       } catch (error) {
-        console.error('❌ Erreur lors de la récupération du cours:', error);
+        console.error('❌ Error retrieving course:', error);
       }
     }
 
-    // Récupérer les informations de la leçon si disponible
+    // Get lesson information if available
     if (lessonId) {
       try {
         const lesson = await prisma.lesson.findUnique({
@@ -62,12 +62,12 @@ export async function POST(request: NextRequest) {
 
         if (lesson) {
           lessonContext = lesson.name;
-          console.log('✅ Leçon trouvée:', lesson.name);
+          // console.log('✅ Lesson found:', lesson.name);
         } else {
-          console.log('⚠️ Leçon non trouvée pour l\'ID:', lessonId);
+          // console.log('⚠️ Lesson not found for ID:', lessonId);
         }
       } catch (error) {
-        console.error('❌ Erreur lors de la récupération de la leçon:', error);
+        console.error('❌ Error retrieving lesson:', error);
       }
     }
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       url,
     };
 
-    console.log('🎯 Contexte extrait:', context);
+    // console.log('🎯 Context extracted:', context);
 
     return NextResponse.json({
       success: true,
@@ -87,33 +87,33 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('❌ Erreur dans l\'API de contexte:', error);
+    console.error('❌ Error in context API:', error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'URL invalide fournie' },
+        { error: 'Invalid URL provided' },
         { status: 400 }
       );
     }
 
     return NextResponse.json(
-      { error: 'Erreur interne du serveur' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
 
-// Méthode GET pour tester l'API
+// GET method to test the API
 export async function GET() {
   return NextResponse.json({
-    message: 'API de Contexte IA YouCode - Opérationnelle',
+    message: 'YouCode AI Context API - Operational',
     status: 'active',
-    usage: 'POST avec { "url": "votre_url_youcode" }',
+    usage: 'POST with { "url": "your_youcode_url" }',
     example: {
       url: 'http://localhost:3000/user/courses/cme0frc370015a2lkfm0m5fr2/lessons/cme0frduf004da2lkio658dk7',
       expectedContext: {
-        courseContext: 'Titre du cours',
-        lessonContext: 'Titre de la leçon',
+        courseContext: 'Course Title',
+        lessonContext: 'Lesson Title',
         courseId: 'cme0frc370015a2lkfm0m5fr2',
         lessonId: 'cme0frduf004da2lkio658dk7'
       }

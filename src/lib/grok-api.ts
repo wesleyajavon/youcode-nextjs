@@ -1,4 +1,4 @@
-// Module API Grok pour l'Assistant IA YouCode
+// Grok API module for YouCode AI Assistant
 import { GROK_CONFIG } from './grok-config';
 
 export interface GrokMessage {
@@ -55,7 +55,7 @@ export class GrokAPI {
   }
 
   /**
-   * Initialise la conversation avec le message système
+   * Initialize conversation with system message
    */
   private initializeConversation(): void {
     this.conversationHistory = [
@@ -67,7 +67,7 @@ export class GrokAPI {
   }
 
   /**
-   * Génère une réponse via l'API Grok
+   * Generate response via Grok API
    */
   async generateResponse(
     userMessage: string,
@@ -79,47 +79,47 @@ export class GrokAPI {
     }
   ): Promise<string> {
     if (!this.apiKey) {
-      console.warn('⚠️ GROK_API_KEY non configurée, utilisation des réponses simulées');
+      console.warn('⚠️ GROK_API_KEY not configured, using simulated responses');
       return this.generateSimulatedResponse(userMessage, context);
     }
 
     try {
-      // Adapter le message système selon le contexte
+      // Adapt system message based on context
       this.adaptSystemPrompt(context);
       
-      // Ajouter le message utilisateur à l'historique
+      // Add user message to history
       this.conversationHistory.push({
         role: 'user',
         content: userMessage
       });
 
-      // Appeler l'API Grok
+      // Call Grok API
       const response = await this.callGrokAPI();
       
       if (response) {
-        // Ajouter la réponse à l'historique
+        // Add response to history
         this.conversationHistory.push({
           role: 'assistant',
           content: response
         });
 
-        // Limiter la taille de l'historique
+        // Limit conversation history size
         this.trimConversationHistory();
         
         return response;
       }
 
-      // Fallback vers les réponses simulées
+      // Fallback to simulated responses
       return this.generateSimulatedResponse(userMessage, context);
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel à Grok:', error);
+      console.error('❌ Error calling Grok:', error);
       return this.generateSimulatedResponse(userMessage, context);
     }
   }
 
   /**
-   * Appelle l'API Grok
+   * Call Grok API
    */
   private async callGrokAPI(): Promise<string | null> {
     try {
@@ -134,7 +134,7 @@ export class GrokAPI {
         stream: false
       };
 
-      console.log('🌐 Appel API Grok...');
+      console.log('🌐 Calling Grok API...');
       
       const response = await fetch(`${GROK_CONFIG.apiUrl}/chat/completions`, {
         method: 'POST',
@@ -147,13 +147,13 @@ export class GrokAPI {
 
       if (!response.ok) {
         const errorData: GrokError = await response.json();
-        console.error(`❌ Erreur Grok: ${response.status} - ${errorData.error.message}`);
+        console.error(`❌ Grok error: ${response.status} - ${errorData.error.message}`);
         return null;
       }
 
       const data: GrokResponse = await response.json();
       
-      console.log('✅ Réponse Grok reçue');
+      console.log('✅ Grok response received');
 
       if (data.choices && data.choices.length > 0) {
         const rawResponse = data.choices[0].message.content;
@@ -163,13 +163,13 @@ export class GrokAPI {
       return null;
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'appel à Grok:', error);
+      console.error('❌ Error calling Grok:', error);
       return null;
     }
   }
 
   /**
-   * Adapte le message système selon le contexte
+   * Adapt system message based on context
    */
   private adaptSystemPrompt(context?: {
     courseName?: string;
@@ -180,35 +180,35 @@ export class GrokAPI {
     let systemPrompt = GROK_CONFIG.systemPrompts.default;
 
     if (context?.courseName) {
-      systemPrompt += `\n\nContexte actuel: Cours "${context.courseName}"`;
+      systemPrompt += `\n\nCurrent context: Course "${context.courseName}"`;
     }
 
     if (context?.lessonName) {
-      systemPrompt += `\nLeçon actuelle: "${context.lessonName}"`;
+      systemPrompt += `\nCurrent lesson: "${context.lessonName}"`;
     }
 
     if (context?.userLevel) {
-      systemPrompt += `\nNiveau de l'utilisateur: ${context.userLevel}`;
+      systemPrompt += `\nUser level: ${context.userLevel}`;
     }
 
     if (context?.topic) {
-      systemPrompt += `\nSujet abordé: ${context.topic}`;
+      systemPrompt += `\nTopic covered: ${context.topic}`;
     }
 
-    // Mettre à jour le premier message système
+    // Update first system message
     if (this.conversationHistory.length > 0) {
       this.conversationHistory[0].content = systemPrompt;
     }
   }
 
   /**
-   * Limite la taille de l'historique de conversation
+   * Limit conversation history size
    */
   private trimConversationHistory(): void {
     const maxMessages = GROK_CONFIG.limits.maxConversationLength;
     
     if (this.conversationHistory.length > maxMessages) {
-      // Garder le message système et les derniers messages
+      // Keep system message and recent messages
       const systemMessage = this.conversationHistory[0];
       const recentMessages = this.conversationHistory.slice(-maxMessages + 1);
       this.conversationHistory = [systemMessage, ...recentMessages];
@@ -216,48 +216,48 @@ export class GrokAPI {
   }
 
   /**
-   * Nettoie spécifiquement les réponses Grok
+   * Clean Grok responses specifically
    */
   private cleanGrokResponse(response: string): string {
     let cleaned = response;
     
-    // Supprimer les salutations excessives
-    cleaned = cleaned.replace(/^Bonjour\s*!?\s*😊?\s*/i, '');
-    cleaned = cleaned.replace(/^Salut\s*!?\s*/i, '');
-    cleaned = cleaned.replace(/^Hello\s*!?\s*/i, '');
+    // Remove excessive greetings
+    cleaned = cleaned.replace(/^Hello\s*!?\s*😊?\s*/i, '');
+    cleaned = cleaned.replace(/^Hi\s*!?\s*/i, '');
+    cleaned = cleaned.replace(/^Hey\s*!?\s*/i, '');
     
-    // Supprimer les phrases d'introduction verbeuses
-    cleaned = cleaned.replace(/^Je suis ravi de te guider.*?programmation\s*!?\s*🚀?\s*/i, '');
-    cleaned = cleaned.replace(/^Je suis là pour t'aider.*?programmation\s*!?\s*/i, '');
+    // Remove verbose introduction phrases
+    cleaned = cleaned.replace(/^I'm happy to guide you.*?programming\s*!?\s*🚀?\s*/i, '');
+    cleaned = cleaned.replace(/^I'm here to help you.*?programming\s*!?\s*/i, '');
     
-    // Supprimer les questions rhétoriques excessives
-    cleaned = cleaned.replace(/^Avant de commencer.*?🤔\s*/i, '');
-    cleaned = cleaned.replace(/^Qu'est-ce que tu veux apprendre.*?🤔\s*/i, '');
+    // Remove excessive rhetorical questions
+    cleaned = cleaned.replace(/^Before we start.*?🤔\s*/i, '');
+    cleaned = cleaned.replace(/^What do you want to learn.*?🤔\s*/i, '');
     
-    // Supprimer les listes numérotées excessives (approche compatible)
+    // Remove excessive numbered lists (compatible approach)
     cleaned = cleaned.replace(/^\d+\.\s*\*\*[^*]+\*\*.*$/gm, '');
     
-    // Supprimer les notes entre parenthèses
+    // Remove notes in parentheses
     cleaned = cleaned.replace(/\s*\([^)]*\)/g, '');
     
-    // Supprimer les emojis excessifs (garder seulement 1-2)
+    // Remove excessive emojis (keep only 1-2)
     cleaned = cleaned.replace(/([🚀💻📚🎯✨🔐📱⚛️🎨🐍🌐]){2,}/g, '$1');
     
-    // Supprimer les sauts de ligne multiples
+    // Remove multiple line breaks
     cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
     
-    // Supprimer les espaces en début et fin
+    // Remove leading and trailing spaces
     cleaned = cleaned.trim();
     
-    // Si la réponse est trop courte après nettoyage, la restaurer partiellement
+    // If response is too short after cleaning, restore it partially
     if (cleaned.length < 20) {
-      // Garder seulement la première phrase utile
+      // Keep only first useful sentence
       const sentences = response.split(/[.!?]/);
       const firstUsefulSentence = sentences.find(s => 
         s.trim().length > 10 && 
-        !s.includes('Bonjour') && 
-        !s.includes('Salut') && 
-        !s.includes('Hello')
+        !s.includes('Hello') && 
+        !s.includes('Hi') && 
+        !s.includes('Hey')
       );
       
       if (firstUsefulSentence) {
@@ -269,7 +269,7 @@ export class GrokAPI {
   }
 
   /**
-   * Génère une réponse simulée intelligente (fallback)
+   * Generate intelligent simulated response (fallback)
    */
   private generateSimulatedResponse(
     prompt: string, 
@@ -282,44 +282,44 @@ export class GrokAPI {
   ): string {
     const lowerPrompt = prompt.toLowerCase();
     
-    // Réponses contextuelles intelligentes
+    // Intelligent contextual responses
     if (lowerPrompt.includes('javascript') || lowerPrompt.includes('js')) {
-      return "JavaScript est un excellent langage pour débuter ! C'est le langage du web moderne. Sur YouCode, nous avons des cours JavaScript qui vous feront passer de débutant à développeur web confirmé. Voulez-vous commencer par les bases ? 🌐";
+      return "JavaScript is an excellent language to start with! It's the language of the modern web. On YouCode, we have JavaScript courses that will take you from beginner to confirmed web developer. Would you like to start with the basics? 🌐";
     }
     
     if (lowerPrompt.includes('python')) {
-      return "Python est parfait pour les débutants ! C'est un langage puissant et lisible, idéal pour l'apprentissage automatique, la science des données et le développement web. Nous avons des cours Python progressifs sur YouCode. 🐍";
+      return "Python is perfect for beginners! It's a powerful and readable language, ideal for machine learning, data science, and web development. We have progressive Python courses on YouCode. 🐍";
     }
     
     if (lowerPrompt.includes('react') || lowerPrompt.includes('vue') || lowerPrompt.includes('angular')) {
-      return "Les frameworks frontend modernes comme React, Vue et Angular sont excellents pour créer des applications web interactives ! Nous avons des cours dédiés à ces technologies sur YouCode. Quel framework vous intéresse ? ⚛️";
+      return "Modern frontend frameworks like React, Vue and Angular are excellent for creating interactive web applications! We have dedicated courses for these technologies on YouCode. Which framework interests you? ⚛️";
     }
     
-    if (lowerPrompt.includes('connexion') || lowerPrompt.includes('connecter')) {
-      return "Pour vous connecter à YouCode, utilisez le bouton de connexion en haut à droite. Vous pouvez créer un compte gratuitement ou vous connecter avec Google. Une fois connecté, vous aurez accès à tous les cours et fonctionnalités ! 🔐";
+    if (lowerPrompt.includes('login') || lowerPrompt.includes('sign in')) {
+      return "To sign in to YouCode, use the login button at the top right. You can create a free account or sign in with Google. Once logged in, you'll have access to all courses and features! 🔐";
     }
     
-    if (lowerPrompt.includes('cours') || lowerPrompt.includes('course')) {
+    if (lowerPrompt.includes('course')) {
       if (lowerPrompt.includes('javascript') || lowerPrompt.includes('js')) {
-        return "Pour les cours JavaScript sur YouCode, nous avons plusieurs options selon votre niveau. Nous proposons des cours débutant, intermédiaire et avancé. Voulez-vous que je vous guide vers le cours qui vous convient le mieux ? 🌐";
+        return "For JavaScript courses on YouCode, we have several options depending on your level. We offer beginner, intermediate and advanced courses. Would you like me to guide you to the course that best suits you? 🌐";
       }
-      return "Les cours sur YouCode sont organisés par niveau et par technologie. Vous pouvez parcourir le catalogue, rejoindre des cours qui correspondent à vos besoins, et suivre votre progression. 📚";
+      return "Courses on YouCode are organized by level and technology. You can browse the catalog, join courses that match your needs, and track your progress. 📚";
     }
     
-    if (lowerPrompt.includes('bonjour') || lowerPrompt.includes('hello') || lowerPrompt.includes('salut')) {
-      return "Bonjour ! Je suis votre assistant IA YouCode. Je suis là pour vous aider avec vos questions de programmation et vous guider dans votre apprentissage. Comment puis-je vous être utile aujourd'hui ? 🚀";
+    if (lowerPrompt.includes('hello') || lowerPrompt.includes('hi') || lowerPrompt.includes('hey')) {
+      return "Hello! I'm your YouCode AI assistant. I'm here to help you with your programming questions and guide you in your learning. How can I be useful to you today? 🚀";
     }
     
-    // Réponse par défaut contextuelle
+    // Default contextual response
     if (context?.courseName) {
-      return `Excellente question sur le cours "${context.courseName}" ! Je suis votre assistant IA YouCode, spécialisé en programmation. Je peux vous aider avec ce cours spécifique ou toute autre question de programmation. Que souhaitez-vous savoir ? 💻`;
+      return `Great question about the course "${context.courseName}"! I'm your YouCode AI assistant, specialized in programming. I can help you with this specific course or any other programming question. What would you like to know? 💻`;
     }
     
-    return "Excellente question ! Je suis votre assistant IA YouCode, spécialisé dans l'apprentissage de la programmation. Je peux vous aider avec les cours, les leçons, les concepts de code, ou toute autre question sur la plateforme. 🚀";
+    return "Great question! I'm your YouCode AI assistant, specialized in programming learning. I can help you with courses, lessons, code concepts, or any other question about the platform. 🚀";
   }
 
   /**
-   * Vérifie si l'API est accessible
+   * Check if API is accessible
    */
   async healthCheck(): Promise<boolean> {
     try {
@@ -332,25 +332,25 @@ export class GrokAPI {
       });
       return response.ok;
     } catch (error) {
-      console.error('Erreur de santé Grok:', error);
+      console.error('Grok health check error:', error);
       return false;
     }
   }
 
   /**
-   * Efface l'historique de conversation
+   * Clear conversation history
    */
   clearConversation(): void {
     this.initializeConversation();
   }
 
   /**
-   * Obtient l'historique de conversation
+   * Get conversation history
    */
   getConversationHistory(): GrokMessage[] {
     return [...this.conversationHistory];
   }
 }
 
-// Instance singleton
+// Singleton instance
 export const grokAPI = new GrokAPI();
