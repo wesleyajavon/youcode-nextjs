@@ -10,7 +10,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     FACEBOOK_CLIENT_ID: z.string().min(1),
     FACEBOOK_CLIENT_SECRET: z.string().min(1),
-    OPENAI_API_KEY: z.string().min(1),
+    GROK_API_KEY: z.string().optional(), // Optionnel car fallback disponible
+    GROQ_API_KEY: z.string().optional(), // Optionnel pour les routes admin
   },
   client: {
     // Nothing here yet
