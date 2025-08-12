@@ -8,7 +8,7 @@ import { Button, buttonVariants } from "@/components/ui/common/button";
 import { Typography } from "@/components/ui/common/typography";
 import { getAuthSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
-import { CircleDollarSign, PencilLine, Rocket, Sparkles, Star } from "lucide-react";
+import { CircleDollarSign, PencilLine, Rocket, Sparkles, Star, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 
@@ -99,24 +99,43 @@ export default async function Home() {
           </div>
           {/* AI Generator Promo */}
           <div className="mt-2 flex flex-col items-center gap-2">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/80 to-pink-200 text-primary-foreground font-semibold shadow">
-              <Sparkles className="h-5 w-5 text-yellow-500" />
-              <span>✨ New: AI Lesson Generator for Teachers!</span>
-            </span>
-            <p className="text-base text-muted-foreground max-w-xl">
-              Instantly generate high-quality lesson content with our integrated AI assistant. Save time, get inspired, and create engaging courses faster than ever.
-            </p>
-            {session?.user.role === "ADMIN" && (
-              <Link
-                aria-label="Try AI Lesson Generator"
-                href="/admin/courses"
-                className={cn(
-                  buttonVariants({ size: "sm" }),
-                  "mt-2 px-6 py-3 font-bold bg-gradient-to-t from-primary to-pink-200 text-primary-foreground border-0"
-                )}
-              >
-                Try AI Lesson Generator
-              </Link>
+            {session?.user.role === "ADMIN" ? (
+              // Admin promo - AI Lesson Generator
+              <>
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/80 to-pink-200 text-primary-foreground font-semibold shadow">
+                  <Sparkles className="h-5 w-5 text-yellow-500" />
+                  <span>✨ New: AI Lesson Generator for Teachers!</span>
+                </span>
+                <p className="text-base text-muted-foreground max-w-xl">
+                  Instantly generate high-quality lesson content with our integrated AI assistant. Save time, get inspired, and create engaging courses faster than ever.
+                </p>
+                <Link
+                  aria-label="Try AI Lesson Generator"
+                  href="/admin/courses"
+                  className={cn(
+                    buttonVariants({ size: "sm" }),
+                    "mt-2 px-6 py-3 font-bold bg-gradient-to-t from-primary to-pink-200 text-primary-foreground border-0"
+                  )}
+                >
+                  Try AI Lesson Generator
+                </Link>
+              </>
+            ) : (
+              // User promo - SmartChat AI Assistant
+              <>
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow">
+                  <MessageCircle className="h-5 w-5 text-blue-200" />
+                  <span> New: SmartChat AI Assistant!</span>
+                </span>
+                <p className="text-base text-muted-foreground max-w-xl">
+                  Get instant help with your programming questions! Our AI assistant understands your course context and provides personalized guidance. Available 24/7 with intelligent caching and rate limiting for faster responses.
+                </p>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-sm text-muted-foreground">
+                    💡 Ask questions • 🎯 Context-aware • ⚡ Fast responses
+                  </span>
+                </div>
+              </>
             )}
           </div>
         </div>
